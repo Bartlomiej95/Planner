@@ -1,10 +1,23 @@
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import GlobalStyle from './theme/GlobalStyle';
+import HomePage from './views/HomePage';
+import { theme } from './theme/mainTheme';
+
 
 function App() {
   return (
-    <div className="App">
-      <h1>Planner</h1>
-    </div>
+    <>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={HomePage}/>
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </>
   );
 }
 
