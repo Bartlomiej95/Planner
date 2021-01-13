@@ -13,6 +13,8 @@ export const theme ={
     buttonsSecondaryHoverColor: 'white',
 
 
+
+
     // Buttons - begin
     LoginButton: {
         mobileWidth: '154px',
@@ -37,6 +39,10 @@ export const theme ={
 
     SubSubHeading: {
         mobileFontSize: '15px',
+    },
+
+    Logo: {
+        mobileFontSize: '20px',
     },
 
     // Headings - end

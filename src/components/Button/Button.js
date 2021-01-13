@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 
 export const LoginButton = styled.button`
+    display: block;
     width: ${({ theme }) => theme.LoginButton.mobileWidth};
     height: ${({ theme }) => theme.LoginButton.mobileHeight};
     background-color: ${({ theme }) => theme.buttonsPrimaryBcgColor};
     border-radius: ${({ theme }) => theme.buttonsBorderRadius};
     color: ${({ theme }) => theme.buttonsPrimaryColor};
     cursor: pointer;
-    outline: none;
+    outline: none; 
 
     :hover {
         background-color: ${({ theme }) => theme.buttonsPrimaryHoverBcgColor}
