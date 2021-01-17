@@ -6,7 +6,7 @@ export const Paragraph = styled.p`
 `;
 
 export const LPParagraph = styled.p`
-    font-size: ${({ theme }) => theme.Paragraph.mobileFontSize};
+    font-size: ${({ theme }) => theme.LPParagraph.mobileFontSize};
     color: ${({ theme }) => theme.buttonsPrimaryHoverBcgColor};
     text-align: center;
 `;
