@@ -10,6 +10,7 @@ export const LoginButton = styled.button`
     color: ${({ theme }) => theme.buttonsPrimaryColor};
     cursor: pointer;
     outline: none; 
+    margin: 0 auto;
 
     :hover {
         background-color: ${({ theme }) => theme.buttonsPrimaryHoverBcgColor}
@@ -22,6 +23,7 @@ export const IdLoginButton = styled.button`
     background-color: ${({ theme }) => theme.buttonsSecondaryBcgColor};
     border-radius: ${({ theme }) => theme.buttonsBorderRadius};
     color: ${({ theme }) => theme.buttonsSecondaryColor};
+    border: 1px solid ${({ theme }) => theme.buttonsSecondaryColor};
     cursor: pointer;
     outline: none;
 

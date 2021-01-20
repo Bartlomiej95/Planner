@@ -49,7 +49,7 @@ export const theme ={
 
     // Inputs - begin
     Input:{
-        mobileWidth: '100px',
+        mobileWidth: '300px',
         mobileHeight: '40px',
         borderRadius: '20px',
         mobilePadding: '10px auto 10px 15px'
