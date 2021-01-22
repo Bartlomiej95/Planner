@@ -5,6 +5,8 @@ import GlobalStyle from './theme/GlobalStyle';
 import HomePage from './views/HomePage';
 import LogInPage from './views/LogInPage';
 import { theme } from './theme/mainTheme';
+import RegisterPage from './views/RegisterPage';
+import LogoutPage from './views/LogoutPage';
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
           <Switch>
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/login" component={LogInPage}/>
+            <Route exact path="/register" component={RegisterPage}/>
+            <Route exact path="/logout" component={LogoutPage}/>
           </Switch>
         </Router>
       </ThemeProvider>

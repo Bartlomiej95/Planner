@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="118" height="118" viewBox="0 0 118 118">
+  <path id="ic_check_24px" d="M22.069,40.905,8.15,26.986,3.41,31.693,22.069,50.352,62.124,10.3,57.418,5.59Z" transform="translate(25.59 31.058)" fill="#707070"/>
+  <g id="Ellipse_6" data-name="Ellipse 6" fill="none" stroke="#27ae61" stroke-width="3">
+    <circle cx="59" cy="59" r="59" stroke="none"/>
+    <circle cx="59" cy="59" r="57.5" fill="none"/>
+  </g>
+  <path id="ic_check_24px-2" data-name="ic_check_24px" d="M22.069,40.905,8.15,26.986,3.41,31.693,22.069,50.352,62.124,10.3,57.418,5.59Z" transform="translate(25.59 31.058)" fill="#27ae61"/>
+</svg>

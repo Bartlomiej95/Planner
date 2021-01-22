@@ -10,3 +10,10 @@ export const LPParagraph = styled.p`
     color: ${({ theme }) => theme.buttonsPrimaryHoverBcgColor};
     text-align: center;
 `;
+
+export const BackSpan = styled.span`
+    color: #0903B0;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+`;
