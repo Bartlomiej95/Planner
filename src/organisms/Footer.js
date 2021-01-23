@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Logo } from '../components/Heading/Heading';
 
 const Wrapper = styled.footer`
-    width: 100vw;
     min-height: 75px;
     background-color: #EFF1F5;
 `;

@@ -4,7 +4,6 @@ import menuIcon from '../assets/menuIcon.svg';
 import { Logo } from '../components/Heading/Heading';
 
 const Wrapper = styled.div`
-    width: 100vw;
     height: 50px;
     background-color: #EFF1F5;
     display: flex;
