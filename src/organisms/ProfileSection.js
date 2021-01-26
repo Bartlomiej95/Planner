@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import userIcon from '../assets/user.svg';
 import { SubHeading } from '../components/Heading/Heading';
-import SliderTheme from '../molecules/SliderTheme/SliderTheme';
+import { SliderTheme } from '../molecules/SliderTheme/SliderTheme';
 
 const Wrapper = styled.section`
     height: 400px;
@@ -53,7 +53,6 @@ const SpanLogout = styled.span`
     color: #0903B0;
     font-weight: 700;
 `;
-
 
 
 const ProfileSection = () => {
