@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import ProjectCard from '../molecules/ProjectCard/ProjectCard';
 import ArchivesCard from '../molecules/ArchivesCard/ArchivesCard';
 import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import TasksSection from './TasksSection';
+import { fetchAllProjects } from '../actions/projects';
 
 const Wrapper = styled.main`
     min-height: 100vh;
@@ -58,10 +60,25 @@ enum MainSectionType {
     Tasks = 'tasks'
 }
 
+interface RootState {
+    projects: {
+        name: String,
+        map: Function,
+    };
+   
+}
+
 const MainSection :React.FC = () => {
 
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchAllProjects());
+    }, [dispatch]);
+
     const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project)
-    console.log(typeOfMainSection);
+    
+    const projects = useSelector( (state: RootState) => state.projects);
+
     return(
         <Wrapper>
             <WrapperNavbar>
@@ -71,11 +88,12 @@ const MainSection :React.FC = () => {
             </WrapperNavbar>
             {
                 typeOfMainSection === MainSectionType.Project && ( 
+                    projects.map( (project: any) => 
+                        
                     <WrapperProjectCard>
-                        <ProjectCard />
-                        <ProjectCard />
-                        <ProjectCard />
+                        <ProjectCard  titleProject={project.name} description={project.description} />
                     </WrapperProjectCard>
+                    )
                 ) 
             }
             {

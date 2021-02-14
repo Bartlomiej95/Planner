@@ -14,7 +14,6 @@ export const theme ={
 
 
 
-
     // Buttons - begin
     LoginButton: {
         mobileWidth: '154px',

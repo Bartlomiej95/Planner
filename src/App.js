@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Axios from 'axios';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './theme/GlobalStyle';
 import HomePage from './views/HomePage';
@@ -9,6 +10,7 @@ import RegisterPage from './views/RegisterPage';
 import LogoutPage from './views/LogoutPage';
 import UserPage from './views/UserPage';
 
+Axios.defaults.withCredentials = true;
 
 function App() {
   return (
@@ -17,10 +19,11 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <Switch>
-            <Route exact path="/" component={HomePage}/>
-            <Route exact path="/login" component={LogInPage}/>
-            <Route exact path="/register" component={RegisterPage}/>
-            <Route exact path="/logout" component={LogoutPage}/>
+          <Route exact path="/" render={() => <Redirect to="/homepage" />} />
+            <Route exact path="/homepage" component={HomePage}/>
+            <Route exact path="/homepage/login" component={LogInPage}/>
+            <Route exact path="/homepage/register" component={RegisterPage}/>
+            <Route exact path="/homepage/logout" component={LogoutPage}/>
             <Route exact path="/homepage/user" component={UserPage}/>
           </Switch>
         </Router>

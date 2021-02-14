@@ -68,11 +68,11 @@ const LabelCard = styled.p`
 
 
 
-const ProjectCard = () => {
+const ProjectCard = ({ titleProject, description }) => {
     return(
         <Wrapper>
-            <SubSubHeading>Nazwa projektu</SubSubHeading>
-            <ProjectCardParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas. Nam sed sapien sapien.</ProjectCardParagraph>
+            <SubSubHeading>{titleProject}</SubSubHeading>
+            <ProjectCardParagraph>{description}</ProjectCardParagraph>
             <WrapperProjectCompletePercent>
                 <Diagram>
                     <DiagramPercent>27%</DiagramPercent>

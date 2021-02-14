@@ -1,4 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import userIcon from '../assets/user.svg';
 import { SubHeading } from '../components/Heading/Heading';
@@ -56,14 +58,18 @@ const SpanLogout = styled.span`
 
 
 const ProfileSection = () => {
+
+   
+    const userAuth = useSelector(state => state.auth);
+    
     return(
         <Wrapper>
             <ProfileParagraph>Pamiętaj, aby po zakończonej pracy <SpanLogout>wylogować się</SpanLogout> z konta</ProfileParagraph>
             <BorderImageUser>
                 <ImageUser icon={userIcon} />
             </BorderImageUser>
-            <NameHeading>Jan Kowalski</NameHeading>
-            <PositionParagprah>Stanowisko</PositionParagprah>
+            <NameHeading>{`${userAuth.name} ${userAuth.surname}`}</NameHeading>
+            <PositionParagprah>sds</PositionParagprah>
             <SliderTheme />
         </Wrapper>
     )

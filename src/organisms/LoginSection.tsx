@@ -1,9 +1,13 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Heading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import { Input } from '../components/Input/Input';
 import { LoginButton, IdLoginButton } from '../components/Button/Button';
+import { loginUser } from '../actions/auth';
+import { fetchAllUsers } from '../actions/users';
 
 
 const Wrapper = styled.section`
@@ -48,13 +52,45 @@ const IdLoginBtn = styled(IdLoginButton)`
 
 const LoginSection = () => {
 
-    const [loginById, setLoginById] = useState<boolean>(false);
+    const [loginById, setLoginById] = useState<boolean>(true);
+    const [loginData, setLoginData] = useState({ 
+        email: "",
+        user_id: null,
+        password: "",
+    })
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    useEffect(() => {
+        dispatch(fetchAllUsers());
+    }, [dispatch])
 
     const handleClickIdLoginBtn = (e: MouseEvent): void => {
         e.preventDefault();
         setLoginById(!loginById);
         console.log(loginById);
     }
+
+    const handleChange = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        const target = e.target as HTMLTextAreaElement ;
+        setLoginData({
+            ...loginData,
+            [target.name]: target.value, 
+        })
+    }
+
+    const handleSubmit = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+
+        try {
+            dispatch(loginUser(loginData, history))
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return(
         <Wrapper>
             
@@ -66,15 +102,19 @@ const LoginSection = () => {
                 )
             }
             <LoginParagraph>Nie pamiętasz hasła? Wygeneruj nowe</LoginParagraph>
-            <form>
-                <Input />
 
+            <form onSubmit={(e) => handleSubmit(e)}>
+
+                
                 {
-                    loginById && (
-                        <Input />
+                    loginById ? ( <Input name="email" type="email" placeholder="Podaj email" onChange={ (e) => handleChange(e) } /> ) : (
+                        <Input name="user_id" type="number" placeholder="Podaj id" onChange={ (e) => handleChange(e) } />
                     )
                 }
-                <LoginButton onClick={(e) => handleClickIdLoginBtn(e)}>Zaloguj się</LoginButton>
+                        
+                
+                <Input name="password" type="password" placeholder="Podaj hasło" onChange={ (e) => handleChange(e) } />
+                <LoginButton onSubmit={(e) => handleSubmit(e)}>Zaloguj się</LoginButton>
             </form>
 
             {
