@@ -7,8 +7,10 @@ export const loginUser = (userData, history) => async (dispatch) => {
         dispatch({ type: 'LOGIN_USER', payload: data});
 
         history.push('/homepage/user');
-    } catch (error) {
-        console.log(error);
+    } catch (error) { 
+        console.log(error.response.data);
+
+        dispatch({ type:'ERROR_LOGIN_USER', payload: error.response.data})
     }
 }
 

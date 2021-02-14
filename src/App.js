@@ -9,6 +9,8 @@ import { theme } from './theme/mainTheme';
 import RegisterPage from './views/RegisterPage';
 import LogoutPage from './views/LogoutPage';
 import UserPage from './views/UserPage';
+import { UserContextProvider } from "./context/UserContext";
+
 
 Axios.defaults.withCredentials = true;
 
@@ -17,16 +19,18 @@ function App() {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-          <Route exact path="/" render={() => <Redirect to="/homepage" />} />
-            <Route exact path="/homepage" component={HomePage}/>
-            <Route exact path="/homepage/login" component={LogInPage}/>
-            <Route exact path="/homepage/register" component={RegisterPage}/>
-            <Route exact path="/homepage/logout" component={LogoutPage}/>
-            <Route exact path="/homepage/user" component={UserPage}/>
-          </Switch>
-        </Router>
+        <UserContextProvider>
+          <Router>
+            <Switch>
+            <Route exact path="/" render={() => <Redirect to="/homepage" />} />
+              <Route exact path="/homepage" component={HomePage}/>
+              <Route exact path="/homepage/login" component={LogInPage}/>
+              <Route exact path="/homepage/register" component={RegisterPage}/>
+              <Route exact path="/homepage/logout" component={LogoutPage}/>
+              <Route exact path="/homepage/user" component={UserPage}/>
+            </Switch>
+          </Router>
+        </UserContextProvider>
       </ThemeProvider>
     </>
   );

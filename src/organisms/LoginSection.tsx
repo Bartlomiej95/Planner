@@ -1,7 +1,8 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import ErrorMessage from '../molecules/ErrorMessage/ErrorMessage';
 import { Heading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import { Input } from '../components/Input/Input';
@@ -50,6 +51,12 @@ const IdLoginBtn = styled(IdLoginButton)`
     display: block;
 `;
 
+interface IRootState {
+    errors: {
+        message: String,
+    }
+}
+
 const LoginSection = () => {
 
     const [loginById, setLoginById] = useState<boolean>(true);
@@ -58,8 +65,11 @@ const LoginSection = () => {
         user_id: null,
         password: "",
     })
+
     const dispatch = useDispatch();
     const history = useHistory();
+    const error = useSelector((state: IRootState) => state.errors.message);
+    
 
     useEffect(() => {
         dispatch(fetchAllUsers());
@@ -87,7 +97,7 @@ const LoginSection = () => {
             dispatch(loginUser(loginData, history))
 
         } catch (error) {
-            console.log(error);
+            console.log(error.response);
         }
     }
 
@@ -102,6 +112,10 @@ const LoginSection = () => {
                 )
             }
             <LoginParagraph>Nie pamiętasz hasła? Wygeneruj nowe</LoginParagraph>
+
+            {
+                error && (<ErrorMessage error={error} />)
+            }
 
             <form onSubmit={(e) => handleSubmit(e)}>
 

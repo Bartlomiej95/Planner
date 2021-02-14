@@ -17,6 +17,6 @@ export const createUser = (user) => async (dispatch) => {
         dispatch({ type: 'CREATE_USER', payload: data})
     }
     catch (error){
-        console.log(error);
+        dispatch({ type: "ERROR_REGISTER_USER", payload: error.response.data })
     }
 }

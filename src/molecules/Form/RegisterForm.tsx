@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LoginButton } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { createUser, fetchAllUsers } from '../../actions/users';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const Form = styled.form`
     display: flex;
@@ -21,6 +22,12 @@ const RegisterInput = styled(Input)`
     height: 35px;
 `;
 
+interface IRootState {
+    errors: {
+        message: String,
+    }
+}
+
 const RegisterForm: React.FC = () => {
 
     const [registerData, setRegisterData] = useState({ 
@@ -33,7 +40,7 @@ const RegisterForm: React.FC = () => {
     });
 
 
-    const [error, setError] = useState();
+   const error = useSelector((state: IRootState) => state.errors.message)
 
     const dispatch = useDispatch();
     
@@ -59,7 +66,7 @@ const RegisterForm: React.FC = () => {
             dispatch(createUser(registerData))
             
         } catch (error) {
-           error.response.data.message && setError(error.response.data.message)
+           console.log(error)
         }
             
 
@@ -67,7 +74,7 @@ const RegisterForm: React.FC = () => {
 
     return(
         <Form onSubmit={ (e) => handleSubmit(e) }>
-            { <p>{error}</p>}
+            { error && <ErrorMessage error={error} /> }
              <RegisterInput name="name" type="text" placeholder="Imię" value={registerData.name} onChange={(e) => handleChange(e)} />
              <RegisterInput name="surname" type="text" placeholder="Nazwisko" value={registerData.surname} onChange={ (e) => handleChange(e) } />
              <RegisterInput name="email" type="email" placeholder="Adres email" value={registerData.email} onChange={ (e) => handleChange(e) } />
