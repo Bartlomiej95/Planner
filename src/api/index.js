@@ -1,8 +1,9 @@
 import axios from 'axios';
+import domain from '../util/domain';
 
-const urlRegister = 'http://localhost:5000/homepage/register';
-const urlLogin = 'http://localhost:5000/homepage/login';
-const urlProjects = 'http://localhost:5000/homepage/user';
+const urlRegister = `${domain}/homepage/register`;
+const urlLogin = `${domain}/homepage/login`;
+const urlProjects = `${domain}/homepage/user`;
 
 
 export const fetchAllUsers = () => axios.get(urlLogin);
