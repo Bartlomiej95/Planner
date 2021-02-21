@@ -1,8 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="118" height="118" viewBox="0 0 118 118">
-  <path id="ic_check_24px" d="M22.069,40.905,8.15,26.986,3.41,31.693,22.069,50.352,62.124,10.3,57.418,5.59Z" transform="translate(25.59 31.058)" fill="#707070"/>
-  <g id="Ellipse_6" data-name="Ellipse 6" fill="none" stroke="#27ae61" stroke-width="3">
-    <circle cx="59" cy="59" r="59" stroke="none"/>
-    <circle cx="59" cy="59" r="57.5" fill="none"/>
-  </g>
-  <path id="ic_check_24px-2" data-name="ic_check_24px" d="M22.069,40.905,8.15,26.986,3.41,31.693,22.069,50.352,62.124,10.3,57.418,5.59Z" transform="translate(25.59 31.058)" fill="#27ae61"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+  <path id="ic_power_settings_new_24px" d="M13,3H11V13h2Zm4.83,2.17L16.41,6.59A6.92,6.92,0,0,1,19,12,7,7,0,1,1,7.58,6.58L6.17,5.17A8.992,8.992,0,1,0,21,12,8.932,8.932,0,0,0,17.83,5.17Z" transform="translate(-3 -3)" fill="#120d45"/>
 </svg>

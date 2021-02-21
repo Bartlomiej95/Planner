@@ -7,25 +7,10 @@ import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import TasksSection from './TasksSection';
 import { fetchAllProjects } from '../actions/projects';
+import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
 
 const Wrapper = styled.main`
     min-height: 100vh;
-
-`;
-
-const WrapperNavbar = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    width: 80%;
-    margin: 0 auto;
-
-`;
-
-const NavSubHeading = styled(SubHeading)`
-    font-size: 12px;
-    color: #0903B0;
 `;
 
 const WrapperProjectCard = styled.div`
@@ -57,6 +42,7 @@ const SpanHelpdesk = styled.span`
 enum MainSectionType {
     Project = 'project',
     Archives = 'archives',
+    ProjectManager = "projectManager",
     Tasks = 'tasks'
 }
 
@@ -64,8 +50,7 @@ interface RootState {
     projects: {
         name: String,
         map: Function,
-    };
-   
+    };   
 }
 
 const MainSection :React.FC = () => {
@@ -81,11 +66,10 @@ const MainSection :React.FC = () => {
 
     return(
         <Wrapper>
-            <WrapperNavbar>
-                <NavSubHeading onClick={() => setTypeOfMainSection(MainSectionType.Project)}>Projekty</NavSubHeading>
-                <NavSubHeading onClick={() => setTypeOfMainSection(MainSectionType.Archives)}>Archiwum projektów</NavSubHeading>
-                <NavSubHeading onClick={() => setTypeOfMainSection(MainSectionType.Tasks)}>Lista zadań</NavSubHeading>
-            </WrapperNavbar>
+            <InnerUserNavbar 
+                typeFn={ (typeOfMainSection: React.SetStateAction<MainSectionType>) => setTypeOfMainSection(typeOfMainSection)}
+                valueOfType={typeOfMainSection} 
+            />
             {
                 typeOfMainSection === MainSectionType.Project && ( 
                     projects.map( (project: any) => 

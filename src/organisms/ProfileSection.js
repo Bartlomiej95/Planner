@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import userIcon from '../assets/user.svg';
 import { SubHeading } from '../components/Heading/Heading';
 import { SliderTheme } from '../molecules/SliderTheme/SliderTheme';
+import UserContext from '../context/UserContext';
 
 const Wrapper = styled.section`
     height: 400px;
@@ -61,7 +62,7 @@ const ProfileSection = () => {
 
    
     const userAuth = useSelector(state => state.auth);
-    
+
     return(
         <Wrapper>
             <ProfileParagraph>Pamiętaj, aby po zakończonej pracy <SpanLogout>wylogować się</SpanLogout> z konta</ProfileParagraph>
