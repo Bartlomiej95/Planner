@@ -64,6 +64,8 @@ const MainSection :React.FC = () => {
     
     const projects = useSelector( (state: RootState) => state.projects);
 
+    const isAdmin = true;
+
     return(
         <Wrapper>
             <InnerUserNavbar 
@@ -83,9 +85,9 @@ const MainSection :React.FC = () => {
             {
                 typeOfMainSection === MainSectionType.Archives && (
                     <WrapperProjectCard>
-                        <ArchivesCard />
-                        <ArchivesCard />
-                        <ArchivesCard />
+                        <ArchivesCard admin={false} />
+                        <ArchivesCard admin={false} />
+                        <ArchivesCard admin={false} />
                     </WrapperProjectCard>
                 )
             }
@@ -93,6 +95,15 @@ const MainSection :React.FC = () => {
                 typeOfMainSection === MainSectionType.Tasks && (
                     <WrapperProjectCard>
                        <TasksSection />
+                    </WrapperProjectCard>
+                )
+            }
+               {
+                typeOfMainSection === MainSectionType.ProjectManager && (
+                    <WrapperProjectCard>
+                        <ArchivesCard admin={isAdmin} />
+                        <ArchivesCard admin={isAdmin} />
+                        <ArchivesCard admin={isAdmin}/>
                     </WrapperProjectCard>
                 )
             }

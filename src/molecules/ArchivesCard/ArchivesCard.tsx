@@ -25,12 +25,41 @@ const ArchivesHeading = styled(SubHeading)`
     margin-bottom: 10px;
 `;
 
-const ArchivesCard: React.FC = () => {
+const WrapperLinkInCard = styled.div`
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+`;
+
+const LinkInCard = styled(Paragraph)`
+    color: #372FFF;
+    font-weight: 600;
+`;
+
+interface Props {
+    admin: boolean,
+}
+
+const ArchivesCard = ({ admin } : Props) => {
+
     return(
         <Wrapper>
             <ArchivesHeading>Nazwa projektu</ArchivesHeading>
             <Paragraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas. Nam sed sapien sapien.</Paragraph>
-            <ArrayBackIcon src={arrayBackIcon} alt="ikonka powrotu do poprzedniej strony" />
+            {
+               !admin && <ArrayBackIcon src={arrayBackIcon} alt="ikonka powrotu do poprzedniej strony" />
+            }
+            {
+                admin && (
+                    <WrapperLinkInCard>
+                        <LinkInCard>Edytuj</LinkInCard>
+                        <LinkInCard>Przydziel zadania</LinkInCard>
+                        <LinkInCard>Szczegóły</LinkInCard>
+                    </WrapperLinkInCard>
+                )
+            }
         </Wrapper>
     )
 } 
