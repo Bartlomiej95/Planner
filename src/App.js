@@ -10,6 +10,7 @@ import RegisterPage from './views/RegisterPage';
 import LogoutPage from './views/LogoutPage';
 import UserPage from './views/UserPage';
 import { UserContextProvider } from "./context/UserContext";
+import CreateProject from './views/CreateProject';
 
 
 Axios.defaults.withCredentials = true;
@@ -28,6 +29,7 @@ function App() {
               <Route exact path="/homepage/register" component={RegisterPage}/>
               <Route exact path="/homepage/logout" component={LogoutPage}/>
               <Route exact path="/homepage/user" component={UserPage}/>
+              <Route exact path="/homepage/project/create" component={CreateProject}/>
             </Switch>
           </Router>
         </UserContextProvider>

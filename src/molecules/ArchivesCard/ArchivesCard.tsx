@@ -36,6 +36,7 @@ const WrapperLinkInCard = styled.div`
 const LinkInCard = styled(Paragraph)`
     color: #372FFF;
     font-weight: 600;
+    cursor: pointer;
 `;
 
 interface Props {

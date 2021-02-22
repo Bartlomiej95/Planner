@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ProjectCard from '../molecules/ProjectCard/ProjectCard';
 import ArchivesCard from '../molecules/ArchivesCard/ArchivesCard';
@@ -8,6 +9,7 @@ import { Paragraph } from '../components/Paragraph/Paragraph';
 import TasksSection from './TasksSection';
 import { fetchAllProjects } from '../actions/projects';
 import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
+import { LoginButton } from '../components/Button/Button';
 
 const Wrapper = styled.main`
     min-height: 100vh;
@@ -39,6 +41,11 @@ const SpanHelpdesk = styled.span`
     cursor: pointer;
 `;
 
+const BtnCreateProject = styled(LoginButton)`
+    width: 214px;
+    margin-bottom: 45px;
+`;
+
 enum MainSectionType {
     Project = 'project',
     Archives = 'archives',
@@ -63,6 +70,8 @@ const MainSection :React.FC = () => {
     const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project)
     
     const projects = useSelector( (state: RootState) => state.projects);
+
+    const history = useHistory();
 
     const isAdmin = true;
 
@@ -101,6 +110,7 @@ const MainSection :React.FC = () => {
                {
                 typeOfMainSection === MainSectionType.ProjectManager && (
                     <WrapperProjectCard>
+                        <BtnCreateProject onClick={() => history.push('/homepage/project/create')}>Dodaj nowy projekt</BtnCreateProject>
                         <ArchivesCard admin={isAdmin} />
                         <ArchivesCard admin={isAdmin} />
                         <ArchivesCard admin={isAdmin}/>
