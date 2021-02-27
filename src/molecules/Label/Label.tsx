@@ -1,10 +1,18 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ readonly isClick: boolean; }>`
     height: 24px;
-    background-color: #F37B01;
+    background-color: #D1D1D1;
     padding: 7px 14px;
     border-radius: 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+
+  ${({ isClick }) => isClick && 
+    css`
+        background-color: #F37B01;
+    `}
+
 `;
 
 const LabelName = styled.p`
@@ -16,11 +24,12 @@ const LabelName = styled.p`
 
 interface Props {
     division: String;
+    isSelect: boolean;
 }
 
-const Label = ({ division } : Props) : React.ReactNode => {
+const Label = ({ division, isSelect } : Props) : React.ReactNode => {
     return(
-        <Wrapper>
+        <Wrapper isClick={isSelect} >
             <LabelName>{division}</LabelName>
         </Wrapper>
     )
