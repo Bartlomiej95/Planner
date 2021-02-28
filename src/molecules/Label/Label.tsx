@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 const Wrapper = styled.div<{ readonly isClick: boolean; }>`
@@ -7,6 +8,7 @@ const Wrapper = styled.div<{ readonly isClick: boolean; }>`
     border-radius: 15px;
     margin-bottom: 10px;
     margin-right: 10px;
+    cursor: pointer;
 
   ${({ isClick }) => isClick && 
     css`
@@ -28,8 +30,11 @@ interface Props {
 }
 
 const Label = ({ division, isSelect } : Props) : React.ReactNode => {
+
+    const [isActive, setIsActive] = useState(false);
+
     return(
-        <Wrapper isClick={isSelect} >
+        <Wrapper isClick={isActive} onClick={() => setIsActive(isActive => !isActive) }>
             <LabelName>{division}</LabelName>
         </Wrapper>
     )

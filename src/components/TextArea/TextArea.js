@@ -8,6 +8,7 @@ const TextArea = styled.textarea`
     border-radius: 5px;
     margin: 30px auto;
     padding: 15px 15px 0 15px;
+    outline: none;
 
     ::placeholder{
         color: #0903B0;

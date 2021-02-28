@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import arrayBackIcon from '../../assets/arrayBack.svg';
 import { SubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
@@ -45,6 +46,8 @@ interface Props {
 
 const ArchivesCard = ({ admin } : Props) => {
 
+    const history = useHistory();
+
     return(
         <Wrapper>
             <ArchivesHeading>Nazwa projektu</ArchivesHeading>
@@ -56,7 +59,7 @@ const ArchivesCard = ({ admin } : Props) => {
                 admin && (
                     <WrapperLinkInCard>
                         <LinkInCard>Edytuj</LinkInCard>
-                        <LinkInCard>Przydziel zadania</LinkInCard>
+                        <LinkInCard onClick={() => history.push('/homepage/project/tasks')}>Przydziel zadania</LinkInCard>
                         <LinkInCard>Szczegóły</LinkInCard>
                     </WrapperLinkInCard>
                 )

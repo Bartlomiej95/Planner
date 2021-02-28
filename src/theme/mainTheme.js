@@ -51,7 +51,7 @@ export const theme ={
         mobileWidth: '300px',
         mobileHeight: '40px',
         borderRadius: '20px',
-        mobilePadding: '10px auto 10px 15px'
+        mobilePadding: '10px 10px 10px 15px'
     },
     // Inputs - end
 
