@@ -60,7 +60,7 @@ const ArchivesCard = ({ admin } : Props) => {
                     <WrapperLinkInCard>
                         <LinkInCard>Edytuj</LinkInCard>
                         <LinkInCard onClick={() => history.push('/homepage/project/tasks')}>Przydziel zadania</LinkInCard>
-                        <LinkInCard>Szczegóły</LinkInCard>
+                        <LinkInCard onClick={() => history.push('/homepage/project/details')}>Szczegóły</LinkInCard>
                     </WrapperLinkInCard>
                 )
             }

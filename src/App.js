@@ -12,6 +12,7 @@ import UserPage from './views/UserPage';
 import { UserContextProvider } from "./context/UserContext";
 import CreateProject from './views/CreateProject';
 import TasksToProject from './views/TasksToProject';
+import DetailsProject from './views/DetailsProject';
 
 
 Axios.defaults.withCredentials = true;
@@ -32,6 +33,7 @@ function App() {
               <Route exact path="/homepage/user" component={UserPage}/>
               <Route exact path="/homepage/project/create" component={CreateProject}/>
               <Route exact path="/homepage/project/tasks" component={TasksToProject}/>
+              <Route exact path="/homepage/project/details" component={DetailsProject}/>
             </Switch>
           </Router>
         </UserContextProvider>
