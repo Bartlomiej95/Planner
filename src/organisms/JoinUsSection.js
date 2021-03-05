@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { Heading } from '../components/Heading/Heading';
 import { LoginButton } from '../components/Button/Button';
 
@@ -15,10 +16,12 @@ const JoinUsButton = styled(LoginButton)`
 `;
 
 const JoinUsSection = () => {
+
+    const history = useHistory();
     return(
         <Wrapper>
             <Heading>Chcesz skorzystać z aplikacji? </Heading>
-            <JoinUsButton>Dołącz</JoinUsButton>
+            <JoinUsButton onClick={() => history.push('/homepage/register')}>Dołącz</JoinUsButton>
         </Wrapper>
     )
 }
