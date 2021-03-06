@@ -69,21 +69,22 @@ enum MainSectionType {
 
 interface Props {
     valueOfType: MainSectionType,
-    typeFn: Function 
+    typeFn: Function,
+    isAdmin: boolean;
 }
 
 
-const InnerUserNavbar = ({ typeFn, valueOfType }: Props) => {
+const InnerUserNavbar = ({ typeFn, valueOfType, isAdmin }: Props) => {
 
     // ustawienia dla arrows 0 - widzimy pierwszy kafelek - blokujemy możliwość dalszego przesuwania w prawo  [1][2][3]>
     // ustawienia dla arrows 1 - widzimy ostatni kafelek  - blokujemy możliwość dalszego przesuwania w lewo  <[2][3][4]
     const [arrowOptions, setArrowOptions] = useState(0);
 
 
-    const isAdmin = true;
+    // const isAdmin = true;
     return(
         <Wrapper>
-            { arrowOptions === 1 && <LeftArrow src={leftArrow} onClick={ () => setArrowOptions(0) } /> }
+            { arrowOptions === 1 && isAdmin && <LeftArrow src={leftArrow} onClick={ () => setArrowOptions(0) } /> }
             <WrapperNavbar shift={arrowOptions}>
                 <DivElemNavbar active={ valueOfType === MainSectionType.Project } onClick={() => typeFn(MainSectionType.Project)} shift={arrowOptions}>
                     <NavSubHeading active ={ valueOfType === MainSectionType.Project} >Projekty</NavSubHeading>
@@ -101,7 +102,7 @@ const InnerUserNavbar = ({ typeFn, valueOfType }: Props) => {
                     <NavSubHeading active={ valueOfType === MainSectionType.Tasks } >Lista zadań</NavSubHeading>
                 </DivElemNavbar>
             </WrapperNavbar>
-            { arrowOptions === 0 && <ArrowRight src={rightArrow} onClick={() => setArrowOptions(1)} /> }
+            { arrowOptions === 0 && isAdmin && <ArrowRight src={rightArrow} onClick={() => setArrowOptions(1)} /> }
         </Wrapper>
     )
 }

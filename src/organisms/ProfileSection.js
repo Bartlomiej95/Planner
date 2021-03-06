@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import userIcon from '../assets/user.svg';
 import { SubHeading } from '../components/Heading/Heading';
@@ -60,8 +59,17 @@ const SpanLogout = styled.span`
 
 const ProfileSection = () => {
 
-   
-    const userAuth = useSelector(state => state.auth);
+    const { user, getUser } = useContext(UserContext)
+
+    useEffect(() => {
+        getUser()
+    }, [])
+
+    if(user === null) {
+        return(
+            <h1>Loading ...</h1>
+        )
+    }
 
     return(
         <Wrapper>
@@ -69,8 +77,8 @@ const ProfileSection = () => {
             <BorderImageUser>
                 <ImageUser icon={userIcon} />
             </BorderImageUser>
-            <NameHeading>{`${userAuth.name} ${userAuth.surname}`}</NameHeading>
-            <PositionParagprah>sds</PositionParagprah>
+            <NameHeading>{`${user[0].name} ${user[0].surname}`}</NameHeading>
+            <PositionParagprah>{`${user[0].position}`}</PositionParagprah>
             <SliderTheme />
         </Wrapper>
     )

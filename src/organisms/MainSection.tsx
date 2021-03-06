@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ import TasksSection from './TasksSection';
 import { fetchAllProjects } from '../actions/projects';
 import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
 import { LoginButton } from '../components/Button/Button';
+import UserContext from '../context/UserContext';
 
 const Wrapper = styled.main`
     min-height: 100vh;
@@ -62,24 +63,34 @@ interface RootState {
 
 const MainSection :React.FC = () => {
 
+    const { user, getUser } = useContext(UserContext);
+    const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project)
+    const projects = useSelector( (state: RootState) => state.projects);
+    const history = useHistory();
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchAllProjects());
+        getUser();
     }, [dispatch]);
 
-    const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project)
-    
-    const projects = useSelector( (state: RootState) => state.projects);
+    if(user === null) {
+        return(
+            <h1>Loading ...</h1>
+        )
+    }
 
-    const history = useHistory();
 
-    const isAdmin = true;
+    const isAdmin = user[0].is_admin;
+    console.log(isAdmin)
 
     return(
         <Wrapper>
+            {/* InnerUserNavbar - menu przesuwane pod profilem użytkownika */}
             <InnerUserNavbar 
                 typeFn={ (typeOfMainSection: React.SetStateAction<MainSectionType>) => setTypeOfMainSection(typeOfMainSection)}
                 valueOfType={typeOfMainSection} 
+                isAdmin={isAdmin}
             />
             {
                 typeOfMainSection === MainSectionType.Project && ( 
@@ -108,7 +119,7 @@ const MainSection :React.FC = () => {
                 )
             }
                {
-                typeOfMainSection === MainSectionType.ProjectManager && (
+                isAdmin && ( typeOfMainSection === MainSectionType.ProjectManager) && (
                     <WrapperProjectCard>
                         <BtnCreateProject onClick={() => history.push('/homepage/project/create')}>Dodaj nowy projekt</BtnCreateProject>
                         <ArchivesCard admin={isAdmin} />
