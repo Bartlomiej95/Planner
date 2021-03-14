@@ -20,3 +20,13 @@ export const createUser = (user) => async (dispatch) => {
         dispatch({ type: "ERROR_REGISTER_USER", payload: error.response.data })
     }
 }
+
+export const logoutUser = () => async (dispatch) => {
+    try {
+        const { data } = await api.logoutUser();
+
+        dispatch({ type: 'LOGOUT_USER', payload: data})
+    } catch (error) {
+        
+    }
+}

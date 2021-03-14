@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import menuIcon from '../assets/menuIcon.svg';
 import logoutIcon from '../assets/logoutIcon.svg';
 import messageIcon from '../assets/messageIcon.svg';
 import { Logo } from '../components/Heading/Heading';
 import UserContext from '../context/UserContext';
+import { logoutUser } from '../actions/users';
 
 const Wrapper = styled.div`
     height: 50px;
@@ -26,7 +29,14 @@ const Img = styled.img`
 
 const Header = () => {
 
-    const { user } = useContext(UserContext) ;
+    const { user } = useContext(UserContext);
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const handleLogoutClick = () => {
+        history.push('/homepage/logout');
+        dispatch(logoutUser());
+    }
 
     return(
         <Wrapper>
@@ -36,7 +46,7 @@ const Header = () => {
                     user && (
                         <>
                             <Img src={messageIcon} alt="ikona wiadomości" />
-                            <Img src={logoutIcon} alt="ikona wylogowywania" />
+                            <Img src={logoutIcon} alt="ikona wylogowywania" onClick={ () => handleLogoutClick() } />
                         </>
                     )
                 }

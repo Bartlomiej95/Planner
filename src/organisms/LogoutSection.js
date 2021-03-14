@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import logoutIcon from '../assets/logoutIcon.svg';
 import { SubHeading, SubSubHeading } from '../components/Heading/Heading';
 import { BackSpan } from '../components/Paragraph/Paragraph';
@@ -22,18 +23,23 @@ const Img = styled.img`
     /* margin: 100px auto 0 auto; */
     padding-bottom: 20px;
   
-
-
 `;
 
 
 const LogoutSection = () => {
+
+    const history = useHistory();
+
+    const handleClick = () => {
+        history.push('/');
+    }
+
     return(
         <Wrapper>
             <Img src={logoutIcon} alt="ikonka zatwierdzające udane wylogowanie" />
             <SubHeading>Miłego popołudnia</SubHeading>
             <SubSubHeading>Zostałeś pomyślnie wylogowany z konta.</SubSubHeading>
-            <BackSpan>Wróc do strony głównej</BackSpan>
+            <BackSpan onClick={() => handleClick()}>Wróc do strony głównej</BackSpan>
         </Wrapper>
     )
 }

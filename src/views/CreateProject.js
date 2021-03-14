@@ -12,6 +12,7 @@ import LabelSection from '../organisms/LabelSection';
 import { Input } from '../components/Input/Input';
 import { fetchAllUsers } from '../actions/users';
 import { fetchAllDepartments } from '../actions/departments';
+import { createProject } from '../actions/projects';
 
 const CreateProjectFormDiv = styled.div`
     max-width: 275px;
@@ -147,6 +148,7 @@ const CreateProject = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(createProject(projectData))
     
     }
 

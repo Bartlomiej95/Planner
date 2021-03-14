@@ -1,6 +1,6 @@
 import * as api from '../api';
 
-export const createProject = (projectData) => async (dispatch) => {
+export const createProject = (projectData) => async(dispatch) => {
     try {
 
         const { data } = await api.createProject(projectData)
