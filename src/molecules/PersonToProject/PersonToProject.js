@@ -66,11 +66,14 @@ const RightDiv = styled.div`
 
 `;
 
-const PersonToProject = () => {
+const PersonToProject = ({ name, surname, position, id, department, assignUserToProject }) => {
 
     const [ isAccept, setIsAccept ] = useState(false);
 
-    console.log(isAccept);
+    const handleClick = () => {
+        setIsAccept(prev => !prev);
+        assignUserToProject(id, department);
+    }
 
     return(
         <Wrapper>
@@ -78,10 +81,10 @@ const PersonToProject = () => {
                  <Img icon={userIcon} />
              </BorderImg>
              <MiddleDiv>
-                <SubHeading>Marek Iksiński</SubHeading>
-                <Paragraph>Graphic Designer</Paragraph>
+                <SubHeading>{name} {surname}</SubHeading>
+                <Paragraph>{position}</Paragraph>
              </MiddleDiv>
-             <RightDiv icon={acceptingIcon} onClick={() => setIsAccept( prev => !prev)} userSelect={isAccept} />
+             <RightDiv icon={acceptingIcon} onClick={() => handleClick()} userSelect={isAccept} />
         </Wrapper>
     )
 }

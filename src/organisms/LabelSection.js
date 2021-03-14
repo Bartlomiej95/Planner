@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Label from '../molecules/Label/Label';
 import { SubHeading } from '../components/Heading/Heading';
@@ -27,7 +28,15 @@ const SpanNote = styled.span`
     font-weight: 700;
 `;
 
-const LabelSection = ({ title, category }) => {
+const LabelSection = ({ title, category, changeStatus }) => {
+
+    const [isActive, setIsActive] = useState(false);
+
+    const handleChangeStatus = () => {
+        setIsActive(!isActive)
+        changeStatus(isActive)
+    }
+
     return(
         <Wrapper>
                 <SubHeading>{title}</SubHeading>
@@ -35,14 +44,14 @@ const LabelSection = ({ title, category }) => {
 
                     { category === "tasks" && (
                         <>
-                         <Label division="UX/UI" isSelect={true} />
-                         <Label division="Copywriting" isSelect={false} />
-                         <Label division="Branding" isSelect={false} />
-                         <Label division="Development" isSelect={false} />
-                         <Label division="Spotkanie organizacyjne" isSelect={false} />
-                         <Label division="Testy" isSelect={false} />
-                         <Label division="Marketing" isSelect={false} />
-                         <Label division="Konsultacje" isSelect={false} />
+                         <Label division="UX/UI"  />
+                         <Label division="Copywriting"  />
+                         <Label division="Branding" />
+                         <Label division="Development"  />
+                         <Label division="Spotkanie organizacyjne" />
+                         <Label division="Testy" />
+                         <Label division="Marketing" />
+                         <Label division="Konsultacje" />
 
                          <Input placeholder="Podaj czas pracy w minutach" />
                          <ParagraphNote><SpanNote>Uwaga!</SpanNote> W ramach tego projektu <br/>zostało do zagospodarowania <SpanNote>47 godzin</SpanNote></ParagraphNote>
@@ -51,12 +60,12 @@ const LabelSection = ({ title, category }) => {
                     )}
                      { category === "department" && (
                         <>
-                         <Label division="Dział graficzny" isSelect={true} />
-                         <Label division="Dział marketingu" isSelect={false} />
-                         <Label division="Dział programistyczny" isSelect={false} />
-                         <Label division="Administracja" isSelect={false} />
-                         <Label division="Testerzy" isSelect={false} />
-                         <Label division="Dział obsługi klienta" isSelect={false} />
+                         <Label division="Dział graficzny" name="graphic" status={isActive} getStatus={() => handleChangeStatus()}  />
+                         <Label division="Dział marketingu" name="marketing" status={isActive} getStatus={() => handleChangeStatus()} />
+                         <Label division="Dział programistyczny" name="programming" status={isActive} getStatus={() => handleChangeStatus()} />
+                         <Label division="Administracja" name="administration" status={isActive} getStatus={() => handleChangeStatus()} />
+                         <Label division="Testerzy" name="tester" status={isActive} getStatus={() => handleChangeStatus()} />
+                         <Label division="Dział handlowy" name="sales" status={isActive} getStatus={() => handleChangeStatus()} />
                         </>
                     )
                     }
