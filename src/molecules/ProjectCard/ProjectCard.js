@@ -63,10 +63,7 @@ const LabelCard = styled.p`
     font-size: 12px;
     color: #0903B0;
     font-weight: 700;
-
 `;
-
-
 
 const ProjectCard = ({ titleProject, description }) => {
     return(

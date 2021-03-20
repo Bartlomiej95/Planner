@@ -7,7 +7,7 @@ import ArchivesCard from '../molecules/ArchivesCard/ArchivesCard';
 import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import TasksSection from './TasksSection';
-import { fetchAllProjects } from '../actions/projects';
+import { fetchProjectsForLoggedUser } from '../actions/projects';
 import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
 import { LoginButton } from '../components/Button/Button';
 import UserContext from '../context/UserContext';
@@ -70,19 +70,18 @@ const MainSection :React.FC = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchAllProjects());
+        dispatch(fetchProjectsForLoggedUser());
         getUser();
     }, [dispatch]);
 
-    if(user === null) {
+    if(user === null || projects === null) {
         return(
             <h1>Loading ...</h1>
         )
     }
 
-
     const isAdmin = user[0].is_admin;
-    console.log(isAdmin)
+    console.log(projects);
 
     return(
         <Wrapper>
@@ -94,12 +93,12 @@ const MainSection :React.FC = () => {
             />
             {
                 typeOfMainSection === MainSectionType.Project && ( 
-                    projects.map( (project: any) => 
-                        
                     <WrapperProjectCard>
-                        <ProjectCard  titleProject={project.name} description={project.description} />
+                    {   projects.map( (project: any) =>   
+                            <ProjectCard  titleProject={project.name} description={project.content} />
+                        )
+                    }
                     </WrapperProjectCard>
-                    )
                 ) 
             }
             {

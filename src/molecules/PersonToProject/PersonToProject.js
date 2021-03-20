@@ -61,9 +61,6 @@ const RightDiv = styled.div`
         background-repeat: no-repeat;
         background-color: #00BD51;
     `}
-
-    
-
 `;
 
 const PersonToProject = ({ name, surname, position, id, department, assignUserToProject }) => {
