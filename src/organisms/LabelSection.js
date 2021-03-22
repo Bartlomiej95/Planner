@@ -60,7 +60,7 @@ const LabelSection = ({ title, category, changeStatus }) => {
                     )}
                      { category === "department" && (
                         <>
-                         <Label division="Dział graficzny" name="graphic" status={isActive} getStatus={() => handleChangeStatus()}  />
+                         <Label division="Dział graficzny" name="graphic" status={isActive} getStatus={() => handleChangeStatus()} />
                          <Label division="Dział marketingu" name="marketing" status={isActive} getStatus={() => handleChangeStatus()} />
                          <Label division="Dział programistyczny" name="programming" status={isActive} getStatus={() => handleChangeStatus()} />
                          <Label division="Administracja" name="administration" status={isActive} getStatus={() => handleChangeStatus()} />

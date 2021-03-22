@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import PersonToProject from '../molecules/PersonToProject/PersonToProject';
 import Footer from '../organisms/Footer';
@@ -13,6 +14,7 @@ import { Input } from '../components/Input/Input';
 import { fetchAllUsers } from '../actions/users';
 import { fetchAllDepartments } from '../actions/departments';
 import { createProject } from '../actions/projects';
+import ErrorMessage from '../molecules/ErrorMessage/ErrorMessage';
 
 const CreateProjectFormDiv = styled.div`
     max-width: 275px;
@@ -57,6 +59,8 @@ const CreateProject = () => {
     const dispatch = useDispatch();
     const fetchUsers = useSelector(state => state.users);
     const fetchDepartments = useSelector(state => state.departments);
+    const errorMessage = useSelector(state => state.errors.message);
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(fetchAllUsers());
@@ -66,6 +70,10 @@ const CreateProject = () => {
 
     useEffect(() => {
        setDepartemnt(fetchDepartments);
+       setProjectData({
+        ...projectData,
+        departments: [...nameActiveDepartments]
+    })
     }, [status])    
 
     useEffect(()=>{
@@ -75,7 +83,7 @@ const CreateProject = () => {
     //activeDepartments - nazwy działów które zostały wybrane do realizacji projektu
     let activeDepartments = department.filter(item => item.active);
     let nameActiveDepartments = activeDepartments.map(item => item.name);
-    console.log(nameActiveDepartments);
+      console.log(nameActiveDepartments);
 
     const assignUsersToSelectedDepartment = (user) => {
         let amountConditions = nameActiveDepartments.length;
@@ -139,19 +147,23 @@ const CreateProject = () => {
                     id
                 ]
             })
-
-        }
-            
-            setChangeDetektor(!changeDetektor);
+        } 
+        setChangeDetektor(!changeDetektor);
         
     }
-    
+
     const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(createProject(projectData))
+        try {
+            e.preventDefault();
+            
+            dispatch(createProject(projectData, history));
+            console.log(projectData);
+            
+        } catch (error) {
+            console.log(error)
+        }
     
     }
-
 
     return(
        <>
@@ -192,6 +204,7 @@ const CreateProject = () => {
                 <SubHeading>Przekaż wytyczne<br /> dotyczące projektu</SubHeading>
                 <TextArea placeholder="Treść wiadomości" form="project-form" name="content" onChange={(e) => handleChange(e)} value={projectData.content} />
             </MarksSection>
+            { errorMessage && <ErrorMessage error={errorMessage} /> }
             <CreateBtn form="project-form">Utwórz projekt</CreateBtn>
 
             <Footer />

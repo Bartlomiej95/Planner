@@ -65,7 +65,10 @@ const LabelCard = styled.p`
     font-weight: 700;
 `;
 
-const ProjectCard = ({ titleProject, description }) => {
+const ProjectCard = ({ titleProject, description, departments }) => {
+
+    console.log(departments);
+
     return(
         <Wrapper>
             <SubSubHeading>{titleProject}</SubSubHeading>
@@ -77,9 +80,11 @@ const ProjectCard = ({ titleProject, description }) => {
                 <Paragraph>Stopień ukończenia projektu</Paragraph>
             </WrapperProjectCompletePercent>
             <WrapperLabels>
-                <Label division="Marketing" />
-                <Label division="Konsultacja" />
-                <Label division="UX/UI" />
+                {
+                    departments.map(item => (
+                        <Label division={item} type="card"/>
+                    ))
+                }
             </WrapperLabels>
             <LabelCard>Zespół</LabelCard>
         </Wrapper>

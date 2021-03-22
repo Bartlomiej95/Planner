@@ -79,7 +79,6 @@ const MainSection :React.FC = () => {
             <h1>Loading ...</h1>
         )
     }
-
     const isAdmin = user[0].is_admin;
     console.log(projects);
 
@@ -95,7 +94,7 @@ const MainSection :React.FC = () => {
                 typeOfMainSection === MainSectionType.Project && ( 
                     <WrapperProjectCard>
                     {   projects.map( (project: any) =>   
-                            <ProjectCard  titleProject={project.name} description={project.content} />
+                            <ProjectCard  titleProject={project.name} description={project.content} departments={project.departments} />
                         )
                     }
                     </WrapperProjectCard>

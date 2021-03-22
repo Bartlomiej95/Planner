@@ -1,13 +1,14 @@
 import * as api from '../api';
 
-export const createProject = (projectData) => async(dispatch) => {
+export const createProject = (projectData, history) => async(dispatch) => {
     try {
 
         const { data } = await api.createProject(projectData)
         
         dispatch({ type: 'CREATE_PROJECT', payload: data})
+        history.push('homepage/user');
     } catch(error){
-        console.log(error);
+        dispatch({ type: 'ERROR_CREATE_NEW_PROJECT', payload: error.response.data})
     }
 }
 

@@ -4,6 +4,8 @@ export default (errors = [], action) => {
             return action.payload;
         case 'ERROR_REGISTER_USER':
             return action.payload;
+        case 'ERROR_CREATE_NEW_PROJECT':
+            return action.payload;
         default:
             return errors;
     }
