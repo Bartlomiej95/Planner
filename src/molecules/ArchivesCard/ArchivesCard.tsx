@@ -42,16 +42,18 @@ const LinkInCard = styled(Paragraph)`
 
 interface Props {
     admin: boolean,
+    name: String,
+    description: String,
 }
 
-const ArchivesCard = ({ admin } : Props) => {
+const ArchivesCard = ({ admin, name, description } : Props) => {
 
     const history = useHistory();
 
     return(
         <Wrapper>
-            <ArchivesHeading>Nazwa projektu</ArchivesHeading>
-            <Paragraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas. Nam sed sapien sapien.</Paragraph>
+            <ArchivesHeading>{name}</ArchivesHeading>
+            <Paragraph> {description} </Paragraph>
             {
                !admin && <ArrayBackIcon src={arrayBackIcon} alt="ikonka powrotu do poprzedniej strony" />
             }

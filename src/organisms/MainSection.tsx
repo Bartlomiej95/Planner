@@ -7,9 +7,9 @@ import ArchivesCard from '../molecules/ArchivesCard/ArchivesCard';
 import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import TasksSection from './TasksSection';
-import { fetchProjectsForLoggedUser } from '../actions/projects';
+import { fetchAllProjects, fetchProjectsForLoggedUser } from '../actions/projects';
 import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
-import { LoginButton } from '../components/Button/Button';
+import { LoginButton, IdLoginButton } from '../components/Button/Button';
 import UserContext from '../context/UserContext';
 
 const Wrapper = styled.main`
@@ -47,6 +47,13 @@ const BtnCreateProject = styled(LoginButton)`
     margin-bottom: 45px;
 `;
 
+const BtnLoadMore = styled(IdLoginButton)`
+    display: block;
+    margin: 50px auto;
+    width: 150px;
+`;
+
+
 enum MainSectionType {
     Project = 'project',
     Archives = 'archives',
@@ -58,13 +65,15 @@ interface RootState {
     projects: {
         name: String,
         map: Function,
+        slice: Function,
     };   
 }
 
 const MainSection :React.FC = () => {
 
     const { user, getUser } = useContext(UserContext);
-    const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project)
+    const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project);
+    const [counterClickLoadMore, setCounterClickLoadMore] = useState(0);
     const projects = useSelector( (state: RootState) => state.projects);
     const history = useHistory();
 
@@ -74,13 +83,29 @@ const MainSection :React.FC = () => {
         getUser();
     }, [dispatch]);
 
+    // dispatchujemy odpowiednią funkcję w zależności na jaką zakładkę kliknie project manager
+    // w zakładce project manager - musi zarządzać wszystkimi projektami
+    // z kolei w zakładce projekty - musi widzieć tylko projekty do których sam należy
+    useEffect(() => {
+        if(typeOfMainSection === MainSectionType.ProjectManager ){
+            dispatch(fetchAllProjects())
+        } if( typeOfMainSection === MainSectionType.Project){
+            dispatch(fetchProjectsForLoggedUser())
+        }
+    }, [typeOfMainSection])
+
     if(user === null || projects === null) {
         return(
             <h1>Loading ...</h1>
         )
     }
     const isAdmin = user[0].is_admin;
-    console.log(projects);
+
+    let numberOfProjectOnTheOneLoad = 5;
+    let numberOfLoadedProjectsAtTheBeggining = 3;
+    let numberOfProjects = numberOfLoadedProjectsAtTheBeggining + numberOfProjectOnTheOneLoad * counterClickLoadMore;
+    const projectsDivide = projects.slice(0,numberOfProjects)
+    console.log(projectsDivide);
 
     return(
         <Wrapper>
@@ -103,9 +128,9 @@ const MainSection :React.FC = () => {
             {
                 typeOfMainSection === MainSectionType.Archives && (
                     <WrapperProjectCard>
-                        <ArchivesCard admin={false} />
-                        <ArchivesCard admin={false} />
-                        <ArchivesCard admin={false} />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" />
                     </WrapperProjectCard>
                 )
             }
@@ -120,9 +145,12 @@ const MainSection :React.FC = () => {
                 isAdmin && ( typeOfMainSection === MainSectionType.ProjectManager) && (
                     <WrapperProjectCard>
                         <BtnCreateProject onClick={() => history.push('/homepage/project/create')}>Dodaj nowy projekt</BtnCreateProject>
-                        <ArchivesCard admin={isAdmin} />
-                        <ArchivesCard admin={isAdmin} />
-                        <ArchivesCard admin={isAdmin}/>
+                        {
+                            projectsDivide.map((item : any) => (
+                                <ArchivesCard admin={isAdmin} key={item._id} name={item.name} description={item.content} />
+                            ))
+                        }
+                        <BtnLoadMore onClick={() => setCounterClickLoadMore(prev => prev + 1)} > Załaduj więcej </BtnLoadMore>
                     </WrapperProjectCard>
                 )
             }

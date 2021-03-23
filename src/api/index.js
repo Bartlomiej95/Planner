@@ -14,6 +14,7 @@ export const createUser = (newUser) => axios.post(urlRegister, newUser);
 export const loginUser = (userData) => axios.post(urlLogin, userData); 
 export const logoutUser = () => axios.get(urlLogout); 
 export const createProject = (projectData) => axios.post(urlProjectCreate, projectData);
+export const fetchAllProjects = () => axios.get(urlProjects);
 export const fetchProjectsForLoggedUser = () => axios.get(urlProjects);
 export const fetchLoggedInUser = () => axios.get(urlProjects);
 export const fetchAllDepartments = () => axios.get(urlCreateProjects);

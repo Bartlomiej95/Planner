@@ -12,17 +12,18 @@ export const createProject = (projectData, history) => async(dispatch) => {
     }
 }
 
-// export const fetchAllProjects = () => async (dispatch) => {
-//     try {
-//         const { data } = await api.fetchAllProjects();
+export const fetchAllProjects = () => async (dispatch) => {
+    try {
+        const { data } = await api.fetchAllProjects();
+        console.log(data);
+        const projects = data.projects;
+        console.log(projects);
 
-//         const projects = data.projects;
-
-//         dispatch({ type: "FETCH_ALL_PROJECTS", payload: projects}); 
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+        dispatch({ type: "FETCH_ALL_PROJECTS", payload: projects}); 
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const fetchProjectsForLoggedUser = () => async (dispatch) => {
     try {
