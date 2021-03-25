@@ -27,11 +27,13 @@ const BriefParagraph = styled(Paragraph)`
     text-align: center;
 `;
 
-const ProfabilityProjectSection = () => {
+const ProfabilityProjectSection = ({ projectValue }) => {
+
+    const value = projectValue.toFixed(2);
     return(
         <Wrapper>
             <ProfabilitySubHeading>Szczegóły</ProfabilitySubHeading>
-            <ProfabilityRow category="value" amount="500 000,00 PLN" />
+            <ProfabilityRow category="value" amount={`${value} PLN`} />
             <ProfabilityRow category="cost" amount="100 000,00 PLN" />
             <ProfabilityRow category="profit" amount="400 000,00 PLN" />
             <BriefDiv>
