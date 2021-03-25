@@ -6,6 +6,8 @@ export default (projects = [], action) => {
             return action.payload;
         case 'CREATE_PROJECT':
             return [...projects, action.payload];
+        case 'GET_DETAILS_PROJECT':
+            return action.payload;
         default:
             return projects;
     }

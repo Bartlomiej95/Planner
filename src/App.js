@@ -33,7 +33,7 @@ function App() {
               <Route exact path="/homepage/user" component={UserPage}/>
               <Route exact path="/homepage/project/create" component={CreateProject}/>
               <Route exact path="/homepage/project/tasks" component={TasksToProject}/>
-              <Route exact path="/homepage/project/details" component={DetailsProject}/>
+              <Route exact path="/homepage/project/:name" component={DetailsProject}/>
             </Switch>
           </Router>
         </UserContextProvider>

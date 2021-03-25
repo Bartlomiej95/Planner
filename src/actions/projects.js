@@ -35,3 +35,14 @@ export const fetchProjectsForLoggedUser = () => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const getDetailsProject = (name) => async (dispatch) => {
+    try {
+        const { data } = await api.getDetailsProject(name)
+        const { project } = data;
+        dispatch({ type: 'GET_DETAILS_PROJECT', payload: project})
+
+    } catch (error) {
+        console.log(error);
+    }
+}

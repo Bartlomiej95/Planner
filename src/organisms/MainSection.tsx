@@ -105,7 +105,6 @@ const MainSection :React.FC = () => {
     let numberOfLoadedProjectsAtTheBeggining = 3;
     let numberOfProjects = numberOfLoadedProjectsAtTheBeggining + numberOfProjectOnTheOneLoad * counterClickLoadMore;
     const projectsDivide = projects.slice(0,numberOfProjects)
-    console.log(projectsDivide);
 
     return(
         <Wrapper>
@@ -128,9 +127,9 @@ const MainSection :React.FC = () => {
             {
                 typeOfMainSection === MainSectionType.Archives && (
                     <WrapperProjectCard>
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" />
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" />
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} />
                     </WrapperProjectCard>
                 )
             }
@@ -147,7 +146,7 @@ const MainSection :React.FC = () => {
                         <BtnCreateProject onClick={() => history.push('/homepage/project/create')}>Dodaj nowy projekt</BtnCreateProject>
                         {
                             projectsDivide.map((item : any) => (
-                                <ArchivesCard admin={isAdmin} key={item._id} name={item.name} description={item.content} />
+                                <ArchivesCard admin={isAdmin} key={item._id} name={item.name} description={item.content} id={item._id} />
                             ))
                         }
                         <BtnLoadMore onClick={() => setCounterClickLoadMore(prev => prev + 1)} > Załaduj więcej </BtnLoadMore>
