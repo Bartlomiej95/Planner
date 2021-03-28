@@ -5,6 +5,7 @@ import auth from './auth';
 import projects from './projects';
 import errors from './errors';
 import departments from './departments';
+import tasks from './tasks';
 
 
 
@@ -13,5 +14,6 @@ export default combineReducers({
     auth,
     projects,
     errors,
-    departments
+    departments,
+    tasks
 })
