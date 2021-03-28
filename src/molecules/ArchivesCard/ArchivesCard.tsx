@@ -45,9 +45,10 @@ interface Props {
     name: String,
     description: String,
     id: Number ,
+    projectUsers: Array<Number>,
 }
 
-const ArchivesCard = ({ admin, name, description, id } : Props) => {
+const ArchivesCard = ({ admin, name, description, id, projectUsers } : Props) => {
 
     const history = useHistory();
 
@@ -62,7 +63,14 @@ const ArchivesCard = ({ admin, name, description, id } : Props) => {
                 admin && (
                     <WrapperLinkInCard>
                         <LinkInCard>Edytuj</LinkInCard>
-                        <LinkInCard onClick={() => history.push('/homepage/project/tasks')}>Przydziel zadania</LinkInCard>
+                        <LinkInCard onClick={() => history.push({
+                            pathname: '/homepage/project/tasks',
+                            state: {
+                                id,
+                                projectUsers,
+                                name,
+                            }
+                        })}>Przydziel zadania</LinkInCard>
                         <LinkInCard onClick={() => history.push({
                             pathname: `/homepage/project/${name}`,
                             state: {

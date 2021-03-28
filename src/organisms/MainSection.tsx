@@ -127,9 +127,9 @@ const MainSection :React.FC = () => {
             {
                 typeOfMainSection === MainSectionType.Archives && (
                     <WrapperProjectCard>
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} />
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} />
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} />
                     </WrapperProjectCard>
                 )
             }
@@ -146,7 +146,13 @@ const MainSection :React.FC = () => {
                         <BtnCreateProject onClick={() => history.push('/homepage/project/create')}>Dodaj nowy projekt</BtnCreateProject>
                         {
                             projectsDivide.map((item : any) => (
-                                <ArchivesCard admin={isAdmin} key={item._id} name={item.name} description={item.content} id={item._id} />
+                                <ArchivesCard 
+                                    admin={isAdmin} 
+                                    key={item._id} 
+                                    name={item.name} 
+                                    description={item.content} 
+                                    id={item._id} 
+                                    projectUsers={item.projectUsers} />
                             ))
                         }
                         <BtnLoadMore onClick={() => setCounterClickLoadMore(prev => prev + 1)} > Załaduj więcej </BtnLoadMore>

@@ -19,22 +19,20 @@ const LabelWrapper = styled.div`
     margin: 40px auto;
 `;
 
-const ParagraphNote = styled(Paragraph)`
-    color: #0903B0;
-    text-align: center;
-`;
-
-const SpanNote = styled.span`
-    font-weight: 700;
-`;
-
-const LabelSection = ({ title, category, changeStatus }) => {
+const LabelSection = ({ title, category, changeStatus, giveMeTimeTask }) => {
 
     const [isActive, setIsActive] = useState(false);
+    const [timeTaskValue, setTimeTaskValue] = useState();
 
     const handleChangeStatus = () => {
-        setIsActive(!isActive)
-        changeStatus(isActive)
+        setIsActive(!isActive);
+        changeStatus(isActive);
+    }
+
+    const handleChange = (e) => {
+        console.log(e);
+        setTimeTaskValue(e.target.value);
+        giveMeTimeTask(e.target.value);
     }
 
     return(
@@ -44,18 +42,14 @@ const LabelSection = ({ title, category, changeStatus }) => {
 
                     { category === "tasks" && (
                         <>
-                         <Label division="UX/UI"  />
-                         <Label division="Copywriting"  />
-                         <Label division="Branding" />
-                         <Label division="Development"  />
-                         <Label division="Spotkanie organizacyjne" />
-                         <Label division="Testy" />
-                         <Label division="Marketing" />
-                         <Label division="Konsultacje" />
-
-                         <Input placeholder="Podaj czas pracy w minutach" />
-                         <ParagraphNote><SpanNote>Uwaga!</SpanNote> W ramach tego projektu <br/>zostało do zagospodarowania <SpanNote>47 godzin</SpanNote></ParagraphNote>
-
+                         <Label division="UX/UI" type="task" getStatus={() => handleChangeStatus()}/>
+                         <Label division="Copywriting" type="task" getStatus={() => handleChangeStatus()} />
+                         <Label division="Branding" type="task" getStatus={() => handleChangeStatus()}/>
+                         <Label division="Development" type="task"  getStatus={() => handleChangeStatus()}/>
+                         <Label division="Spotkanie organizacyjne" type="task" getStatus={() => handleChangeStatus()}/>
+                         <Label division="Testy" type="task" getStatus={() => handleChangeStatus()}/>
+                         <Label division="Marketing" type="task" getStatus={() => handleChangeStatus()}/>
+                         <Label division="Konsultacje" type="task" getStatus={() => handleChangeStatus()}/>
                         </>
                     )}
                      { category === "department" && (

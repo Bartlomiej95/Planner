@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { addActiveDepartment } from '../../actions/departments.js';
+import { selectTypeOfTask } from '../../actions/tasks.js';
 
 const Wrapper = styled.div<{ readonly isClick: any; departmentName: String}>`
     height: 24px;
@@ -44,17 +45,21 @@ const Label = ({ division, name, getStatus, type} : Props) : React.ReactNode => 
         if(type === "card"){
             return null
         }
+        if(type === "task"){
+            dispatch(selectTypeOfTask(division));
+            setIsActive(isActive => !isActive);
+            getStatus();
+            return 
+        }
         setIsActive(isActive => !isActive);
         dispatch(addActiveDepartment(name, !isActive));
         getStatus();
         return isActive;
     }
-    console.log('warotsc isActive'+ isActive);
     
     const handleColor = () => {
         if(type === "card"){
-            return true;
-            
+            return true;   
         }
         return isActive;
     }

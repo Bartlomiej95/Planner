@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import Footer from '../organisms/Footer';
 import AsideSection from '../organisms/AsideSection';
@@ -10,6 +10,9 @@ import acceptingIcon from '../assets/accept.svg';
 import { Heading, SubHeading } from '../components/Heading/Heading';
 import { LoginButton } from '../components/Button/Button';
 import { Paragraph } from '../components/Paragraph/Paragraph';
+import { useDispatch, useSelector } from 'react-redux';
+import { Input } from '../components/Input/Input';
+import { getEmpty } from '../actions/tasks';
 
 
 const AssignmentSection = styled.section`
@@ -17,7 +20,7 @@ const AssignmentSection = styled.section`
     margin: 0 auto;
 `;
 
-const MarksSection = styled.section`
+const FormSection = styled.section`
     max-width: 275px;
     margin: 50px auto 0px auto;
 `;
@@ -57,31 +60,144 @@ const ParagraphBox = styled(Paragraph)`
     width: 70%;
 `;
 
-const TasksToProject = () => {
+const ParagraphNote = styled(Paragraph)`
+    color: #0903B0;
+    text-align: center;
+`;
 
+const SpanNote = styled.span`
+    font-weight: 700;
+`;
+
+const SubHeadingForm = styled(SubHeading)`
+    margin: 30px auto;
+`;
+
+const initialTaskData = {
+    title: '',
+    brief: '',
+    time: '',
+    guidelines: '',
+}
+
+const TasksToProject = (props) => {
+
+    const [taskData, setTaskData] = useState(initialTaskData);
     const [isAccept, setIsAccept] = useState(false);
+    const [halfTimeRaport, setHalfTimeRaport] = useState(false);
+    const [timeTaskValue, setTimeTaskValue] = useState(0);
+    const [idUserAssign, setIdUserAssign] = useState([]); 
+    const [changeDetektor, setChangeDetektor] = useState(false);
+    const [status, setStatus] = useState(false);
+    const users = useSelector(state => state.users);
+    const categoryTask = useSelector(state => state.tasks.categoryTask);
+    const dispatch = useDispatch();
+
+    const { id, projectUsers, name } = props.location.state;
+
+    useEffect(() => {
+        setIdUserAssign(idUserAssign);
+        dispatch(getEmpty());
+    }, [changeDetektor]);
+
+    useEffect(()=> {
+        setTaskData({
+            ...taskData,
+            categoryTask,
+        })
+    }, [status])
+
+    const handleAssignIdUserToProject = (id, department) => {
+         // sprawdzamy czy jakiś użytkownik nie został wcześniej do zadania przypisany
+         if(typeof idUserAssign !== "undefined" && idUserAssign.length > 0){
+            // jeśli ktoś już jest to sprawdzamy czy czasami przed chwilą kliknięty pracownik, to nie jest ten, który został już wcześniej przypisany do tego projektu
+            // mówiąc prościej czy pracownik nie został klinięty drugi raz -> czyli odklinięty
+            const foundExistingId = idUserAssign.includes(id);
+            
+            if(foundExistingId){
+                // jeśli istnieje, to musimy go usunąć z tablicy
+                const filteredArray = idUserAssign.filter(item => item !== id );
+        
+                setTaskData({
+                    ...taskData,
+                    taskUsers: filteredArray
+                })
+                return setIdUserAssign(filteredArray) //zwracamy tablicę bez usuniętego id              
+                
+            }
+        }
+        setIdUserAssign([
+            ...idUserAssign,
+            id
+        ])
+        setTaskData({
+            ...taskData,
+            taskUsers: [...idUserAssign, id]
+        })
+
+        setChangeDetektor(!changeDetektor);
+    }
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        setTaskData({
+            ...taskData,
+            [e.target.name]: e.target.value,
+        })
+        
+    }
+
+    const handleSubmit = (e) => {
+        try {
+            e.preventDefault();
+            
+            console.log(taskData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // potrzebujemy wiedzieć kto jest przypisany do projektu - tylko tym osobom możemy przypisać zadanie w ramach projektu
+    // id projektu, id osób w projekcie 
+
+    const usersInProject = users.filter(user => projectUsers.includes(user._id));
 
     return(
         <>
             <Header/>
             <AsideSection />
-            <Heading> Projekt XYZ </Heading>
+            <Heading> {name} </Heading>
             <AssignmentSection>
                 <SubHeading>Przydziel zadania do projektu</SubHeading>
-                <PersonToProject />
-                <PersonToProject />
-                <PersonToProject />
+                {
+                    usersInProject.map(user => (
+                        <PersonToProject 
+                            key={user._id}
+                            id={user._id}
+                            name={user.name}
+                            surname={user.surname}
+                            position={user.position}
+                            department={user.department}
+                            assignUserToProject={ () => handleAssignIdUserToProject(user._id, user.department)}
+                        />
+                    ))
+                }
             </AssignmentSection>
-            <LabelSection title="Wybierz kategorię zadania" category="tasks"></LabelSection>
-            <MarksSection>
-                <SubHeading>Przekaż wytyczne<br /> dotyczące projektu</SubHeading>
-                <TextArea placeholder="Treść wiadomości" />
-            </MarksSection>
-            <ConfirmDiv>
-                <ConfirmBox  icon={acceptingIcon} onClick={() => setIsAccept( prev => !prev)} userSelect={isAccept} />
-                <ParagraphBox>Poproś o raport z postępu prac po upływie 50% czasu.</ParagraphBox>
-            </ConfirmDiv>
-            <ConfirmBtn>Zatwierdź zadanie</ConfirmBtn>
+            <LabelSection title="Wybierz kategorię zadania" category="tasks" changeStatus={() => setStatus(!status)} />
+            <FormSection>
+                <form id="task-form" onSubmit={(e) => handleSubmit(e)}>
+                    <Input placeholder="Nazwa zadania" type="string" name="title" value={taskData.title} onChange={(e) => handleChange(e)} />
+                    <Input placeholder="Skrócony opis zadania" type="string" name="brief" value={taskData.brief} onChange={(e) => handleChange(e)} />
+                    <Input placeholder="Podaj czas pracy w minutach" type="number" name="time" value={taskData.time} onChange={(e) => handleChange(e)} />
+                    <ParagraphNote><SpanNote>Uwaga!</SpanNote> W ramach tego projektu <br/>zostało do zagospodarowania <SpanNote>47 godzin</SpanNote></ParagraphNote>
+                    <SubHeadingForm>Opisz zakres pracy<br /> w ramach zadania</SubHeadingForm>
+                    <TextArea placeholder="Treść wiadomości" name="guidelines" value={taskData.guidelines} onChange={(e) => handleChange(e)} />
+                    <ConfirmDiv>
+                        <ConfirmBox icon={acceptingIcon} onClick={() => setIsAccept( prev => !prev)} userSelect={isAccept} />
+                        <ParagraphBox >Poproś o raport z postępu prac po upływie 50% czasu.</ParagraphBox>
+                    </ConfirmDiv>
+                    <ConfirmBtn form="task-form">Zatwierdź zadanie</ConfirmBtn>
+                </form>
+            </FormSection>
 
             <Footer/>
         </>
