@@ -12,7 +12,7 @@ import { LoginButton } from '../components/Button/Button';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../components/Input/Input';
-import { getEmpty } from '../actions/tasks';
+import { createNewTask, getEmpty } from '../actions/tasks';
 
 
 const AssignmentSection = styled.section`
@@ -85,7 +85,6 @@ const TasksToProject = (props) => {
     const [taskData, setTaskData] = useState(initialTaskData);
     const [isAccept, setIsAccept] = useState(false);
     const [halfTimeRaport, setHalfTimeRaport] = useState(false);
-    const [timeTaskValue, setTimeTaskValue] = useState(0);
     const [idUserAssign, setIdUserAssign] = useState([]); 
     const [changeDetektor, setChangeDetektor] = useState(false);
     const [status, setStatus] = useState(false);
@@ -104,8 +103,17 @@ const TasksToProject = (props) => {
         setTaskData({
             ...taskData,
             categoryTask,
+            projectId: id,
+            projectName: name,
         })
     }, [status])
+
+    useEffect(()=>{
+        setTaskData({
+            ...taskData,
+            halfTimeRaport
+        })
+    },[isAccept])
 
     const handleAssignIdUserToProject = (id, department) => {
          // sprawdzamy czy jakiś użytkownik nie został wcześniej do zadania przypisany
@@ -147,13 +155,23 @@ const TasksToProject = (props) => {
         
     }
 
+    const handleClickBox = (e) => {
+        e.preventDefault();
+        setHalfTimeRaport(prev => !prev);
+        setIsAccept(prev => !prev);
+        setTaskData({
+            ...taskData,
+            halfTimeRaport,
+        })
+    }
+
     const handleSubmit = (e) => {
-        try {
+        try { 
             e.preventDefault();
-            
+            dispatch(createNewTask(taskData));
             console.log(taskData);
         } catch (error) {
-            console.log(error);
+            console.log(error); 
         }
     }
     // potrzebujemy wiedzieć kto jest przypisany do projektu - tylko tym osobom możemy przypisać zadanie w ramach projektu
@@ -192,7 +210,7 @@ const TasksToProject = (props) => {
                     <SubHeadingForm>Opisz zakres pracy<br /> w ramach zadania</SubHeadingForm>
                     <TextArea placeholder="Treść wiadomości" name="guidelines" value={taskData.guidelines} onChange={(e) => handleChange(e)} />
                     <ConfirmDiv>
-                        <ConfirmBox icon={acceptingIcon} onClick={() => setIsAccept( prev => !prev)} userSelect={isAccept} />
+                        <ConfirmBox icon={acceptingIcon} onClick={(e) => handleClickBox(e)} userSelect={isAccept} />
                         <ParagraphBox >Poproś o raport z postępu prac po upływie 50% czasu.</ParagraphBox>
                     </ConfirmDiv>
                     <ConfirmBtn form="task-form">Zatwierdź zadanie</ConfirmBtn>

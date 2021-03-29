@@ -7,7 +7,7 @@ const urlLogout = `${domain}/homepage/logout`;
 const urlProjects = `${domain}/homepage/user`;
 const urlCreateProjects = `${domain}/homepage/project/create`;
 const urlProjectCreate = `${domain}/homepage/project/create`;
-const urlDetailsProject =`${domain}/homepage/project/:name`;
+const urlNewTask = `${domain}/homepage/project/tasks`;
 
 
 export const fetchAllUsers = () => axios.get(urlLogin);
@@ -21,5 +21,6 @@ export const fetchLoggedInUser = () => axios.get(urlProjects);
 export const fetchAllDepartments = () => axios.get(urlCreateProjects);
 export const addActiveDepartment = () => axios.post(urlCreateProjects);
 export const getDetailsProject = (name) => axios.get(`${domain}/homepage/project/${name}`);
+export const createNewTask = (taskData) => axios.post(urlNewTask, taskData);
 
 

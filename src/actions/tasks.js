@@ -24,3 +24,14 @@ export const getEmpty = () => {
         console.log(error);
     }
 }
+
+export const createNewTask = (taskData) => async (dispatch) => {
+    try {
+        const { data } = await api.createNewTask(taskData);
+        console.log(taskData)
+        dispatch({ type: 'CREATE_NEW_TASK', payload: data})
+        
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -7,6 +7,11 @@ export default (tasks = [], action) => {
             }
         case 'GET_EMPTY':
             return action.payload;
+        case 'CREATE_NEW_TASK':
+            return [
+                ...tasks,
+                action.payload
+            ]            
         default:
             return tasks;
     }
