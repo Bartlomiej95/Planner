@@ -25,12 +25,14 @@ export const fetchAllProjects = () => async (dispatch) => {
     }
 }
 
-export const fetchProjectsForLoggedUser = () => async (dispatch) => {
+export const fetchData = () => async (dispatch) => {
     try {
-        const { data } = await api.fetchProjectsForLoggedUser();
+        const { data } = await api.fetchData();
         const selectedProjects = data.projectsForLoggedUser;
+        const tasks = data.tasks;
  
-        dispatch({ type: "FETCH_PROJECTS_FOR_LOGGEDIN_USER", payload: selectedProjects })
+        dispatch({ type: "FETCH_PROJECTS_FOR_LOGGEDIN_USER", payload: selectedProjects });
+        dispatch({ type: "FETCH_ALL_TASKS", payload: tasks});
     } catch (error) {
         console.log(error);
     }

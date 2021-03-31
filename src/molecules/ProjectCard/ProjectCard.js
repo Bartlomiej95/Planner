@@ -67,7 +67,6 @@ const LabelCard = styled.p`
 
 const ProjectCard = ({ titleProject, description, departments }) => {
 
-    console.log(departments);
 
     return(
         <Wrapper>

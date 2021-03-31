@@ -52,9 +52,11 @@ const WrapperTimeTask = styled.div`
 
 interface Props {
     division: String;
+    title: String;
+    time: Number;
 }
 
-const TaskCard: React.FC<Props> = ({ division }) => {
+const TaskCard: React.FC<Props> = ({ division, title, time }) => {
 
     const [activeTask, setActiveTask] = useState(false);
 
@@ -69,13 +71,13 @@ const TaskCard: React.FC<Props> = ({ division }) => {
                 <SliderTask onClick={() => console.log('klik')} activeHandle={() => handleClick()} activeTask={activeTask} />
             </HeaderTaskCard>
             <MiddlePart> 
-                <Paragraph>Przygotuj opisy produktowe do sklepu internetowego.</Paragraph>
+                <Paragraph>{title}</Paragraph>
                 <Paragraph>Zakończ</Paragraph>
             </MiddlePart>
             <WrapperLoadingBar></WrapperLoadingBar>
             <WrapperTimeTask>
                 <Paragraph>00:00:00</Paragraph>
-                <Paragraph>02:00:00</Paragraph>
+                <Paragraph>{time}</Paragraph>
             </WrapperTimeTask>
         </Wrapper>
     )

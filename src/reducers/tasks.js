@@ -12,6 +12,11 @@ export default (tasks = [], action) => {
                 ...tasks,
                 action.payload
             ]            
+        case 'FETCH_ALL_TASKS':
+            return {
+                tasks: action.payload,
+                categoryTask: [],
+            };
         default:
             return tasks;
     }

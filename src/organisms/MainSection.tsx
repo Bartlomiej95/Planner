@@ -6,8 +6,8 @@ import ProjectCard from '../molecules/ProjectCard/ProjectCard';
 import ArchivesCard from '../molecules/ArchivesCard/ArchivesCard';
 import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
-import TasksSection from './TasksSection';
-import { fetchAllProjects, fetchProjectsForLoggedUser } from '../actions/projects';
+import TasksSection from './TasksSection.js';
+import { fetchAllProjects, fetchData } from '../actions/projects';
 import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
 import { LoginButton, IdLoginButton } from '../components/Button/Button';
 import UserContext from '../context/UserContext';
@@ -79,7 +79,7 @@ const MainSection :React.FC = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchProjectsForLoggedUser());
+        dispatch(fetchData());
         getUser();
     }, [dispatch]);
 
@@ -90,7 +90,7 @@ const MainSection :React.FC = () => {
         if(typeOfMainSection === MainSectionType.ProjectManager ){
             dispatch(fetchAllProjects())
         } if( typeOfMainSection === MainSectionType.Project){
-            dispatch(fetchProjectsForLoggedUser())
+            dispatch(fetchData())
         }
     }, [typeOfMainSection])
 
