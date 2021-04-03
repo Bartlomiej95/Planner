@@ -6,6 +6,8 @@ export default (errors = [], action) => {
             return action.payload;
         case 'ERROR_CREATE_NEW_PROJECT':
             return action.payload;
+        case 'ERROR_CREATE_NEW_TASK':
+            return action.payload;
         default:
             return errors;
     }

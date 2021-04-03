@@ -1,28 +1,43 @@
-export default (tasks = [], action) => {
+const initialState = {
+    tasks: [],
+    categoryTask: [],
+}
+
+export default (state = initialState, action) => {
     switch(action.type){
         case 'SELECT_TYPE_OF_TASK':
             return {
-                ...tasks,
-                categoryTask: checkFunction(action.payload, tasks.categoryTask),
+                ...state,
+                categoryTask: checkFunction(action.payload, state.categoryTask),
             }
         case 'GET_EMPTY':
-            return action.payload;
+            return {
+                ...state,
+                tasks: [
+                    ...state.tasks
+                ],
+                categoryTask: action.payload
+            };
         case 'CREATE_NEW_TASK':
-            return [
-                ...tasks,
-                action.payload
-            ]            
+            return {
+                tasks: [
+                    ...state.tasks,
+                    action.payload
+                ],
+                categoryTask: []
+            }     
         case 'FETCH_ALL_TASKS':
             return {
                 tasks: action.payload,
                 categoryTask: [],
             };
         default:
-            return tasks;
+            return initialState;
     }
 }
 
 const checkFunction = (name, array ) => {
+    console.log(array);
     let count = 0;
     for(let i = 0; array.length > i; i++ ){
         if(array.includes(name)){

@@ -15,23 +15,21 @@ export const getEmpty = () => {
     try {
         return {
             type: 'GET_EMPTY',
-            payload: {
-                tasks: [],
-                categoryTask: [],
-            }
+            payload: []
+            
         } 
     } catch (error){
         console.log(error);
     }
 }
 
-export const createNewTask = (taskData) => async (dispatch) => {
+export const createNewTask = (taskData, history) => async (dispatch) => {
     try {
         const { data } = await api.createNewTask(taskData);
-        console.log(taskData)
+        history.push('/homepage/user');
         dispatch({ type: 'CREATE_NEW_TASK', payload: data})
         
     } catch (error) {
-        console.log(error);
+        dispatch({ type: 'ERROR_CREATE_NEW_TASK', payload: error.response.data})
     }
 }

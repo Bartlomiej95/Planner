@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import Footer from '../organisms/Footer';
 import AsideSection from '../organisms/AsideSection';
 import Header from '../organisms/Header';
@@ -7,10 +9,10 @@ import PersonToProject from '../molecules/PersonToProject/PersonToProject';
 import LabelSection from '../organisms/LabelSection';
 import TextArea from '../components/TextArea/TextArea';
 import acceptingIcon from '../assets/accept.svg';
+import ErrorMessage from '../molecules/ErrorMessage/ErrorMessage';
 import { Heading, SubHeading } from '../components/Heading/Heading';
 import { LoginButton } from '../components/Button/Button';
 import { Paragraph } from '../components/Paragraph/Paragraph';
-import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../components/Input/Input';
 import { createNewTask, getEmpty } from '../actions/tasks';
 
@@ -90,7 +92,9 @@ const TasksToProject = (props) => {
     const [status, setStatus] = useState(false);
     const users = useSelector(state => state.users);
     const categoryTask = useSelector(state => state.tasks.categoryTask);
+    const errorMessage = useSelector(state => state.errors.message);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const { id, projectUsers, name } = props.location.state;
 
@@ -168,7 +172,7 @@ const TasksToProject = (props) => {
     const handleSubmit = (e) => {
         try { 
             e.preventDefault();
-            dispatch(createNewTask(taskData));
+            dispatch(createNewTask(taskData, history));
             console.log(taskData);
         } catch (error) {
             console.log(error); 
@@ -213,6 +217,7 @@ const TasksToProject = (props) => {
                         <ConfirmBox icon={acceptingIcon} onClick={(e) => handleClickBox(e)} userSelect={isAccept} />
                         <ParagraphBox >Poproś o raport z postępu prac po upływie 50% czasu.</ParagraphBox>
                     </ConfirmDiv>
+                    {errorMessage && <ErrorMessage error={errorMessage} />}
                     <ConfirmBtn form="task-form">Zatwierdź zadanie</ConfirmBtn>
                 </form>
             </FormSection>
