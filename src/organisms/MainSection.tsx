@@ -66,6 +66,7 @@ interface RootState {
         name: String,
         map: Function,
         slice: Function,
+        projects: any,
     };   
 }
 
@@ -74,7 +75,7 @@ const MainSection :React.FC = () => {
     const { user, getUser } = useContext(UserContext);
     const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project);
     const [counterClickLoadMore, setCounterClickLoadMore] = useState(0);
-    const projects = useSelector( (state: RootState) => state.projects);
+    const projects = useSelector( (state: RootState) => state.projects.projects);
     const history = useHistory();
 
     const dispatch = useDispatch();
@@ -127,9 +128,9 @@ const MainSection :React.FC = () => {
             {
                 typeOfMainSection === MainSectionType.Archives && (
                     <WrapperProjectCard>
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} />
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} />
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} />
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} customer="klient" hours={10} projectValue={1000}/>
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} customer="klient" hours={10} projectValue={1000}/>
+                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} customer="klient" hours={10} projectValue={1000}/>
                     </WrapperProjectCard>
                 )
             }
@@ -152,7 +153,11 @@ const MainSection :React.FC = () => {
                                     name={item.name} 
                                     description={item.content} 
                                     id={item._id} 
-                                    projectUsers={item.projectUsers} />
+                                    customer={item.customer}
+                                    projectUsers={item.projectUsers} 
+                                    hours={item.hours}
+                                    projectValue={item.projectValue}
+                                    />
                             ))
                         }
                         <BtnLoadMore onClick={() => setCounterClickLoadMore(prev => prev + 1)} > Załaduj więcej </BtnLoadMore>

@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import arrayBackIcon from '../../assets/arrayBack.svg';
 import { SubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
+import { useDispatch } from 'react-redux';
+import { getDetailsProject } from '../../actions/projects';
 
 const Wrapper = styled.div`
     position: relative;
@@ -46,11 +48,29 @@ interface Props {
     description: String,
     id: Number ,
     projectUsers: Array<Number>,
+    customer: String,
+    hours: Number, 
+    projectValue: Number,
 }
 
-const ArchivesCard = ({ admin, name, description, id, projectUsers } : Props) => {
+const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, hours, projectValue } : Props) => {
 
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    const handleDetailsProjectClick = () => {
+        dispatch(getDetailsProject(name));
+        history.push({
+            pathname: `/homepage/project/${name}`,
+            state: {
+                id,
+                name,
+                customer,
+                hours,
+                projectValue,
+            }
+        })
+    }
 
     return(
         <Wrapper>
@@ -71,13 +91,7 @@ const ArchivesCard = ({ admin, name, description, id, projectUsers } : Props) =>
                                 name,
                             }
                         })}>Przydziel zadania</LinkInCard>
-                        <LinkInCard onClick={() => history.push({
-                            pathname: `/homepage/project/${name}`,
-                            state: {
-                                id,
-                                name,
-                            }
-                        })}>Szczegóły</LinkInCard>
+                        <LinkInCard onClick={() => handleDetailsProjectClick()}>Szczegóły</LinkInCard>
                     </WrapperLinkInCard>
                 )
             }
