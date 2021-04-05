@@ -42,6 +42,7 @@ export const getDetailsProject = (name) => async (dispatch) => {
     try {
         const { data } = await api.getDetailsProject(name)
         const { project } = data;
+        console.log(project);
         dispatch({ type: 'GET_DETAILS_PROJECT', payload: project})
 
     } catch (error) {

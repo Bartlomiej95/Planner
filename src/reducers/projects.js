@@ -1,14 +1,32 @@
-export default (projects = [], action) => {
+const initialState = {
+    projects: [],
+    detailsProject: {},
+}
+
+export default (state = initialState, action) => {
     switch(action.type){
         case 'FETCH_ALL_PROJECTS':
-            return action.payload;
+            return {
+                ...state,
+                projects: action.payload,
+            }
         case 'FETCH_PROJECTS_FOR_LOGGEDIN_USER':
-            return action.payload;
+            return {
+                ...state,
+                projects: action.payload,
+            };
         case 'CREATE_PROJECT':
-            return [...projects, action.payload];
+            return {
+                ...state,
+                projects: [...state.projects, action.payload],
+            }
         case 'GET_DETAILS_PROJECT':
-            return action.payload;
+            return {
+                ...state,
+                detailsProject: action.payload
+            };
         default:
-            return projects;
-    }
+            return initialState
+
+        }
 }
