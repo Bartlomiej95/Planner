@@ -1,17 +1,15 @@
-import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
+import { useContext, useState } from 'react';
+import { useHistory, withRouter } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import menuIcon from '../assets/menuIcon.svg';
-import logoutIcon from '../assets/logoutIcon.svg';
-import messageIcon from '../assets/messageIcon.svg';
-import { Logo } from '../components/Heading/Heading';
+import mailIcon from '../assets/mailIcon.svg';
 import UserContext from '../context/UserContext';
-import { logoutUser } from '../actions/users';
+import HiddenMenu from './HiddenMenu';
+import { Logo } from '../components/Heading/Heading';
+import { LoginButton } from '../components/Button/Button';
 
 const Wrapper = styled.div`
     height: 50px;
-    background-color: #EFF1F5;
     display: flex;
     flex: row;
     flex-wrap: nowrap;
@@ -20,40 +18,75 @@ const Wrapper = styled.div`
     padding: 0 33px;
 `;
 
-const IconsDiv = styled.div``;
+const IconsDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 
-const Img = styled.img`
-    padding-left: 20px;
-    cursor: pointer;
 `;
 
-const Header = () => {
+const Icon = styled.div`
+    width: 30px;
+    height: 30px;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.16);
+    border-radius: 50%;
+    margin-left: 30px;
+    cursor: pointer;
+
+    ${({ bcgIcon }) => bcgIcon && css`
+    
+        background-image: url(${bcgIcon});
+        background-position: center;
+        background-repeat: no-repeat;
+    `}
+`;
+
+const BackButton = styled(LoginButton)`
+    width: 60px;
+    height: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.16);
+    margin-left: 30px;
+`;
+
+const Header = (props) => {
 
     const { user } = useContext(UserContext);
-    const dispatch = useDispatch();
+    const [showHiddenMenu, setShowHiddenMenu] = useState(false);
     const history = useHistory();
-
-    const handleLogoutClick = () => {
-        history.push('/homepage/logout');
-        dispatch(logoutUser());
-    }
-
+    const hiddenBackBtn = props.match.path === "/homepage" || props.match.path === "/homepage/user"
+    console.log(hiddenBackBtn);
+    
     return(
-        <Wrapper>
-            <Logo>Planner</Logo>
-            <IconsDiv>
-                {
-                    user && (
-                        <>
-                            <Img src={messageIcon} alt="ikona wiadomości" />
-                            <Img src={logoutIcon} alt="ikona wylogowywania" onClick={ () => handleLogoutClick() } />
-                        </>
-                    )
-                }
-                <Img src={menuIcon} alt="ikona menu" />
-            </IconsDiv>
-        </Wrapper>
+        <>
+            {
+                !showHiddenMenu && (
+                    <Wrapper>
+                        <Logo>Planner</Logo>
+                        <IconsDiv>
+                            {
+                                user && (
+                                    <>
+                                        <Icon bcgIcon={mailIcon} />
+                                    </>
+                                )
+                            }
+                            <Icon bcgIcon={menuIcon} onClick={() => setShowHiddenMenu(prev => !prev)} />
+
+                            {
+                                !hiddenBackBtn && ( <BackButton onClick={ () => history.goBack()}>Wróc</BackButton> )
+                            }
+                            
+
+                        </IconsDiv>
+                    </Wrapper>
+                )
+            }
+            <HiddenMenu isActive={showHiddenMenu} exitHiddenMenu={() => setShowHiddenMenu(false)} />
+        </>
     )
 }
 
-export default Header;
+export default withRouter(Header);
