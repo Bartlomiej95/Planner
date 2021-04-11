@@ -4,13 +4,15 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ProjectCard from '../molecules/ProjectCard/ProjectCard';
 import ArchivesCard from '../molecules/ArchivesCard/ArchivesCard';
+import TasksSection from './TasksSection.js';
+import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
+import UserContext from '../context/UserContext';
 import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
-import TasksSection from './TasksSection.js';
 import { fetchAllProjects, fetchData } from '../actions/projects';
-import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
+import { fetchAllRates } from '../actions/rates';
 import { LoginButton, IdLoginButton } from '../components/Button/Button';
-import UserContext from '../context/UserContext';
+import RatesSection from './RatesSection';
 
 const Wrapper = styled.main`
     min-height: 100vh;
@@ -69,6 +71,13 @@ interface RootState {
         slice: Function,
         projects: any,
     };   
+}
+
+interface RatesState {
+    rates: {
+        position: String, 
+        rate: Number,
+    }
 }
 
 const MainSection :React.FC = () => {
@@ -174,7 +183,7 @@ const MainSection :React.FC = () => {
             }
             {
                 superAdmin && (typeOfMainSection === MainSectionType.Data) && (
-                    <SubHeading>Witaj SuperAdminie, dej więcej kasy pracownikom</SubHeading>
+                    <RatesSection />
                 )
             }
             <WrapperHelpdeskInfo>

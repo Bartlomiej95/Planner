@@ -6,6 +6,7 @@ import projects from './projects';
 import errors from './errors';
 import departments from './departments';
 import tasks from './tasks';
+import rates from './rates';
 
 
 
@@ -15,5 +16,6 @@ export default combineReducers({
     projects,
     errors,
     departments,
-    tasks
+    tasks,
+    rates,
 })
