@@ -64,27 +64,29 @@ enum MainSectionType {
     Project = 'project',
     Archives = 'archives',
     ProjectManager = "projectManager",
-    Tasks = 'tasks'
+    Tasks = 'tasks',
+    Data = 'data',
 }
 
 interface Props {
     valueOfType: MainSectionType,
     typeFn: Function,
-    isAdmin: boolean;
+    isAdmin: boolean,
+    superAdmin: boolean,
 }
 
 
-const InnerUserNavbar = ({ typeFn, valueOfType, isAdmin }: Props) => {
+
+const InnerUserNavbar = ({ typeFn, valueOfType, isAdmin, superAdmin }: Props) => {
 
     // ustawienia dla arrows 0 - widzimy pierwszy kafelek - blokujemy możliwość dalszego przesuwania w prawo  [1][2][3]>
-    // ustawienia dla arrows 1 - widzimy ostatni kafelek  - blokujemy możliwość dalszego przesuwania w lewo  <[2][3][4]
+    // ustawienia dla arrows 1 - <[2][3][4]
     const [arrowOptions, setArrowOptions] = useState(0);
 
 
-    // const isAdmin = true;
     return(
         <Wrapper>
-            { arrowOptions === 1 && isAdmin && <LeftArrow src={leftArrow} onClick={ () => setArrowOptions(0) } /> }
+            { arrowOptions > 0 && isAdmin && <LeftArrow src={leftArrow} onClick={ () => setArrowOptions(prev => prev = prev - 1) } /> }
             <WrapperNavbar shift={arrowOptions}>
                 <DivElemNavbar active={ valueOfType === MainSectionType.Project } onClick={() => typeFn(MainSectionType.Project)} shift={arrowOptions}>
                     <NavSubHeading active ={ valueOfType === MainSectionType.Project} >Projekty</NavSubHeading>
@@ -93,7 +95,7 @@ const InnerUserNavbar = ({ typeFn, valueOfType, isAdmin }: Props) => {
                     <NavSubHeading active={ valueOfType === MainSectionType.Archives } >Archiwum projektów</NavSubHeading>
                 </DivElemNavbar>
                 {
-                    isAdmin && ( 
+                    ( isAdmin || superAdmin ) && ( 
                         <DivElemNavbar active={ valueOfType === MainSectionType.ProjectManager } onClick={() => typeFn(MainSectionType.ProjectManager)} shift={arrowOptions}>
                             <NavSubHeading active={ valueOfType === MainSectionType.ProjectManager }>Menedżer projektów</NavSubHeading> 
                         </DivElemNavbar> )
@@ -101,8 +103,15 @@ const InnerUserNavbar = ({ typeFn, valueOfType, isAdmin }: Props) => {
                 <DivElemNavbar active={ valueOfType === MainSectionType.Tasks } onClick={() => typeFn(MainSectionType.Tasks)} shift={arrowOptions}>
                     <NavSubHeading active={ valueOfType === MainSectionType.Tasks } >Lista zadań</NavSubHeading>
                 </DivElemNavbar>
+                {
+                    superAdmin && (
+                        <DivElemNavbar active={ valueOfType === MainSectionType.Data } onClick={() => typeFn(MainSectionType.Data)} shift={arrowOptions}>
+                            <NavSubHeading active={ valueOfType === MainSectionType.Data } >Dane firmy</NavSubHeading>
+                        </DivElemNavbar>
+                    )
+                }
             </WrapperNavbar>
-            { arrowOptions === 0 && isAdmin && <ArrowRight src={rightArrow} onClick={() => setArrowOptions(1)} /> }
+            { arrowOptions < 2 && isAdmin && <ArrowRight src={rightArrow} onClick={() => setArrowOptions(prev => prev = prev + 1)} /> }
         </Wrapper>
     )
 }

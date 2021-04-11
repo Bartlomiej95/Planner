@@ -58,7 +58,8 @@ enum MainSectionType {
     Project = 'project',
     Archives = 'archives',
     ProjectManager = "projectManager",
-    Tasks = 'tasks'
+    Tasks = 'tasks',
+    Data = 'data',
 }
 
 interface RootState {
@@ -101,6 +102,12 @@ const MainSection :React.FC = () => {
         )
     }
     const isAdmin = user[0].is_admin;
+    let superAdmin = false;
+    
+    if(user[0].hasOwnProperty('super_admin')){
+        console.log('super_admin');
+        superAdmin = user[0].super_admin;
+    }
 
     let numberOfProjectOnTheOneLoad = 5;
     let numberOfLoadedProjectsAtTheBeggining = 3;
@@ -114,6 +121,7 @@ const MainSection :React.FC = () => {
                 typeFn={ (typeOfMainSection: React.SetStateAction<MainSectionType>) => setTypeOfMainSection(typeOfMainSection)}
                 valueOfType={typeOfMainSection} 
                 isAdmin={isAdmin}
+                superAdmin={superAdmin}
             />
             {
                 typeOfMainSection === MainSectionType.Project && ( 
@@ -141,8 +149,8 @@ const MainSection :React.FC = () => {
                     </WrapperProjectCard>
                 )
             }
-               {
-                isAdmin && ( typeOfMainSection === MainSectionType.ProjectManager) && (
+            {
+                (isAdmin || superAdmin) && ( typeOfMainSection === MainSectionType.ProjectManager) && (
                     <WrapperProjectCard>
                         <BtnCreateProject onClick={() => history.push('/homepage/project/create')}>Dodaj nowy projekt</BtnCreateProject>
                         {
@@ -162,6 +170,11 @@ const MainSection :React.FC = () => {
                         }
                         <BtnLoadMore onClick={() => setCounterClickLoadMore(prev => prev + 1)} > Załaduj więcej </BtnLoadMore>
                     </WrapperProjectCard>
+                )
+            }
+            {
+                superAdmin && (typeOfMainSection === MainSectionType.Data) && (
+                    <SubHeading>Witaj SuperAdminie, dej więcej kasy pracownikom</SubHeading>
                 )
             }
             <WrapperHelpdeskInfo>
