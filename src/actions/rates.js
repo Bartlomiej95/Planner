@@ -11,3 +11,14 @@ export const fetchAllRates = () => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const editRate = (id, value) => {
+    try {
+        return {
+            type: 'EDIT_RATE',
+            payload: { id, value}
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

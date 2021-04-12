@@ -42,6 +42,7 @@ const RatesSection = () => {
                         key={item._id}
                         position={item.position}
                         rate={item.rate} 
+                        id={item._id}
                     />
                 ))
             }
