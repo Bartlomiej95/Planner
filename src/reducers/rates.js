@@ -11,6 +11,24 @@ export default (state = [], action) => {
                 }
                 return rate
             })
+        case 'START_TASK':
+            return [
+                ...state
+            ].map(rate => {
+                if(rate._id === action.payload.id){
+                    rate.isActive = true;
+                }
+                return rate;
+            })
+        case 'STOP_TASK':
+            return [
+                ...state
+            ].map(rate => {
+                if(rate._id === action.payload.id){
+                    rate.taskTime = rate.taskTime + action.payload.time;
+                }
+                return rate;
+            })
         default:
             return state;
         }

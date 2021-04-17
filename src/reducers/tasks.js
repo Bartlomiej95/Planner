@@ -31,6 +31,30 @@ export default (state = initialState, action) => {
                 tasks: action.payload,
                 categoryTask: [],
             };
+        case 'START_TASK':
+            return {
+                ...state,
+                tasks: [
+                    ...state.tasks
+                ].map(task => {
+                    if(task._id === action.payload.id){
+                        task.isActive = true;
+                    }
+                    return task;
+                })
+            }
+            case 'STOP_TASK':
+                return {
+                    ...state,
+                    tasks: [
+                        ...state.tasks
+                    ].map(task => {
+                        if(task._id === action.payload.id){
+                            task.taskTime = task.taskTime + action.payload.time;
+                        }
+                        return task;
+                    })
+                } 
         default:
             return initialState;
     }

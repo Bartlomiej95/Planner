@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { StyledComponent, css } from 'styled-components';
+import { startTheTask, stopTheTask } from '../../actions/tasks';
 import sunIcon from '../../assets/sunIcon.svg';
 
 const Wrapper = styled.div`
@@ -70,14 +72,37 @@ interface SliderTaskInterface {
     activeTask: boolean;
     onClick: () => void;
     activeHandle: () => void;
+    idTask: Number
 }
 
-export const SliderTask: React.FC<SliderTaskInterface> = ({activeTask, activeHandle, ...props }) => {
+
+export const SliderTask: React.FC<SliderTaskInterface> = ({activeTask, activeHandle, idTask, ...props }) => {
 
     // w zmiennej activeTask przekazujemy wartość boolean, która wskazuje czy dane zadanie jest akutalnie kliknięte przez użytkownika jako to, którym aktualnie użytkownik chce się zająć
+    const [ startDate, setStartDate ] = useState(0);
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        activeHandle();
+        countingActiveTimeTask(!activeTask);
+    }
+
+    const countingActiveTimeTask = (active : Boolean) => {
+        let endDate = 0;
+        if(active){
+            setStartDate(new Date().getTime()); 
+            dispatch(startTheTask(idTask));
+        } else {
+            endDate = new Date().getTime();         
+            const timeActiveTask = Math.abs( endDate - startDate ); 
+            const timeTaskInMinutes = (timeActiveTask / (1000 * 60)).toFixed(2); 
+            dispatch(stopTheTask(idTask, timeTaskInMinutes))
+        }
+    }
+    
     console.log(activeTask);
     return(
-        <WrapperSliderTask active={activeTask} onClick={() => activeHandle()}>
+        <WrapperSliderTask active={activeTask} onClick={() => handleClick()}>
             <SliderTaskBar active={activeTask}/>
         </WrapperSliderTask>
     )

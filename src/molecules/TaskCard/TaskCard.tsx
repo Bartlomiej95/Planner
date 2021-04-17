@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SubSubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
@@ -42,6 +42,13 @@ const WrapperLoadingBar = styled.div`
     margin: 12px 0 5px 0;
 `;
 
+const LoadingBar = styled.div<{ readonly percent: string}>`
+    height: 2px;
+    background-color: green;
+    position: relative;
+    width: ${props => props.percent};
+`;
+
 const WrapperTimeTask = styled.div`
     display: flex;
     flex-direction: row;
@@ -53,31 +60,79 @@ const WrapperTimeTask = styled.div`
 interface Props {
     division: String;
     title: String;
-    time: Number;
+    time: number;
+    id: Number;
+    taskTime: number;
 }
 
-const TaskCard: React.FC<Props> = ({ division, title, time }) => {
+const initialTimeObject = {
+    hours: '00',
+    minutes: '00',
+    seconds: '00',
+}
 
+const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime }) => {
+    // time - czas całego zadania [min]
+    // taskTime - aktualny czas wykonywanego zadania 
     const [activeTask, setActiveTask] = useState(false);
+    const [ currentlyTaskTime, setCurrentlyTaskTime ] = useState(initialTimeObject);
+    const [ timeForAllTask, setTimeForAllTask ] = useState(initialTimeObject);
+    const [ percentCompleteOfTheTask, setPercentCompleteOfTheTask ] = useState(0);
+    
+    useEffect(() => {
+        setCurrentlyTaskTime(setTaskTime(taskTime));
+        setPercentCompleteOfTheTask( countingPercentCompleteOfTheTask(time, taskTime) )
+    }, [taskTime]);
+
+    useEffect(()=>{
+        setTimeForAllTask(setTaskTime(time));
+    }, []);
 
     const handleClick = (): void => {
         setActiveTask(!activeTask);
+    }
+
+    const setTaskTime = (time : any) => {
+        const hours = Math.floor(time / 60);
+        const minutes = Math.floor(time % 60);
+        const seconds = Math.round(((time * 60) % 60));
+        
+
+        const stringHours = hours.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}); // ustawiamy takie format 00:00:00
+        const stringMinutes = minutes.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+        const stringSeconds = seconds.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+       
+        return {
+            hours: stringHours,
+            minutes: stringMinutes,
+            seconds: stringSeconds,
+        }
+    }
+
+    const countingPercentCompleteOfTheTask = (allTime : number, currentlyTime: number) => {
+        let percent: number = ( (currentlyTime * 100) /  (allTime) );
+        if(percent > 100){
+            percent = 100;
+        }
+        return percent;
     }
 
     return(
         <Wrapper>
             <HeaderTaskCard>
                 <SubSubHeading onClick={() => console.log('click')} >{division}</SubSubHeading>
-                <SliderTask onClick={() => console.log('klik')} activeHandle={() => handleClick()} activeTask={activeTask} />
+                <SliderTask onClick={() => console.log('klik')} activeHandle={() => handleClick()} activeTask={activeTask} idTask={id} />
             </HeaderTaskCard>
             <MiddlePart> 
                 <Paragraph>{title}</Paragraph>
                 <Paragraph>Zakończ</Paragraph>
             </MiddlePart>
-            <WrapperLoadingBar></WrapperLoadingBar>
+            <WrapperLoadingBar>
+                <LoadingBar percent={`${percentCompleteOfTheTask}%`}/>
+            </WrapperLoadingBar>
             <WrapperTimeTask>
-                <Paragraph>00:00:00</Paragraph>
-                <Paragraph>{time}</Paragraph>
+                <Paragraph>{ `${currentlyTaskTime.hours}:${currentlyTaskTime.minutes}:${currentlyTaskTime.seconds} `  }</Paragraph>
+                <Paragraph>{`${timeForAllTask.hours}:${timeForAllTask.minutes}:${timeForAllTask.seconds} `}</Paragraph>
             </WrapperTimeTask>
         </Wrapper>
     )

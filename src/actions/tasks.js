@@ -33,3 +33,29 @@ export const createNewTask = (taskData, history) => async (dispatch) => {
         dispatch({ type: 'ERROR_CREATE_NEW_TASK', payload: error.response.data})
     }
 }
+
+export const startTheTask = (id) => {
+    try {
+        return {
+            type: 'START_TASK',
+            payload: { id }
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const stopTheTask = (id, time) => {
+    try {
+        console.log(time)
+        return {
+            type: 'STOP_TASK',
+            payload: {
+                id,
+                time: Number(time),
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
