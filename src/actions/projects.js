@@ -30,9 +30,8 @@ export const fetchData = () => async (dispatch) => {
         const { data } = await api.fetchData();
         const selectedProjects = data.projectsForLoggedUser;
         const tasks = data.tasks;
- 
-        dispatch({ type: "FETCH_PROJECTS_FOR_LOGGEDIN_USER", payload: selectedProjects });
-        dispatch({ type: "FETCH_ALL_TASKS", payload: tasks});
+
+        dispatch({ type: "FETCH_DATA", payload: { selectedProjects, tasks}})
     } catch (error) {
         console.log(error);
     }

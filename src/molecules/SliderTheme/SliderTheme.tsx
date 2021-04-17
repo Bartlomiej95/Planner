@@ -99,8 +99,7 @@ export const SliderTask: React.FC<SliderTaskInterface> = ({activeTask, activeHan
             dispatch(stopTheTask(idTask, timeTaskInMinutes))
         }
     }
-    
-    console.log(activeTask);
+
     return(
         <WrapperSliderTask active={activeTask} onClick={() => handleClick()}>
             <SliderTaskBar active={activeTask}/>

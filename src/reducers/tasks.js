@@ -25,12 +25,12 @@ export default (state = initialState, action) => {
                     action.payload
                 ],
                 categoryTask: []
-            }     
-        case 'FETCH_ALL_TASKS':
+            }   
+        case 'FETCH_DATA':
             return {
-                tasks: action.payload,
+                tasks: action.payload.tasks,
                 categoryTask: [],
-            };
+            };   
         case 'START_TASK':
             return {
                 ...state,

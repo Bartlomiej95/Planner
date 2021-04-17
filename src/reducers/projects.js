@@ -10,10 +10,10 @@ export default (state = initialState, action) => {
                 ...state,
                 projects: action.payload,
             }
-        case 'FETCH_PROJECTS_FOR_LOGGEDIN_USER':
+        case 'FETCH_DATA': 
             return {
                 ...state,
-                projects: action.payload,
+                projects: action.payload.selectedProjects,
             };
         case 'CREATE_PROJECT':
             return {
