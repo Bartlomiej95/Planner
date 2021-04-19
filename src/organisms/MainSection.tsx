@@ -10,12 +10,14 @@ import UserContext from '../context/UserContext';
 import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import { fetchAllProjects, fetchData } from '../actions/projects';
-import { fetchAllRates } from '../actions/rates';
 import { LoginButton, IdLoginButton } from '../components/Button/Button';
 import RatesSection from './RatesSection';
+import { ThemeContext, ThemeType } from '../context/theme';
 
-const Wrapper = styled.main`
+const Wrapper = styled.main<{ readonly typeTheme: any}>`
     min-height: 100vh;
+    background-color: ${ props => props.typeTheme === ThemeType.Light ? '#F9FAFF' : '#09131D'};
+    z-index: -2; 
 `;
 
 const WrapperProjectCard = styled.div`
@@ -35,8 +37,9 @@ const WrapperHelpdeskInfo = styled.div`
     align-items: center;
 `;
 
-const ParagraphHelpdesk = styled(Paragraph)`
+const ParagraphHelpdesk = styled(Paragraph)<{readonly typeTheme: string}>`
     margin-top: 14px;
+    color: ${ props => props.typeTheme === ThemeType.Light ? 'black' : 'white'};
 `;
 
 const SpanHelpdesk = styled.span`
@@ -55,6 +58,9 @@ const BtnLoadMore = styled(IdLoginButton)`
     width: 150px;
 `;
 
+const SubHeadingHelpdesk = styled(SubHeading)<{ readonly typeTheme: string}>`
+    color: ${props => props.typeTheme === ThemeType.Light ? 'black' : 'white'};
+`;
 
 enum MainSectionType {
     Project = 'project',
@@ -73,16 +79,10 @@ interface RootState {
     };   
 }
 
-interface RatesState {
-    rates: {
-        position: String, 
-        rate: Number,
-    }
-}
-
 const MainSection :React.FC = () => {
 
     const { user, getUser } = useContext(UserContext);
+    const { typeTheme, ThemeType } = useContext(ThemeContext);
     const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project);
     const [counterClickLoadMore, setCounterClickLoadMore] = useState(0);
     const projects = useSelector( (state: RootState) => state.projects.projects);
@@ -124,7 +124,7 @@ const MainSection :React.FC = () => {
     const projectsDivide = projects.slice(0,numberOfProjects)
 
     return(
-        <Wrapper>
+        <Wrapper typeTheme={typeTheme} >
             {/* InnerUserNavbar - menu przesuwane pod profilem użytkownika */}
             <InnerUserNavbar 
                 typeFn={ (typeOfMainSection: React.SetStateAction<MainSectionType>) => setTypeOfMainSection(typeOfMainSection)}
@@ -187,8 +187,8 @@ const MainSection :React.FC = () => {
                 )
             }
             <WrapperHelpdeskInfo>
-                <SubHeading>Masz problem z obsługą planera?</SubHeading>
-                <ParagraphHelpdesk> <SpanHelpdesk>Zgłoś się</SpanHelpdesk> do naszego helpdesku</ParagraphHelpdesk>
+                <SubHeadingHelpdesk typeTheme={typeTheme}>Masz problem z obsługą planera?</SubHeadingHelpdesk>
+                <ParagraphHelpdesk typeTheme={typeTheme}> <SpanHelpdesk>Zgłoś się</SpanHelpdesk> do naszego helpdesku</ParagraphHelpdesk>
             </WrapperHelpdeskInfo>
         </Wrapper>
     )

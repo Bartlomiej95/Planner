@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SubSubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
+import { ThemeContext, ThemeType } from '../../context/theme';
 import { SliderTask } from '../SliderTheme/SliderTheme';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ readonly typeTheme: string }>`
     width: 315px;
     min-height: 100px;
     padding: 15px 20px;
@@ -12,11 +13,11 @@ const Wrapper = styled.div`
     box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.16);
     border-radius: 10px;
     margin-bottom: 25px;
+    background-color: ${props => props.typeTheme === ThemeType.Light ? '#FFF' : '#F8FAFE'};
     
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-
 `;
 
 const HeaderTaskCard = styled.div`
@@ -78,6 +79,7 @@ const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime }) => {
     const [ currentlyTaskTime, setCurrentlyTaskTime ] = useState(initialTimeObject);
     const [ timeForAllTask, setTimeForAllTask ] = useState(initialTimeObject);
     const [ percentCompleteOfTheTask, setPercentCompleteOfTheTask ] = useState(0);
+    const { typeTheme, ThemeType } = useContext(ThemeContext);
     
     useEffect(() => {
         setCurrentlyTaskTime(setTaskTime(taskTime));
@@ -118,7 +120,7 @@ const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime }) => {
     }
 
     return(
-        <Wrapper>
+        <Wrapper typeTheme={typeTheme}>
             <HeaderTaskCard>
                 <SubSubHeading onClick={() => console.log('click')} >{division}</SubSubHeading>
                 <SliderTask onClick={() => console.log('klik')} activeHandle={() => handleClick()} activeTask={activeTask} idTask={id} />

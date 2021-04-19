@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled, { StyledComponent, css } from 'styled-components';
+import { useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled, { css } from 'styled-components';
 import { startTheTask, stopTheTask } from '../../actions/tasks';
 import sunIcon from '../../assets/sunIcon.svg';
+import moonlightIcon from '../../assets/moonlightIcon.svg';
+import { ThemeContext } from '../../context/theme';
 
 const Wrapper = styled.div`
     width: 36px;
     height: 20px;
     border-radius: 20px;
-    background-color: #FEDD2C;
+    background-color: ${ props => props.typeTheme === Theme.Light ? '#FEDD2C' : '#FFFFFF'};
 
     display: flex;
     flex-direction: row;
@@ -21,9 +23,9 @@ const Wrapper = styled.div`
 const SliderBar = styled.div`
     width: 16px;
     height: 16px;
-    background-color: #120D45;
+    background-color: ${ props => props.typeTheme === Theme.Light ? '#120D45' : '#FEDD2C'};
+    
     border-radius: 20px;
-
 `;
 
 const SliderIcon = styled.img`
@@ -31,10 +33,9 @@ const SliderIcon = styled.img`
     color: white;
     width: 12px;
     height: 12px;
-
 `;
 
-const WrapperSliderTask = styled(Wrapper)<{ readonly active: boolean;}>`
+const WrapperSliderTask = styled(Wrapper)`
     background-color: rgb(112,112,112, 0.4);
     margin-bottom: 0px;
     justify-content: end;
@@ -42,41 +43,47 @@ const WrapperSliderTask = styled(Wrapper)<{ readonly active: boolean;}>`
 
     ${({ active }) => active &&
         css`
-            background-color: green;
-            
+            background-color: green;         
         `}
-    
 `;
 
-const SliderTaskBar = styled(SliderBar)<{ readonly active: boolean}>`
+const SliderTaskBar = styled(SliderBar)`
     background-color: #FFFFFF;
 
     ${({ active }) => active &&
         css`
             transform: translateX(14px);
-            
         `}
-    
 `;
 
-export const SliderTheme: React.FC = () => {
+const Theme = {
+    Light: 'light',
+    Dark: "dark",
+}
+
+export const SliderTheme = () => {
+
+    const [ themeName, setThemeName ] = useState(Theme.Light);
+    const { typeTheme, changeTheme} = useContext(ThemeContext);
+
+    useEffect(() => {
+        setThemeName(typeTheme);
+    }, [typeTheme])
+
+    const handleClick = () => {
+        changeTheme();
+    }
+
     return(
-        <Wrapper>
-            <SliderIcon src={sunIcon} alt="ikonka"/>
-            <SliderBar/>
+        <Wrapper typeTheme={themeName} onClick={() => handleClick()}>
+            { themeName === Theme.Light && (<SliderIcon src={sunIcon} alt="ikonka słońca - motyw dnia" />) }
+            <SliderBar typeTheme={themeName} />
+            { themeName === Theme.Dark && (<SliderIcon src={moonlightIcon} alt="ikonka księżyca - motyw nocy" />) }
         </Wrapper>
     )
 }
 
-interface SliderTaskInterface {
-    activeTask: boolean;
-    onClick: () => void;
-    activeHandle: () => void;
-    idTask: Number
-}
-
-
-export const SliderTask: React.FC<SliderTaskInterface> = ({activeTask, activeHandle, idTask, ...props }) => {
+export const SliderTask = ({activeTask, activeHandle, idTask, ...props }) => {
 
     // w zmiennej activeTask przekazujemy wartość boolean, która wskazuje czy dane zadanie jest akutalnie kliknięte przez użytkownika jako to, którym aktualnie użytkownik chce się zająć
     const [ startDate, setStartDate ] = useState(0);
@@ -87,7 +94,7 @@ export const SliderTask: React.FC<SliderTaskInterface> = ({activeTask, activeHan
         countingActiveTimeTask(!activeTask);
     }
 
-    const countingActiveTimeTask = (active : Boolean) => {
+    const countingActiveTimeTask = (active) => {
         let endDate = 0;
         if(active){
             setStartDate(new Date().getTime()); 
@@ -96,13 +103,13 @@ export const SliderTask: React.FC<SliderTaskInterface> = ({activeTask, activeHan
             endDate = new Date().getTime();         
             const timeActiveTask = Math.abs( endDate - startDate ); 
             const timeTaskInMinutes = (timeActiveTask / (1000 * 60)).toFixed(2); 
-            dispatch(stopTheTask(idTask, timeTaskInMinutes))
+            dispatch(stopTheTask(idTask, timeTaskInMinutes));
         }
     }
 
     return(
         <WrapperSliderTask active={activeTask} onClick={() => handleClick()}>
-            <SliderTaskBar active={activeTask}/>
+            <SliderTaskBar type={Theme.Light} active={activeTask}/>
         </WrapperSliderTask>
     )
 }

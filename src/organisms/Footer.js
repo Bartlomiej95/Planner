@@ -9,12 +9,13 @@ const Wrapper = styled.footer`
 const FooterLogo = styled(Logo)`
     margin-left: 34px;
     padding: 20px 0;
+    color: black;
 `;
 
 const Footer = () => {
     return(
         <Wrapper>
-            <FooterLogo>Planner</FooterLogo>
+            <FooterLogo >Planner</FooterLogo>
         </Wrapper>
     )
 }

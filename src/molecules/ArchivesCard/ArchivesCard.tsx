@@ -5,8 +5,10 @@ import { SubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
 import { useDispatch } from 'react-redux';
 import { getDetailsProject } from '../../actions/projects';
+import { useContext } from 'react';
+import { ThemeContext, ThemeType } from '../../context/theme';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ readonly typeTheme: string }>`
     position: relative;
     width: 315px;
     min-height: 100px;
@@ -15,6 +17,7 @@ const Wrapper = styled.div`
     box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.16);
     border-radius: 10px;
     margin-bottom: 25px;
+    background-color:  ${props => props.typeTheme === ThemeType.Light ? '#FFF' : '#F8FAFE'};
 `;
 
 const ArrayBackIcon = styled.img`
@@ -57,6 +60,7 @@ const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, ho
 
     const history = useHistory();
     const dispatch = useDispatch();
+    const { typeTheme, ThemeType } = useContext(ThemeContext);
 
     const handleDetailsProjectClick = () => {
         dispatch(getDetailsProject(name));
@@ -73,7 +77,7 @@ const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, ho
     }
 
     return(
-        <Wrapper>
+        <Wrapper typeTheme={typeTheme}>
             <ArchivesHeading>{name}</ArchivesHeading>
             <Paragraph> {description} </Paragraph>
             {

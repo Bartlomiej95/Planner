@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled, { css } from 'styled-components';
 import leftArrow from '../../assets/leftArrayNavbar.svg';
 import rightArrow from '../../assets/rightArrayNavbar.svg';
 import { SubHeading } from '../../components/Heading/Heading';
+import { ThemeContext, ThemeType } from '../../context/theme';
 
 const Wrapper = styled.div`
     display: flex;
@@ -14,10 +15,12 @@ const Wrapper = styled.div`
 
 const ArrowRight = styled.img`
     display: block;
+    cursor: pointer;
 `;
 
 const LeftArrow = styled.img`
     display: block;
+    cursor: pointer;
 `;
 
 const WrapperNavbar = styled.div<{readonly shift: number}>`
@@ -38,7 +41,7 @@ const NavSubHeading = styled(SubHeading)<{ readonly active: boolean}>`
     `}
 `;
 
-const DivElemNavbar = styled.div<{ readonly active: boolean; readonly shift: number}>`
+const DivElemNavbar = styled.div<{ readonly active: boolean; readonly shift: number; readonly typeTheme: string}>`
     width: 90px;
     min-width: 90px;
     height: 43px;
@@ -46,11 +49,12 @@ const DivElemNavbar = styled.div<{ readonly active: boolean; readonly shift: num
     border-radius: 5px;
     margin: 5px 5px 5px 0;
     transform: translateX(calc( -95px * ${({ shift }) => shift} ));   
-    
+    background-color: ${props => props.typeTheme === ThemeType.Light ? '#FFF' : '#F9FAFF'};
 
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     
 
     ${({ active }) => active && 
@@ -82,30 +86,30 @@ const InnerUserNavbar = ({ typeFn, valueOfType, isAdmin, superAdmin }: Props) =>
     // ustawienia dla arrows 0 - widzimy pierwszy kafelek - blokujemy możliwość dalszego przesuwania w prawo  [1][2][3]>
     // ustawienia dla arrows 1 - <[2][3][4]
     const [arrowOptions, setArrowOptions] = useState(0);
-
+    const { typeTheme, changeTheme} = useContext(ThemeContext);
 
     return(
         <Wrapper>
             { arrowOptions > 0 && isAdmin && <LeftArrow src={leftArrow} onClick={ () => setArrowOptions(prev => prev = prev - 1) } /> }
             <WrapperNavbar shift={arrowOptions}>
-                <DivElemNavbar active={ valueOfType === MainSectionType.Project } onClick={() => typeFn(MainSectionType.Project)} shift={arrowOptions}>
+                <DivElemNavbar typeTheme={typeTheme} active={ valueOfType === MainSectionType.Project } onClick={() => typeFn(MainSectionType.Project)} shift={arrowOptions}>
                     <NavSubHeading active ={ valueOfType === MainSectionType.Project} >Projekty</NavSubHeading>
                 </DivElemNavbar>
-                <DivElemNavbar active={ valueOfType === MainSectionType.Archives } onClick={() => typeFn(MainSectionType.Archives)} shift={arrowOptions}>
+                <DivElemNavbar typeTheme={typeTheme} active={ valueOfType === MainSectionType.Archives } onClick={() => typeFn(MainSectionType.Archives)} shift={arrowOptions}>
                     <NavSubHeading active={ valueOfType === MainSectionType.Archives } >Archiwum projektów</NavSubHeading>
                 </DivElemNavbar>
                 {
                     ( isAdmin || superAdmin ) && ( 
-                        <DivElemNavbar active={ valueOfType === MainSectionType.ProjectManager } onClick={() => typeFn(MainSectionType.ProjectManager)} shift={arrowOptions}>
+                        <DivElemNavbar typeTheme={typeTheme} active={ valueOfType === MainSectionType.ProjectManager } onClick={() => typeFn(MainSectionType.ProjectManager)} shift={arrowOptions}>
                             <NavSubHeading active={ valueOfType === MainSectionType.ProjectManager }>Menedżer projektów</NavSubHeading> 
                         </DivElemNavbar> )
                 }
-                <DivElemNavbar active={ valueOfType === MainSectionType.Tasks } onClick={() => typeFn(MainSectionType.Tasks)} shift={arrowOptions}>
+                <DivElemNavbar typeTheme={typeTheme} active={ valueOfType === MainSectionType.Tasks } onClick={() => typeFn(MainSectionType.Tasks)} shift={arrowOptions}>
                     <NavSubHeading active={ valueOfType === MainSectionType.Tasks } >Lista zadań</NavSubHeading>
                 </DivElemNavbar>
                 {
                     superAdmin && (
-                        <DivElemNavbar active={ valueOfType === MainSectionType.Data } onClick={() => typeFn(MainSectionType.Data)} shift={arrowOptions}>
+                        <DivElemNavbar typeTheme={typeTheme} active={ valueOfType === MainSectionType.Data } onClick={() => typeFn(MainSectionType.Data)} shift={arrowOptions}>
                             <NavSubHeading active={ valueOfType === MainSectionType.Data } >Dane firmy</NavSubHeading>
                         </DivElemNavbar>
                     )

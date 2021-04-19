@@ -7,6 +7,7 @@ import UserContext from '../context/UserContext';
 import HiddenMenu from './HiddenMenu';
 import { Logo } from '../components/Heading/Heading';
 import { LoginButton } from '../components/Button/Button';
+import { ThemeContext, ThemeType } from '../context/theme';
 
 const Wrapper = styled.div`
     height: 50px;
@@ -16,6 +17,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 33px;
+    background-color: ${props => props.typeTheme === ThemeType.Light ? '#F9FAFF' : '#09131D'};
 `;
 
 const IconsDiv = styled.div`
@@ -32,6 +34,7 @@ const Icon = styled.div`
     border-radius: 50%;
     margin-left: 30px;
     cursor: pointer;
+    background-color: white;
 
     ${({ bcgIcon }) => bcgIcon && css`
     
@@ -54,6 +57,7 @@ const BackButton = styled(LoginButton)`
 const Header = (props) => {
 
     const { user } = useContext(UserContext);
+    const { typeTheme, ThemeType } = useContext(ThemeContext);
     const [showHiddenMenu, setShowHiddenMenu] = useState(false);
     const history = useHistory();
     const hiddenBackBtn = props.match.path === "/homepage" || props.match.path === "/homepage/user"
@@ -63,8 +67,8 @@ const Header = (props) => {
         <>
             {
                 !showHiddenMenu && (
-                    <Wrapper>
-                        <Logo>Planner</Logo>
+                    <Wrapper typeTheme={typeTheme}>
+                        <Logo typeTheme={typeTheme}>Planner</Logo>
                         <IconsDiv>
                             {
                                 user && (

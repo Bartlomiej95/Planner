@@ -9,7 +9,7 @@ export const SubHeading = styled.h2`
     font-size: ${({ theme }) => theme.SubHeading.mobileFontSize};
     text-align: center;
     font-weight: 500;
-
+    color: ${props => props.typeTheme === 'dark' ? 'white' : 'black'};
 `;
 
 export const SubSubHeading = styled.h3`
@@ -20,4 +20,5 @@ export const Logo = styled.h2`
     font-size: ${({ theme }) => theme.SubSubHeading.mobileFontSize};
     font-weight: bold;
     display: block;
+    color: ${props => props.typeTheme === 'light' ? 'black' : 'white'};
 `;
