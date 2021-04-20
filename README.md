@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# Planner - https://planer-app.netlify.app/ (project in process)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Planner - it is a project of a tool that aims to help in managing group projects and tasks among users. This is the first project in which I use both frontend technologies - such as React, and backend technologies - Express and Nodejs. Additionally, I am using a non-relational MongoDB database.
 
-## Available Scripts
+The project is carried out on the basis of a graphic design by Mateusz Maludziński - (https://www.linkedin.com/in/mateusz-maludzinski/)
 
-In the project directory, you can run:
+### Logowanie w aplikacji
 
-### `npm start`
+Full details needed to log into the application for a sample user. The email consists of the first letter of the first name + "." + surname + "@ afirma.com", and the password from the first three letters of the first name and the first three letters of the name. For example, for Kamil Górski the email is k.gorski@afirma.com, and the password is kamgor
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<table>
+   <thead>
+      <tr>
+         <th>Name Surname</th> <th>Position</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>Kamil Gorski</th> <td>Junior Graphic Desinger</td> 
+      </tr>
+      <tr>
+         <td>Agata Kalinowska</td> <td>Graphic Designer </td>
+      </tr>
+      <tr>
+         <td>Franciszek Tomaszewski</td> <td>Senior Graphic Designer</td>
+      </tr>
+      <tr>
+         <td>Gustaw Borkowski</td> <td>Brand Manager</td> 
+      </tr>
+      <tr>
+         <td>Kinga Wlodarczyk</td> <td>Marketing Manager</td>
+      </tr>
+      <tr>
+         <td>Maciej Cieslak</td> <td>Social Media Manager</td> 
+      </tr>
+      <tr>
+         <td>Gabriel Jaworski</td> <td>Junior Frontend Developer</td>
+      </tr>
+      <tr>
+         <td>Aleks Andrzejewski</td> <td>Frontend Developer</td>
+      </tr>
+      <tr>
+         <td>Arkadiusz Michalak</td> <td>Senior Frontend Developer</td>
+      </tr>
+       <tr>
+         <td>Patryk Wasilewski</td> <td>Junior Backend Developer</td>
+      </tr>
+      <tr>
+         <td>Monika Sobczak</td> <td>Backend Developer</td>
+      </tr>
+      <tr>
+         <td>Otylia Malinowska</td> <td>Senior Backend Developer</td>
+      </tr>
+       <tr>
+         <td>Henryk Pietrzak</td> <td>Administrative Assistant</td>
+      </tr>
+      <tr>
+         <td>Daniel Bak</td> <td>Junior Tester</td>
+      </tr>
+       <tr>
+         <td>Celina Szczepanska</td> <td>Tester</td>
+      </tr>
+      <tr>
+         <td>Aleksy Lis</td> <td>Senior Tester</td>
+      </tr>
+      <tr>
+         <td>Malwina Gorecka </td> <td>Business Development Manager</td>
+      </tr>
+      <tr>
+         <td>Zuzanna Wojcik</td> <td>Project Manager</td>
+      </tr>
+      <tr>
+         <td>Jan Kowalski</td> <td>Director</td>
+      </tr>
+   </tbody>
+ </table>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Goals of the project
 
-### `npm test`
+The goal of this project is to further develop frontend skills. Additionally, this is my first MERN project - I want to expand my competences with backend skills.
+Another goal is a project based on cooperation with others - the project is graphically implemented in AdobeXd by Mateusz Maludziński.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Used Technology
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React
+- Hooks
+- Context API
+- Redux
+- Styled-components
+- Redux-thunk
+- React-router-dom
+- Nodejs
+- Express
+- MongoDB
