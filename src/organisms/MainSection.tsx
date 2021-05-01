@@ -14,6 +14,7 @@ import { LoginButton, IdLoginButton } from '../components/Button/Button';
 import RatesSection from './RatesSection';
 import { ThemeContext, ThemeType } from '../context/theme';
 import { fetchAllDepartments } from '../actions/departments';
+import LoadingWrapper from '../molecules/LoadingWrapper/LoadingWrapper';
 
 const Wrapper = styled.main<{ readonly typeTheme: any}>`
     min-height: 100vh;
@@ -109,7 +110,8 @@ const MainSection :React.FC = () => {
 
     if(user === null || projects === null) {
         return(
-            <h1>Loading ...</h1>
+            <>
+            </>
         )
     }
     const isAdmin = user[0].is_admin;

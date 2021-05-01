@@ -6,6 +6,7 @@ import { SubHeading } from '../components/Heading/Heading';
 import { SliderTheme } from '../molecules/SliderTheme/SliderTheme';
 import UserContext from '../context/UserContext';
 import { ThemeContext, ThemeType } from '../context/theme';
+import LoadingWrapper from '../molecules/LoadingWrapper/LoadingWrapper';
 
 const Wrapper = styled.section`
     height: 400px;
@@ -71,7 +72,7 @@ const ProfileSection = () => {
 
     if(user === null) {
         return(
-            <h1>Loading ...</h1>
+            <LoadingWrapper />
         )
     }
 
