@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import userIcon from '../../assets/user.svg';
 import acceptingIcon from '../../assets/accept.svg';
@@ -63,13 +63,32 @@ const RightDiv = styled.div`
     `}
 `;
 
-const PersonToProject = ({ name, surname, position, id, department, assignUserToProject }) => {
+const PersonToProject = ({ name, surname, position, id, department, assignUserToProject, assignUsersFromEditProject, isFromEdition }) => {
 
     const [ isAccept, setIsAccept ] = useState(false);
+    const [ usedEditionData , setUsedEditionData ] = useState(true);
+
+    useEffect(() => {
+        if(isFromEdition){
+            assignUsersFromEdition(assignUsersFromEditProject);
+        }
+    },[])
 
     const handleClick = () => {
         setIsAccept(prev => !prev);
         assignUserToProject(id, department);
+    }
+
+    const assignUsersFromEdition = (usersId) => {
+        if(usedEditionData){
+            setUsedEditionData(false);
+            if(usersId.length > 1){
+                if(usersId.includes(id)){
+                    setIsAccept(true);
+                }
+            }
+            return;
+        }
     }
 
     return(
@@ -82,6 +101,7 @@ const PersonToProject = ({ name, surname, position, id, department, assignUserTo
                 <Paragraph>{position}</Paragraph>
              </MiddleDiv>
              <RightDiv icon={acceptingIcon} onClick={() => handleClick()} userSelect={isAccept} />
+             {/* userSelect = true - oznaczenie usera ptaszkiem */}
         </Wrapper>
     )
 }

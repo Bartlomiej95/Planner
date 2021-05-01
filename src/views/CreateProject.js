@@ -8,12 +8,11 @@ import Header from '../organisms/Header';
 import TextArea from '../components/TextArea/TextArea';
 import { Heading, SubHeading } from '../components/Heading/Heading';
 import { LoginButton } from '../components/Button/Button';
-import AsideSection from '../organisms/AsideSection';
 import LabelSection from '../organisms/LabelSection';
 import { Input } from '../components/Input/Input';
 import { fetchAllUsers } from '../actions/users';
-import { fetchAllDepartments } from '../actions/departments';
-import { createProject } from '../actions/projects';
+import { addActiveDepartmentFromEdit  } from '../actions/departments';
+import { createProject, editProject, fetchAllProjects } from '../actions/projects';
 import ErrorMessage from '../molecules/ErrorMessage/ErrorMessage';
 
 const CreateProjectFormDiv = styled.div`
@@ -48,28 +47,50 @@ const initialProjectData = {
     content: '',
 }
 
-const CreateProject = () => {
-
+const CreateProject = (props) => {
+    
     const [projectData, setProjectData] = useState(initialProjectData);
     const [department, setDepartemnt] = useState([]);
     const [users, setUsers] = useState([]);
     const [ status, setStatus] = useState(false);
     const [ idUsersAssignToProject, setIdUsersAssignToProject] = useState([]); //id użytkowników przypisanych (klikniętych) do wykonania projektu
     const [ changeDetektor, setChangeDetektor] = useState(false);
+    
+    // flagi dzięki którym dane z edytowanego projektu będą uruchamiane w useEffect tylko raz, po pierwszym uruchomieniu damy false
+    const [ isEditedDataUpdate, setIsEditedDataUpdate ] = useState(true); 
+    const [ isEditedIdAssign, setIsEditedIdAssign ] = useState(true);
+    
     const dispatch = useDispatch();
     const fetchUsers = useSelector(state => state.users);
     const fetchDepartments = useSelector(state => state.departments);
     const errorMessage = useSelector(state => state.errors.message);
     const history = useHistory();
-
+    const { isEdited, name, customer, hours, projectValue, deadline, content, projectUsers, departments, id } = props.location.state;
+    console.log(content);
     useEffect(() => {
         dispatch(fetchAllUsers());
-        dispatch(fetchAllDepartments());
         setUsers(fetchUsers);
     }, [])
 
     useEffect(() => {
        setDepartemnt(fetchDepartments);
+       if(isEdited && isEditedDataUpdate){
+            dispatch(addActiveDepartmentFromEdit(departments)); 
+            dispatch(fetchAllProjects());
+            setIsEditedDataUpdate(false);
+            setProjectData({
+                ...projectData,
+                name: name,
+                customer: customer,
+                deadline: deadline,
+                hours: hours,
+                projectValue: projectValue,
+                content: content, 
+                projectUsers: projectUsers,
+                departments: departments,
+            })
+            return
+       }
        setProjectData({
         ...projectData,
         departments: [...nameActiveDepartments]
@@ -77,13 +98,18 @@ const CreateProject = () => {
     }, [status])    
 
     useEffect(()=>{
+        if(isEdited && isEditedIdAssign){
+            setIdUsersAssignToProject(projectUsers);
+            setIsEditedIdAssign(false);
+            return;
+        }
         setIdUsersAssignToProject(idUsersAssignToProject);
     }, [changeDetektor])
 
     //activeDepartments - nazwy działów które zostały wybrane do realizacji projektu
     let activeDepartments = department.filter(item => item.active);
     let nameActiveDepartments = activeDepartments.map(item => item.name);
-      console.log(nameActiveDepartments);
+    console.log(nameActiveDepartments);
 
     const assignUsersToSelectedDepartment = (user) => {
         let amountConditions = nameActiveDepartments.length;
@@ -100,16 +126,19 @@ const CreateProject = () => {
     const usersFromSelectedDepartments = fetchUsers.filter(assignUsersToSelectedDepartment);  
 
     const handleChange = (e) => {
+        if(isEdited && isEditedDataUpdate){
+            console.log(projectData);
+            return;
+        }
         e.preventDefault();
         const name = e.target.name;
         setProjectData({
             ...projectData,
             [name]:e.target.value
-
         });
     }
 
-    let projectUsers = [];
+    // let projectUsers = [];
     //funkcja usuwająca użytkownika z tablicy, gdy admin kliknie drugi raz (czyli odkliknie udział użytkownika w projekcie)
     const handleAssignIdUserToProject = (id, department) => {
         
@@ -155,6 +184,11 @@ const CreateProject = () => {
     const handleSubmit = (e) => {
         try {
             e.preventDefault();
+            if(isEdited){
+                console.log(projectData);
+                dispatch(editProject(projectData, name, id, history));
+                return;
+            }
             
             dispatch(createProject(projectData, history));
             console.log(projectData);
@@ -168,9 +202,12 @@ const CreateProject = () => {
     return(
        <>
             <Header />
-            <AsideSection />
             <CreateProjectFormDiv>
-                <Heading>Nowy projekt</Heading>
+                <Heading>
+                    {
+                        isEdited ? ( name ) : ("Nowy projekt")     
+                    }    
+                </Heading>
                 <Form id="project-form" onSubmit={(e) => handleSubmit(e)}>
                     <Input placeholder="Nazwa projektu" type="string" name="name" onChange={ (e) => handleChange(e) } value={projectData.name} />
                     <Input placeholder="Klient" type="string" name="customer" onChange={ (e) => handleChange(e)} value={projectData.customer} />
@@ -195,6 +232,8 @@ const CreateProject = () => {
                                 surname={user.surname} 
                                 department={user.department}
                                 assignUserToProject={ () => handleAssignIdUserToProject(user._id, user.department)}
+                                assignUsersFromEditProject={projectUsers}
+                                isFromEdition={isEdited}
                             />
                         )
                     })
@@ -205,7 +244,7 @@ const CreateProject = () => {
                 <TextArea placeholder="Treść wiadomości" form="project-form" name="content" onChange={(e) => handleChange(e)} value={projectData.content} />
             </MarksSection>
             { errorMessage && <ErrorMessage error={errorMessage} /> }
-            <CreateBtn form="project-form">Utwórz projekt</CreateBtn>
+            <CreateBtn form="project-form">{ isEdited ? ('Edytuj') : ('Utwórz projekt') }</CreateBtn>
 
             <Footer />
        </>

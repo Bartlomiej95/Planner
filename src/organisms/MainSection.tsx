@@ -13,6 +13,7 @@ import { fetchAllProjects, fetchData } from '../actions/projects';
 import { LoginButton, IdLoginButton } from '../components/Button/Button';
 import RatesSection from './RatesSection';
 import { ThemeContext, ThemeType } from '../context/theme';
+import { fetchAllDepartments } from '../actions/departments';
 
 const Wrapper = styled.main<{ readonly typeTheme: any}>`
     min-height: 100vh;
@@ -91,8 +92,9 @@ const MainSection :React.FC = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchData());
+        dispatch(fetchAllDepartments())
         getUser();
-    }, [dispatch]);
+    }, []);
 
     // dispatchujemy odpowiednią funkcję w zależności na jaką zakładkę kliknie project manager
     // w zakładce project manager - musi zarządzać wszystkimi projektami
@@ -121,7 +123,7 @@ const MainSection :React.FC = () => {
     let numberOfProjectOnTheOneLoad = 5;
     let numberOfLoadedProjectsAtTheBeggining = 3;
     let numberOfProjects = numberOfLoadedProjectsAtTheBeggining + numberOfProjectOnTheOneLoad * counterClickLoadMore;
-    const projectsDivide = projects.slice(0,numberOfProjects)
+    const projectsDivide = projects.slice(0,numberOfProjects);
 
     return(
         <Wrapper typeTheme={typeTheme} >
@@ -145,9 +147,7 @@ const MainSection :React.FC = () => {
             {
                 typeOfMainSection === MainSectionType.Archives && (
                     <WrapperProjectCard>
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} customer="klient" hours={10} projectValue={1000}/>
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} customer="klient" hours={10} projectValue={1000}/>
-                        <ArchivesCard admin={false} name="Nazwa projektu" description="Opis projektu" id={1} projectUsers={[]} customer="klient" hours={10} projectValue={1000}/>
+                        <SubHeading>Brak projektów w archiwum</SubHeading>
                     </WrapperProjectCard>
                 )
             }
@@ -161,7 +161,12 @@ const MainSection :React.FC = () => {
             {
                 (isAdmin || superAdmin) && ( typeOfMainSection === MainSectionType.ProjectManager) && (
                     <WrapperProjectCard>
-                        <BtnCreateProject onClick={() => history.push('/homepage/project/create')}>Dodaj nowy projekt</BtnCreateProject>
+                        <BtnCreateProject onClick={() => history.push({
+                            pathname: '/homepage/project/create',
+                            state: {
+                                isEdited: false,
+                            }
+                        })}>Dodaj nowy projekt</BtnCreateProject>
                         {
                             projectsDivide.map((item : any) => (
                                 <ArchivesCard 
@@ -174,6 +179,9 @@ const MainSection :React.FC = () => {
                                     projectUsers={item.projectUsers} 
                                     hours={item.hours}
                                     projectValue={item.projectValue}
+                                    deadline={item.deadline}
+                                    content={item.content}
+                                    departments={item.departments}
                                     />
                             ))
                         }

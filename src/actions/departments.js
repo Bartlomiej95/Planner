@@ -27,3 +27,18 @@ export const addActiveDepartment = (name, status) => {
         console.log(error);
     }
 }
+
+export const addActiveDepartmentFromEdit = (namesOfDepartments) => {
+    try {
+        const names = [...namesOfDepartments];
+        return{
+            type: 'ADD_ACTIVE_FROM_EDIT',
+            payload: {
+                names,
+            }
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}

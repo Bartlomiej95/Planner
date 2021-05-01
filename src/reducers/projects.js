@@ -25,6 +25,18 @@ export default (state = initialState, action) => {
                 ...state,
                 detailsProject: action.payload
             };
+        case 'EDIT_PROJECT':
+            return {
+                ...state,
+                projects: [...state.projects].map(project => {
+                    if(project._id === action.payload.id){
+                        project = action.payload.data;
+                        project._id = action.payload.id;
+                        return project;
+                    }
+                    return project;
+                })
+            }
         default:
             return initialState
 

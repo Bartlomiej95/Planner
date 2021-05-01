@@ -22,3 +22,15 @@ export const editRate = (id, value) => {
         console.log(error);
     }
 }
+
+// export const editRate = (id, value) => async (dispatch) => {
+//     try {
+//         const { data } = await api.editRate(id, value);
+//         console.log(data);
+
+//         dispatch({ type: 'EDIT_RATE', payload: { id, value }})
+        
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }

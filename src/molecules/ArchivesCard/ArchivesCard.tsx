@@ -54,10 +54,13 @@ interface Props {
     customer: String,
     hours: Number, 
     projectValue: Number,
+    deadline: Date,
+    content: String,
+    departments: Array<String>,
 }
 
-const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, hours, projectValue } : Props) => {
-
+const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, hours, projectValue, departments, deadline, content } : Props) => {
+    
     const history = useHistory();
     const dispatch = useDispatch();
     const { typeTheme, ThemeType } = useContext(ThemeContext);
@@ -86,7 +89,22 @@ const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, ho
             {
                 admin && (
                     <WrapperLinkInCard>
-                        <LinkInCard>Edytuj</LinkInCard>
+                        <LinkInCard onClick={() => history.push({
+                            pathname: `/homepage/project/edit/${name}`,
+                            state: {
+                                isEdited: true,
+                                name,
+                                customer,
+                                hours,
+                                description,
+                                projectValue,
+                                projectUsers,
+                                departments,
+                                deadline,
+                                id,
+                                content,
+                            }
+                        })}>Edytuj</LinkInCard>
                         <LinkInCard onClick={() => history.push({
                             pathname: '/homepage/project/tasks',
                             state: {

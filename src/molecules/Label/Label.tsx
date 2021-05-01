@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { addActiveDepartment } from '../../actions/departments.js';
 import { selectTypeOfTask } from '../../actions/tasks.js';
@@ -17,7 +17,6 @@ const Wrapper = styled.div<{ readonly isClick: any; departmentName: String}>`
     css`
         background-color: #F37B01;
     `}
-
 `;
 
 const LabelName = styled.p`
@@ -34,10 +33,20 @@ interface Props {
     type: String,
 }
 
+interface RootState {
+    departments: Array<Department>,
+}
+
+interface Department {
+    name: String, 
+    active: Boolean,
+}
+
 const Label = ({ division, name, getStatus, type} : Props) : React.ReactNode => {
 
     const [isActive, setIsActive] = useState(false);
     const dispatch = useDispatch()
+    const departements = useSelector( (state: RootState) => state.departments );
 
     const getActiveStatus = () =>{
         // jeśli mamy etykietę z widoku projektu, a nie etykietę wyboru z formularza
@@ -61,7 +70,12 @@ const Label = ({ division, name, getStatus, type} : Props) : React.ReactNode => 
         if(type === "card"){
             return true;   
         }
-        return isActive;
+        if(type === "task"){
+            return isActive;
+        }
+        const searchedDepartment = departements.filter( ( item: Department ) => item.name === name);
+        return searchedDepartment[0].active; 
+        // return isActive;
     }
 
     return(

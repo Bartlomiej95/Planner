@@ -6,7 +6,7 @@ export const createProject = (projectData, history) => async(dispatch) => {
         const { data } = await api.createProject(projectData)
         
         dispatch({ type: 'CREATE_PROJECT', payload: data})
-        history.push('homepage/user');
+        history.push('/homepage/user');
     } catch(error){
         dispatch({ type: 'ERROR_CREATE_NEW_PROJECT', payload: error.response.data})
     }
@@ -15,9 +15,7 @@ export const createProject = (projectData, history) => async(dispatch) => {
 export const fetchAllProjects = () => async (dispatch) => {
     try {
         const { data } = await api.fetchAllProjects();
-        console.log(data);
         const projects = data.projects;
-        console.log(projects);
 
         dispatch({ type: "FETCH_ALL_PROJECTS", payload: projects}); 
     } catch (error) {
@@ -48,3 +46,21 @@ export const getDetailsProject = (name) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const editProject = (data, name, id, history) => async (dispatch) => {
+    try { 
+        const { editProject } = await api.editProject(name, data, id);
+        dispatch({ type: 'EDIT_PROJECT', payload: { data, id} });
+        history.push('/homepage/user');
+    } catch (error) {
+        dispatch({ type: 'ERROR_EDIT_PROJECT', payload: error.response.data});
+    }
+}
+
+// export const editProject = (data, name, id, history) => {
+//     history.push('/homepage/user');
+//     return {
+//         type: 'EDIT_PROJECT',
+//         payload: { data, id }
+//     }
+// }

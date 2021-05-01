@@ -35,6 +35,7 @@ function App() {
                 <Route exact path="/homepage/project/create" component={CreateProject}/>
                 <Route exact path="/homepage/project/tasks" component={TasksToProject}/>
                 <Route exact path="/homepage/project/:name" component={DetailsProject}/>
+                <Route exact path="/homepage/project/edit/:name" component={CreateProject}/>
               </Switch>
             </Router>
           </UserContextProvider>
