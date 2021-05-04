@@ -184,6 +184,9 @@ const MainSection :React.FC = () => {
                                     deadline={item.deadline}
                                     content={item.content}
                                     departments={item.departments}
+                                    scopeOfWork={item.scopeOfWork}
+                                    assumptions={item.assumptions}
+                                    customerInfo={item.customerInfo}
                                     />
                             ))
                         }

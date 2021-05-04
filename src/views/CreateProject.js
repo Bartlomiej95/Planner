@@ -17,7 +17,7 @@ import ErrorMessage from '../molecules/ErrorMessage/ErrorMessage';
 
 const CreateProjectFormDiv = styled.div`
     max-width: 275px;
-    margin: 0 auto;
+    margin: 50px auto 0 auto;
 `;
 
 const Form = styled.form`
@@ -38,6 +38,19 @@ const CreateBtn = styled(LoginButton)`
     margin-bottom: 40px;
 `;
 
+const CustomerTextArea = styled(TextArea)`
+    min-height: 100px;
+    width: 300px;
+    border-radius: 20px;
+    padding: 10px 10px 10px 15px;
+    margin: 10px auto;
+
+    ::placeholder{
+        padding-left: 25px;
+        color: rgb(55, 47, 255, 0.5);
+    }
+`;
+
 const initialProjectData = {
     name: '',
     customer: '',
@@ -45,6 +58,9 @@ const initialProjectData = {
     hours: '',
     projectValue: '',
     content: '',
+    assumptions: '',
+    scopeOfWork: '',
+    customerInfo: '',
 }
 
 const CreateProject = (props) => {
@@ -65,8 +81,8 @@ const CreateProject = (props) => {
     const fetchDepartments = useSelector(state => state.departments);
     const errorMessage = useSelector(state => state.errors.message);
     const history = useHistory();
-    const { isEdited, name, customer, hours, projectValue, deadline, content, projectUsers, departments, id } = props.location.state;
-    console.log(content);
+    const { isEdited, name, customer, hours, projectValue, deadline, content, projectUsers, departments, id, scopeOfWork, assumptions, customerInfo } = props.location.state;
+
     useEffect(() => {
         dispatch(fetchAllUsers());
         setUsers(fetchUsers);
@@ -88,6 +104,9 @@ const CreateProject = (props) => {
                 content: content, 
                 projectUsers: projectUsers,
                 departments: departments,
+                scopeOfWork: scopeOfWork,
+                assumptions: assumptions,
+                customerInfo: customerInfo,
             })
             return
        }
@@ -211,9 +230,15 @@ const CreateProject = (props) => {
                 <Form id="project-form" onSubmit={(e) => handleSubmit(e)}>
                     <Input placeholder="Nazwa projektu" type="string" name="name" onChange={ (e) => handleChange(e) } value={projectData.name} />
                     <Input placeholder="Klient" type="string" name="customer" onChange={ (e) => handleChange(e)} value={projectData.customer} />
+                    <CustomerTextArea placeholder="Krótki opis klienta" name="customerInfo" onChange={(e) => handleChange(e)} value={projectData.customerInfo} />
                     <Input placeholder="Termin oddania projektu" type="date" name="deadline" onChange={ (e) => handleChange(e) } value={projectData.deadline} />
                     <Input placeholder="Ilość godzin na projekt" type="number" name="hours" onChange={ (e) => handleChange(e) } value={projectData.hours} />
                     <Input placeholder="Wartość projektu w PLN" type="number" name="projectValue" onChange={ (e) => handleChange(e) } value={projectData.projectValue} />
+                
+                    <SubHeading>Opisz założenia projektowe</SubHeading>
+                    <TextArea placeholder="Treść wiadomości" name="assumptions" onChange={(e) => handleChange(e)} value={projectData.assumptions} />
+                    <SubHeading>Opisz zakres pracy <br /> w ramach projektu</SubHeading>
+                    <TextArea placeholder="Treść wiadomości" name="scopeOfWork" onChange={(e) => handleChange(e)} value={projectData.scopeOfWork} />
                 </Form>
             </CreateProjectFormDiv>
             {/* changeStatus - funkcja sprawdzająca czy został kliknięty jakikolwiek Label - efektem jest zmiana statusu boolean na przeciwny, co powoduje przerenderowanie komponentu

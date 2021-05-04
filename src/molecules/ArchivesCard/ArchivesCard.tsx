@@ -57,9 +57,12 @@ interface Props {
     deadline: Date,
     content: String,
     departments: Array<String>,
+    scopeOfWork: String, 
+    assumptions: String,
+    customerInfo: String,
 }
 
-const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, hours, projectValue, departments, deadline, content } : Props) => {
+const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, hours, projectValue, departments, deadline, content, assumptions, scopeOfWork, customerInfo } : Props) => {
     
     const history = useHistory();
     const dispatch = useDispatch();
@@ -72,9 +75,6 @@ const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, ho
             state: {
                 id,
                 name,
-                customer,
-                hours,
-                projectValue,
             }
         })
     }
@@ -103,6 +103,9 @@ const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, ho
                                 deadline,
                                 id,
                                 content,
+                                assumptions,
+                                scopeOfWork,
+                                customerInfo
                             }
                         })}>Edytuj</LinkInCard>
                         <LinkInCard onClick={() => history.push({

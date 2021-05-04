@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Footer from '../organisms/Footer';
-import AsideSection from '../organisms/AsideSection';
 import Header from '../organisms/Header';
 import PersonToProject from '../molecules/PersonToProject/PersonToProject';
 import LabelSection from '../organisms/LabelSection';
@@ -186,7 +185,6 @@ const TasksToProject = (props) => {
     return(
         <>
             <Header/>
-            <AsideSection />
             <Heading> {name} </Heading>
             <AssignmentSection>
                 <SubHeading>Przydziel zadania do projektu</SubHeading>
