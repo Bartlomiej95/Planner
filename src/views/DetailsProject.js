@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AsideSection from '../organisms/AsideSection';
 import Footer from '../organisms/Footer';
@@ -6,9 +7,12 @@ import ProfabilityProjectSection from '../organisms/ProfitabilityProjectSection'
 import timeIcon from '../assets/timeProject.svg';
 import { Heading, SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDetailsProject } from '../actions/projects';
+import LoadingWrapper from '../molecules/LoadingWrapper/LoadingWrapper';
 
 const Wrapper = styled.div`
-    margin: 0 36px;
+    margin: 100px 36px 0 36px;
 `;
 
 const DetailsSubHeading = styled(SubHeading)`
@@ -62,22 +66,33 @@ const SubtitleParagraph = styled(Paragraph)`
 
 const DetailsProject = (props) => {
 
-    const { name, id, customer, projectValue, hours } = props.location.state;
+    const { name } = props.location.state;
+    const detailsProject = useSelector(state => state.projects.detailsProject);
+    const dispatch = useDispatch();
+    console.log(detailsProject);
+
+    useEffect(() => {
+        dispatch(getDetailsProject(name));
+    }, []);
+
+    if(detailsProject === null || detailsProject === undefined || Object.keys(detailsProject).length === 0 ){
+        return(
+            <LoadingWrapper/>
+        )
+    }
 
     return(
         <>
         <Header/>
         <Wrapper>
-            <AsideSection />
-            <Heading>{name}</Heading>
+            <Heading>{detailsProject.name}</Heading>
             <DetailsSubHeading>Specyfikacja projektowa</DetailsSubHeading>
-            <DetailsParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas.
-                Nam sed sapien sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas.
-                Nam sed sapien sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas. 
-                Nam sed sapien sapien.
+            <DetailsParagraph>
+                {detailsProject.assumptions} <br/>
+                {detailsProject.content}
             </DetailsParagraph>
-            <DetailsSubHeading>{customer}</DetailsSubHeading>
-            <DetailsParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas. Nam sed sapien sapien.</DetailsParagraph>
+            <DetailsSubHeading>{detailsProject.customer}</DetailsSubHeading>
+            <DetailsParagraph>{detailsProject.customerInfo}</DetailsParagraph>
             <TimeProjectHeading>Czas pracy nad projektem</TimeProjectHeading>
             <TimeProjectWrapper>
                 <LeftSide/>
@@ -86,13 +101,13 @@ const DetailsProject = (props) => {
                     <SubtitleParagraph>W realizacji</SubtitleParagraph>
                 </MiddleSide>
                 <RightSide>
-                    {hours}H
+                    {detailsProject.hours}H
                 </RightSide>
             </TimeProjectWrapper>
             <DetailsSubHeading>Zakres pracy <br/> w ramach projektu</DetailsSubHeading>
-            <DetailsParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vulputate est eget eros dignissim egestas. Nam sed sapien sapien.</DetailsParagraph>
+            <DetailsParagraph>{detailsProject.scopeOfWork}</DetailsParagraph>
             <DetailsSubHeading>Rentowność projektu</DetailsSubHeading>
-            <ProfabilityProjectSection projectValue={projectValue}/>
+            <ProfabilityProjectSection projectValue={detailsProject.projectValue}/>
         </Wrapper>
         <Footer/>
         </>
