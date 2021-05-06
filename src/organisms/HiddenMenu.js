@@ -9,6 +9,7 @@ const Wrapper = styled.div`
     justify-content: space-around;
     position: sticky;
     flex-direction: column;
+    z-index: 100;
 
     width: 100vw;
     height: 100vh;

@@ -34,10 +34,33 @@ const LogoutSection = () => {
         history.push('/');
     }
 
+    const setFarewell = () => {
+        //funkcja ma zwracać napis pożegnalny w zależności od pory dnia 
+        const data = new Date();
+        const hours = data.getHours();
+        // 22 - 5:59 - Dobrej nocy !
+        // 6 - 12:59 - Miłego dnia !
+        // 13 - 17:59 - Miłego popołudnia !
+        // 18 - 21:59 - Miłego wieczoru !
+
+        if( hours >= 6 && hours < 13){
+            return 'Miłego dnia !';
+        } else if( hours >= 13 && hours < 18){
+            return 'Miłego popołudnia !';
+        } else if( hours >= 18 && hours < 22 ) {
+            return 'Miłego wieczoru !'; 
+        } else if( ( hours >= 22 && hours <= 24 ) || ( hours >= 0 && hours < 6 ) ){
+            return 'Dobrej nocy ! Lepiej idź już spać';
+        } else if( hours < 0 || hours > 24 ){
+            return 'Hmm... zaginasz czasoprzestrzeń';
+        }
+        console.log(hours);
+    }
+
     return(
         <Wrapper>
             <Img src={logoutIcon} alt="ikonka zatwierdzające udane wylogowanie" />
-            <SubHeading>Miłego popołudnia</SubHeading>
+            <SubHeading>{setFarewell()}</SubHeading>
             <SubSubHeading>Zostałeś pomyślnie wylogowany z konta.</SubSubHeading>
             <BackSpan onClick={() => handleClick()}>Wróc do strony głównej</BackSpan>
         </Wrapper>

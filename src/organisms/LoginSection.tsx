@@ -89,11 +89,12 @@ const LoginSection = () => {
             [target.name]: target.value, 
         })
     }
-
+    
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-
+        
         try {
+            console.log(loginData);
             dispatch(loginUser(loginData, history))
 
         } catch (error) {
@@ -130,7 +131,7 @@ const LoginSection = () => {
                 <Input name="password" type="password" placeholder="Podaj hasło" onChange={ (e) => handleChange(e) } />
                 <LoginButton onSubmit={(e) => handleSubmit(e)}>Zaloguj się</LoginButton>
             </form>
-
+                
             {
                 loginById && (
                 <>
