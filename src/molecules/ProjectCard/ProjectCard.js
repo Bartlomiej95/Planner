@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import Label from '../../molecules/Label/Label';
 import { SubSubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchAllTask } from '../../actions/tasks';
 
 const Wrapper = styled.div`
     position: relative;
@@ -66,8 +69,61 @@ const LabelCard = styled.p`
     font-weight: 700;
 `;
 
-const ProjectCard = ({ titleProject, description, departments }) => {
+const ProjectCard = ({ titleProject, description, departments, projectId, projectTasks }) => {
+    
+    // const percentProjectCompletion = ((amountFinsishedTasksInProject * 100)/(projectTasks.length)).toFixed(2);
+    
+    const getWeightOfTask = (task) => {
+        // przypisujemy wagę zadania na podstawie czasu jego trwania
+        // funkcja przyjmuje obiekt jednego zadania i przypisuje mu wagę potrzebną do obliczenia procentowego ukończenia projektu
+        if(task.time <= 30){
+            return 0.5;
+        } else if(task.time > 30 && task.time <= 60) {
+            return 0.75;
+        } else if(task.time > 60 && task.time <= 120) {
+            return 1;
+        } else if( task.time > 120 && task.time <= 240 ) {
+            return 1.5;
+        } else if( task.time > 240 && task.time <= 480 ) {
+            return 2;
+        } else if( task.time > 480 ){
+            return 3;
+        }
+    }
 
+    const countPercent = (tasks) => {
+        //funkcja przyjmuje tablicę zadań, a ma zwracać obiekt wyników wag zadań zrobionych, oraz sume wszystkich wag 
+        let getPoints = null; // jeśli zadanie jest skończone to dodaj jego wagę
+        let allPoints = null; // suma wag wszystkich zadań
+
+        for(let i = 0; i < tasks.length; i++){
+            allPoints = allPoints + tasks[i].weight;
+        }
+
+        tasks.forEach(task =>{
+
+            if(task.isFinish){
+                getPoints = getPoints + task.weight;
+            }
+        });
+        
+        return {getPoints, allPoints}
+    }
+    
+    const countPercentProjectCompletion = (tasks) => {
+        //funkcja obliczająca procent ukończenia projektu na podstawie ukończonych zadań
+        // przyjmuje tablicę zadań, a zwraca procent ukończenia projektu
+        
+        tasks.forEach(task=> {
+            const weight = getWeightOfTask(task);
+            task.weight = weight;
+        });
+
+        const result = countPercent(tasks);
+
+        return (`${(result.getPoints * 100 / result.allPoints).toFixed(1)}%`);
+
+    }
 
     return(
         <Wrapper>
@@ -75,7 +131,7 @@ const ProjectCard = ({ titleProject, description, departments }) => {
             <ProjectCardParagraph>{description}</ProjectCardParagraph>
             <WrapperProjectCompletePercent>
                 <Diagram>
-                    <DiagramPercent>27%</DiagramPercent>
+                    <DiagramPercent>{countPercentProjectCompletion(projectTasks)}</DiagramPercent>
                 </Diagram>
                 <Paragraph>Stopień ukończenia projektu</Paragraph>
             </WrapperProjectCompletePercent>

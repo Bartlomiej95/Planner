@@ -59,3 +59,19 @@ export const stopTheTask = (id, time) => {
         console.log(error);
     }
 }
+
+export const fetchAllTask = () => async(dispatch) => {
+    try {
+        const { data } = await api.fetchData();
+        const tasks = data.tasks;
+        return {
+            type: 'FETCH_ALL_TASKS',
+            payload: {
+                tasks,
+            }
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}

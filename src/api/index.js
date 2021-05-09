@@ -24,4 +24,5 @@ export const getDetailsProject = (name) => axios.get(`${domain}/homepage/project
 export const createNewTask = (taskData) => axios.post(urlNewTask, taskData);
 export const editRate = (id, value) => axios.put(urlHomepageUser, { id, value });
 export const editProject = (name, data, id) => axios.put(`${domain}/homepage/project/edit/${name}`, {data, id});
+export const addTaskToProject = (idProject, task) => axios.put(`${domain}/homepage/project/tasks`, { idProject, task });
 

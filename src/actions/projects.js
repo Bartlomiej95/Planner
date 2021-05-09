@@ -57,6 +57,20 @@ export const editProject = (data, name, id, history) => async (dispatch) => {
     }
 }
 
+
+export const addTaskToProject = (idProject, task) => async (dispatch) => {
+    try {
+        await api.addTaskToProject(idProject, task);
+
+        dispatch({
+            type: 'ADD_TASK_TO_PROJECT',
+            payload: { idProject, task }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // export const editProject = (data, name, id, history) => {
 //     history.push('/homepage/user');
 //     return {

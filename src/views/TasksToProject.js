@@ -14,6 +14,7 @@ import { LoginButton } from '../components/Button/Button';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import { Input } from '../components/Input/Input';
 import { createNewTask, getEmpty } from '../actions/tasks';
+import { addTaskToProject } from '../api';
 
 
 const AssignmentSection = styled.section`
@@ -172,6 +173,7 @@ const TasksToProject = (props) => {
         try { 
             e.preventDefault();
             dispatch(createNewTask(taskData, history));
+            dispatch(addTaskToProject(id, taskData));
             console.log(taskData);
         } catch (error) {
             console.log(error); 

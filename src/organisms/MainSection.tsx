@@ -81,6 +81,17 @@ interface RootState {
     };   
 }
 
+interface TasksState {
+    tasks: {
+        tasks: Array<Task>,
+    }
+}
+
+interface Task {
+    projectId: string | number,
+    brief: string,
+}
+
 const MainSection :React.FC = () => {
 
     const { user, getUser } = useContext(UserContext);
@@ -88,6 +99,7 @@ const MainSection :React.FC = () => {
     const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project);
     const [counterClickLoadMore, setCounterClickLoadMore] = useState(0);
     const projects = useSelector( (state: RootState) => state.projects.projects);
+    const tasks: Array<Task> = useSelector( ( state: TasksState)=> state.tasks.tasks);
     const history = useHistory();
 
     const dispatch = useDispatch();
@@ -103,7 +115,7 @@ const MainSection :React.FC = () => {
     useEffect(() => {
         if(typeOfMainSection === MainSectionType.ProjectManager ){
             dispatch(fetchAllProjects())
-        } if( typeOfMainSection === MainSectionType.Project){
+        } if(typeOfMainSection === MainSectionType.Project){
             dispatch(fetchData())
         }
     }, [typeOfMainSection])
@@ -140,7 +152,14 @@ const MainSection :React.FC = () => {
                 typeOfMainSection === MainSectionType.Project && ( 
                     <WrapperProjectCard>
                     {   projects.map( (project: any) =>   
-                            <ProjectCard  titleProject={project.name} description={project.content} departments={project.departments} />
+                            <ProjectCard  
+                                titleProject={project.name} 
+                                description={project.content} 
+                                departments={project.departments} 
+                                projectId={project._id}
+                                projectTasks={tasks.filter(task => task.projectId === project._id )}
+                            />
+                            
                         )
                     }
                     </WrapperProjectCard>
