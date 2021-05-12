@@ -55,6 +55,29 @@ export default (state = initialState, action) => {
                         return task;
                     })
                 } 
+            case 'CLOSE_TASK':
+                return {
+                    ...state,
+                    tasks: [...state.tasks].map(task => {
+                        if(task._id === action.payload.id){
+                            task.isFinish = action.payload.isFinish;
+                            return task;
+                        }
+                        return task;
+                    })
+                }
+            case 'UPDATE_TASK':
+                return {
+                    ...state,
+                    tasks: [...state.tasks].map(task => {
+                        if(task._id === action.payload.id){
+                            task.taskTime = action.payload.addedTime + action.payload.taskTime;
+                            task.isFinish = action.payload.isFinish;
+                            return task;
+                        }
+                        return task;
+                    })
+                }
         default:
             return initialState;
     }

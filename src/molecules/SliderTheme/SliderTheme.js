@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { startTheTask, stopTheTask } from '../../actions/tasks';
+import { startTheTask, stopTheTask, updateTask } from '../../actions/tasks';
 import sunIcon from '../../assets/sunIcon.svg';
 import moonlightIcon from '../../assets/moonlightIcon.svg';
 import { ThemeContext } from '../../context/theme';
@@ -83,7 +83,7 @@ export const SliderTheme = () => {
     )
 }
 
-export const SliderTask = ({activeTask, activeHandle, idTask, ...props }) => {
+export const SliderTask = ({activeTask, activeHandle, idTask, taskTime, isFinish, ...props }) => {
 
     // w zmiennej activeTask przekazujemy wartość boolean, która wskazuje czy dane zadanie jest akutalnie kliknięte przez użytkownika jako to, którym aktualnie użytkownik chce się zająć
     const [ startDate, setStartDate ] = useState(0);
@@ -102,8 +102,9 @@ export const SliderTask = ({activeTask, activeHandle, idTask, ...props }) => {
         } else {
             endDate = new Date().getTime();         
             const timeActiveTask = Math.abs( endDate - startDate ); 
-            const timeTaskInMinutes = (timeActiveTask / (1000 * 60)).toFixed(2); 
+            const timeTaskInMinutes = Number((timeActiveTask / (1000 * 60)).toFixed(2)); 
             dispatch(stopTheTask(idTask, timeTaskInMinutes));
+            dispatch(updateTask(idTask, isFinish, taskTime, timeTaskInMinutes));
         }
     }
 

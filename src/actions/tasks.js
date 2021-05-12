@@ -75,3 +75,30 @@ export const fetchAllTask = () => async(dispatch) => {
         console.log(error);
     }
 }
+
+export const closeTask = (idTask, isFinish) => {
+    try {
+        return {
+            type: 'CLOSE_TASK',
+            payload: { id: idTask, isFinish}
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateTask = (idTask, isFinish, taskTime, addedTime = 0) => async(dispatch) => {
+    try {
+        // taskTime - dotychczasowy czas
+        // addedTime - czas który chcemy dodac
+        const { data } = await api.updateTask(idTask, isFinish, taskTime, addedTime);
+ 
+        dispatch({
+            type: 'UPDATE_TASK',
+            payload: { id: idTask, isFinish, taskTime, addedTime }
+        })
+
+    } catch (error) {
+        console.log(error);
+    }
+}

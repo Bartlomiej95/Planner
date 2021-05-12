@@ -34,6 +34,7 @@ const TaskSection  = () => {
                         time={item.time}
                         id={item._id}
                         taskTime={item.taskTime}
+                        isFinish={item.isFinish}
                     />
                 ))
             }

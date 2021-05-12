@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { fetchAllTask, updateTask } from '../../actions/tasks';
 import { SubSubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
 import { ThemeContext, ThemeType } from '../../context/theme';
 import { SliderTask } from '../SliderTheme/SliderTheme';
 
-const Wrapper = styled.div<{ readonly typeTheme: string }>`
+const Wrapper = styled.div<{ readonly typeTheme: string; readonly isFinish: boolean }>`
     width: 315px;
     min-height: 100px;
     padding: 15px 20px;
@@ -36,6 +38,15 @@ const MiddlePart = styled.div`
     align-items: center;
 `;
 
+const CloseTaskParagraph = styled(Paragraph)<{ onClick: any }>`
+    cursor: pointer;
+    font-weight: 500;
+
+    :hover{
+        color: #0903B0;
+    }
+`;
+
 const WrapperLoadingBar = styled.div`
     width: 275px;
     height: 2px;
@@ -64,6 +75,7 @@ interface Props {
     time: number;
     id: Number;
     taskTime: number;
+    isFinish: boolean;
 }
 
 const initialTimeObject = {
@@ -72,14 +84,16 @@ const initialTimeObject = {
     seconds: '00',
 }
 
-const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime }) => {
+const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime, isFinish }) => {
     // time - czas całego zadania [min]
     // taskTime - aktualny czas wykonywanego zadania 
     const [activeTask, setActiveTask] = useState(false);
     const [ currentlyTaskTime, setCurrentlyTaskTime ] = useState(initialTimeObject);
     const [ timeForAllTask, setTimeForAllTask ] = useState(initialTimeObject);
+    const [ update, setUpdate ] = useState(false); //zmienna ma rejestrować zmianę, która jest wysyłana do bazy danych
     const [ percentCompleteOfTheTask, setPercentCompleteOfTheTask ] = useState(0);
     const { typeTheme, ThemeType } = useContext(ThemeContext);
+    const dispatch = useDispatch();
     
     useEffect(() => {
         setCurrentlyTaskTime(setTaskTime(taskTime));
@@ -91,6 +105,9 @@ const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime }) => {
     }, []);
 
     const handleClick = (): void => {
+        if(isFinish){
+            return;
+        }
         setActiveTask(!activeTask);
     }
 
@@ -119,21 +136,30 @@ const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime }) => {
         return percent;
     }
 
+    const handleUpdateTask = (e: React.SyntheticEvent): void => {
+        isFinish = !isFinish;
+        setUpdate(!update);
+        dispatch(updateTask(id, isFinish, taskTime));
+        
+    }
+
     return(
-        <Wrapper typeTheme={typeTheme}>
+        <Wrapper typeTheme={typeTheme} isFinish={isFinish}>
             <HeaderTaskCard>
-                <SubSubHeading onClick={() => console.log('click')} >{division}</SubSubHeading>
-                <SliderTask onClick={() => console.log('klik')} activeHandle={() => handleClick()} activeTask={activeTask} idTask={id} />
+                <SubSubHeading >{division}</SubSubHeading>
+                <SliderTask activeTask={activeTask} idTask={id} taskTime={taskTime} isFinish={isFinish} activeHandle={() => handleClick()} />
             </HeaderTaskCard>
             <MiddlePart> 
                 <Paragraph>{title}</Paragraph>
-                <Paragraph>Zakończ</Paragraph>
+                <CloseTaskParagraph onClick={(e: React.SyntheticEvent) => handleUpdateTask(e)}>
+                    { isFinish === true ? 'Przywróć' : 'Zakończ' }
+                </CloseTaskParagraph>
             </MiddlePart>
             <WrapperLoadingBar>
                 <LoadingBar percent={`${percentCompleteOfTheTask}%`}/>
             </WrapperLoadingBar>
             <WrapperTimeTask>
-                <Paragraph>{ `${currentlyTaskTime.hours}:${currentlyTaskTime.minutes}:${currentlyTaskTime.seconds} `  }</Paragraph>
+                <Paragraph>{ `${currentlyTaskTime.hours}:${currentlyTaskTime.minutes}:${currentlyTaskTime.seconds} `}</Paragraph>
                 <Paragraph>{`${timeForAllTask.hours}:${timeForAllTask.minutes}:${timeForAllTask.seconds} `}</Paragraph>
             </WrapperTimeTask>
         </Wrapper>

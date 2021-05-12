@@ -22,7 +22,8 @@ export const fetchAllDepartments = () => axios.get(urlCreateProjects);
 export const addActiveDepartment = () => axios.post(urlCreateProjects);
 export const getDetailsProject = (name) => axios.get(`${domain}/homepage/project/${name}`);
 export const createNewTask = (taskData) => axios.post(urlNewTask, taskData);
-export const editRate = (id, value) => axios.put(urlHomepageUser, { id, value });
+export const editRate = (id, value, type) => axios.put(urlHomepageUser, { id, value, type });
 export const editProject = (name, data, id) => axios.put(`${domain}/homepage/project/edit/${name}`, {data, id});
 export const addTaskToProject = (idProject, task) => axios.put(`${domain}/homepage/project/tasks`, { idProject, task });
+export const updateTask = (id, isFinish, time, addedTime) => axios.put(urlHomepageUser, {id, isFinish, time, addedTime}); 
 
