@@ -54,9 +54,9 @@ const WrapperLoadingBar = styled.div`
     margin: 12px 0 5px 0;
 `;
 
-const LoadingBar = styled.div<{ readonly percent: string}>`
+const LoadingBar = styled.div<{ readonly percent: string, readonly activeTask: boolean}>`
     height: 2px;
-    background-color: green;
+    background-color: ${({ activeTask }) => activeTask ? 'green' : '#707070' };
     position: relative;
     width: ${props => props.percent};
 `;
@@ -156,7 +156,7 @@ const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime, isFini
                 </CloseTaskParagraph>
             </MiddlePart>
             <WrapperLoadingBar>
-                <LoadingBar percent={`${percentCompleteOfTheTask}%`}/>
+                <LoadingBar activeTask={activeTask} percent={`${percentCompleteOfTheTask}%`}/>
             </WrapperLoadingBar>
             <WrapperTimeTask>
                 <Paragraph>{ `${currentlyTaskTime.hours}:${currentlyTaskTime.minutes}:${currentlyTaskTime.seconds} `}</Paragraph>

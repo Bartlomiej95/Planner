@@ -9,24 +9,39 @@ const TaskInput = styled(Input)`
     margin-bottom: 30px;
 `;
 
-
 const TaskSection  = () => {
 
     const tasks = useSelector(state => state.tasks.tasks)
     const { user, getUser } = useContext(UserContext);
+    const [ searchTask, setSearchTask ] = useState('');
 
     useEffect(() => {
         <TaskSection />
-    }, [tasks])
+    }, [tasks]);
 
     //wydzielamy zadania dla zalogowanego aktualnie użytkownika - tylko takie chcemy wyświetlać
     const tasksForUser = tasks.filter(item => item.taskUsers.includes(user[0]._id));
 
+    const handleChange = (e) => {
+        e.preventDefault();
+        setSearchTask(e.target.value);
+    }
+    let filterTaskFromInput = [...tasksForUser];
+
+    if(searchTask !== ''){
+        const inputSearchValue = searchTask.toString().toLowerCase(); // wartosc wyszukiwana przez użytkownika
+        filterTaskFromInput = tasksForUser.filter(item => 
+            item.title.toLowerCase().includes(inputSearchValue) || item.categoryTask[0].toString().toLowerCase().includes(inputSearchValue)
+        );
+        
+    };
+
     return(
         <>
-            <TaskInput />
+            <TaskInput placeholder="Wpisz nazwę zadania" value={searchTask} onChange={(e) => handleChange(e) } />
             {
-                tasksForUser.map( item=> (
+
+                filterTaskFromInput.map( item=> (
                     <TaskCard
                         key={item._id} 
                         division={item.categoryTask}
