@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { addActiveDepartment } from '../../actions/departments.js';
-import { selectTypeOfTask } from '../../actions/tasks.js';
+import { addActiveDepartment } from '../../store/Departments/actions';
+import { selectTypeOfTask } from '../../store/Tasks/actions';
+import DefaultRootState from '../../interfaces/DefaultRootState/DefaultRootState.js';
+import Departments from '../../interfaces/Departments/Departments.js';
 
-const Wrapper = styled.div<{ readonly isClick: any; departmentName: String}>`
+const Wrapper = styled.div<{ readonly isClick: any; departmentName: string | undefined}>`
     height: 24px;
     background-color: #D1D1D1;
     padding: 7px 14px;
@@ -27,26 +29,18 @@ const LabelName = styled.p`
 `;
 
 interface Props {
-    division: String;
-    name: String;
-    getStatus: Function,
-    type: String,
+    division: string;
+    name: string;
+    getStatus: () => void,
+    type?: string,
+    status?: boolean,
 }
 
-interface RootState {
-    departments: Array<Department>,
-}
-
-interface Department {
-    name: String, 
-    active: Boolean,
-}
-
-const Label = ({ division, name, getStatus, type} : Props) : React.ReactNode => {
+const Label = ({ division, name, getStatus, type} : Props) => {
 
     const [isActive, setIsActive] = useState(false);
     const dispatch = useDispatch()
-    const departements = useSelector( (state: RootState) => state.departments );
+    const departements = useSelector( (state: DefaultRootState) => state.departments );
 
     const getActiveStatus = () =>{
         // jeśli mamy etykietę z widoku projektu, a nie etykietę wyboru z formularza
@@ -73,7 +67,7 @@ const Label = ({ division, name, getStatus, type} : Props) : React.ReactNode => 
         if(type === "task"){
             return isActive;
         }
-        const searchedDepartment = departements.filter( ( item: Department ) => item.name === name);
+        const searchedDepartment = departements.filter( ( item: Departments ) => item.name === name);
         return searchedDepartment[0].active; 
         // return isActive;
     }

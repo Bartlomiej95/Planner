@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { fetchAllTask, updateTask } from '../../actions/tasks';
+import { updateTask } from '../../store/Tasks/actions';
 import { SubSubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
 import { ThemeContext, ThemeType } from '../../context/theme';
@@ -70,10 +70,10 @@ const WrapperTimeTask = styled.div`
 `;
 
 interface Props {
-    division: String;
-    title: String;
+    division: Array<string>;
+    title: string;
     time: number;
-    id: Number;
+    id: string;
     taskTime: number;
     isFinish: boolean;
 }
@@ -84,7 +84,7 @@ const initialTimeObject = {
     seconds: '00',
 }
 
-const TaskCard: React.FC<Props> = ({ division, title, time, id, taskTime, isFinish }) => {
+const TaskCard = ({ division, title, time, id, taskTime, isFinish } :Props) => {
     // time - czas całego zadania [min]
     // taskTime - aktualny czas wykonywanego zadania 
     const [activeTask, setActiveTask] = useState(false);

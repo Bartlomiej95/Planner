@@ -4,17 +4,17 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ProjectCard from '../molecules/ProjectCard/ProjectCard';
 import ArchivesCard from '../molecules/ArchivesCard/ArchivesCard';
-import TasksSection from './TasksSection.js';
+import TasksSection from './TasksSection';
 import InnerUserNavbar from '../molecules/InnerUserNavbar/InnerUserNavbar';
 import UserContext from '../context/UserContext';
+import RatesSection from './RatesSection';
+import DefaultRootState from '../interfaces/DefaultRootState/DefaultRootState';
 import { SubHeading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
-import { fetchAllProjects, fetchData } from '../actions/projects';
+import { fetchAllProjects, fetchData } from '../store/Projects/actions';
 import { LoginButton, IdLoginButton } from '../components/Button/Button';
-import RatesSection from './RatesSection';
 import { ThemeContext, ThemeType } from '../context/theme';
-import { fetchAllDepartments } from '../actions/departments';
-import LoadingWrapper from '../molecules/LoadingWrapper/LoadingWrapper';
+import { fetchAllDepartments } from '../store/Departments/actions';
 
 const Wrapper = styled.main<{ readonly typeTheme: any}>`
     min-height: 100vh;
@@ -72,34 +72,14 @@ enum MainSectionType {
     Data = 'data',
 }
 
-interface RootState {
-    projects: {
-        name: String,
-        map: Function,
-        slice: Function,
-        projects: any,
-    };   
-}
-
-interface TasksState {
-    tasks: {
-        tasks: Array<Task>,
-    }
-}
-
-interface Task {
-    projectId: string | number,
-    brief: string,
-}
-
 const MainSection :React.FC = () => {
 
     const { user, getUser } = useContext(UserContext);
     const { typeTheme, ThemeType } = useContext(ThemeContext);
     const [typeOfMainSection, setTypeOfMainSection] = useState(MainSectionType.Project);
     const [counterClickLoadMore, setCounterClickLoadMore] = useState(0);
-    const projects = useSelector( (state: RootState) => state.projects.projects);
-    const tasks: Array<Task> = useSelector( ( state: TasksState)=> state.tasks.tasks);
+    const projects = useSelector( (state: DefaultRootState) => state.projects.projects);
+    const tasks = useSelector(( state: DefaultRootState)=> state.tasks.tasks);
     const history = useHistory();
 
     const dispatch = useDispatch();

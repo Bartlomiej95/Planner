@@ -4,7 +4,7 @@ import arrayBackIcon from '../../assets/arrayBack.svg';
 import { SubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
 import { useDispatch } from 'react-redux';
-import { getDetailsProject } from '../../actions/projects';
+import { getDetailsProject } from '../../store/Projects/actions';
 import { useContext } from 'react';
 import { ThemeContext, ThemeType } from '../../context/theme';
 
@@ -47,19 +47,19 @@ const LinkInCard = styled(Paragraph)`
 
 interface Props {
     admin: boolean,
-    name: String,
-    description: String,
-    id: Number ,
-    projectUsers: Array<Number>,
-    customer: String,
-    hours: Number, 
-    projectValue: Number,
+    name: string,
+    description: string,
+    id: string ,
+    projectUsers: Array<number>,
+    customer: string,
+    hours: number | string, 
+    projectValue: number | string,
     deadline: Date,
-    content: String,
+    content: string,
     departments: Array<String>,
-    scopeOfWork: String, 
-    assumptions: String,
-    customerInfo: String,
+    scopeOfWork: string, 
+    assumptions: string,
+    customerInfo: string,
 }
 
 const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, hours, projectValue, departments, deadline, content, assumptions, scopeOfWork, customerInfo } : Props) => {

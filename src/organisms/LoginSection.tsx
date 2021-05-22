@@ -7,8 +7,8 @@ import { Heading } from '../components/Heading/Heading';
 import { Paragraph } from '../components/Paragraph/Paragraph';
 import { Input } from '../components/Input/Input';
 import { LoginButton, IdLoginButton } from '../components/Button/Button';
-import { loginUser } from '../actions/auth';
-import { fetchAllUsers } from '../actions/users';
+import { loginUser, fetchAllUsers } from '../store/Users/actions';
+import { Users } from '../interfaces/Users/Users';
 
 
 const Wrapper = styled.section`
@@ -53,18 +53,28 @@ const IdLoginBtn = styled(IdLoginButton)`
 
 interface IRootState {
     errors: {
-        message: String,
+        message: string,
     }
+}
+
+const initialLoginData: LoginData = {
+    email: "",
+    user_id: null,
+    password: "",
+
+}
+
+interface LoginData {
+    email: Users['email'],
+    user_id: Users['user_id'],
+    password: Users['password'],
+
 }
 
 const LoginSection = () => {
 
     const [loginById, setLoginById] = useState<boolean>(true);
-    const [loginData, setLoginData] = useState({ 
-        email: "",
-        user_id: null,
-        password: "",
-    })
+    const [loginData, setLoginData] = useState<LoginData>(initialLoginData);
 
     const dispatch = useDispatch();
     const history = useHistory();

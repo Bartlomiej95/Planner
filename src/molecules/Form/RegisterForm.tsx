@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginButton } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
-import { createUser, fetchAllUsers } from '../../actions/users';
+import { createUser, fetchAllUsers } from '../../store/Users/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { RegisterUserData } from '../../interfaces/Users/Users';
 
 const Form = styled.form`
     display: flex;
@@ -24,13 +25,13 @@ const RegisterInput = styled(Input)`
 
 interface IRootState {
     errors: {
-        message: String,
+        message: string,
     }
 }
 
 const RegisterForm: React.FC = () => {
 
-    const [registerData, setRegisterData] = useState({ 
+    const [registerData, setRegisterData] = useState<RegisterUserData>({ 
         name: '',
         surname: '',
         email: '',

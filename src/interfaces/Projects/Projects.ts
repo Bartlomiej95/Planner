@@ -1,0 +1,17 @@
+export default interface Projects {
+    name: string,
+    customer: string,
+    deadline: string,
+    hours: number | string, 
+    projectValue: number | string,
+    content: string,
+    projectUsers: Array<string>,
+    departments: Array<string>,
+    assumptions: string,
+    scopeOfWork: string,
+    customerInfo: string,
+    projectTasks?: Array<string> | [],
+    id: string,
+    description: string,
+    _id?: string,
+}
