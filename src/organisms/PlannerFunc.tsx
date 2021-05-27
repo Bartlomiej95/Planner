@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Heading } from '../components/Heading/Heading';
 import FuncPlannerCard from '../molecules/FuncPlannerCard/FuncPlannerCard';
+import { Heading } from '../components/Heading/Heading';
+import { data } from '../data/index';
 
 const Wrapper = styled.section`
     width: 100vw;
@@ -16,10 +17,17 @@ const PlannerFunc = () => {
     return(
         <Wrapper>
             <PlannerFnHeading>Funkcje naszego planera</PlannerFnHeading>
+            { data.functions.map(item =>(
+                <FuncPlannerCard 
+                    key={item.id}
+                    id={item.id}
+                    content={item.content}
+                />
+            ) )}
+            {/* <FuncPlannerCard />
             <FuncPlannerCard />
             <FuncPlannerCard />
-            <FuncPlannerCard />
-            <FuncPlannerCard />
+            <FuncPlannerCard /> */}
         </Wrapper>
     )
 }
