@@ -6,6 +6,7 @@ import { Input } from '../../components/Input/Input';
 import { createUser, fetchAllUsers } from '../../store/Users/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { RegisterUserData } from '../../interfaces/Users/Users';
+import { useHistory } from 'react-router';
 
 const Form = styled.form`
     display: flex;
@@ -39,6 +40,7 @@ const RegisterForm: React.FC = () => {
         replayPassword: '',
         user_id: '',
     });
+    const history = useHistory();
 
 
    const error = useSelector((state: IRootState) => state.errors.message)
@@ -64,7 +66,7 @@ const RegisterForm: React.FC = () => {
         console.log(registerData);
 
         try {
-            dispatch(createUser(registerData))
+            dispatch(createUser(registerData, history))
             
         } catch (error) {
            console.log(error)

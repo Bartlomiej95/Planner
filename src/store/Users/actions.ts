@@ -26,11 +26,12 @@ export const fetchAllUsers = () => async (dispatch: Dispatch<ActionsUsers>) => {
     }
 }
 
-export const createUser = (user: RegisterUserData) => async (dispatch: Dispatch<ActionsUsers | ActionsErr>) => {
+export const createUser = (user: RegisterUserData, history: History) => async (dispatch: Dispatch<ActionsUsers | ActionsErr>) => {
     try {
         const { data } = await api.createUser(user);
         
-        dispatch({ type: UsersConst.CREATE_USER, payload: data})
+        dispatch({ type: UsersConst.CREATE_USER, payload: data});
+        history.push('/homepage/user');
     }
     catch (error){
         dispatch({ type: ErrorsConst.ERROR_REGISTER_USER, payload: error.response.data })
