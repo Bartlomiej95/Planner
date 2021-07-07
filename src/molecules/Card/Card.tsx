@@ -16,6 +16,12 @@ const WrapperBannerCard = styled.div<{ readonly activeId: number}>`
     flex-basis: 1;
 
     transform: translateX(calc( -345px * ${props => (props.activeId - 1)} ));
+
+    @media(min-width: 600px) {
+        width: 350px;
+        min-width: 350px;
+        transform: translateX(calc( -370px * ${props => (props.activeId - 1)}));
+    }
 `;
 
 const SubSubHeadingBannerCard = styled(SubSubHeading)`

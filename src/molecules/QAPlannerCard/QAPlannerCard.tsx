@@ -31,6 +31,10 @@ const Wrapper = styled.div<{ readonly active: boolean}>`
     :hover{
         cursor: pointer;
     }
+
+    @media(min-width: 600px){
+        width: 440px;
+    }
 `;
 
 const TitleCard = styled.div`

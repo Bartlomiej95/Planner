@@ -10,11 +10,19 @@ const Wrapper = styled.div`
     align-items: center;
     padding: 0 37px;
     margin: 30px auto;
+    
+    @media(min-width: 1360px){
+        width: 400px;
+    }
 `;
 
 const NumberParagraph = styled(LPParagraph)`
     margin-right: 26px;
     font-weight: 700;
+`;
+
+const SubHeadingFuncPlannerCard = styled(SubHeading)`
+    text-align: left;
 `;
 
 interface Props {
@@ -26,7 +34,7 @@ const FuncPlannerCard = ({ content, id }: Props) => {
     return(
         <Wrapper>
             <NumberParagraph>{id}</NumberParagraph>
-            <SubHeading>{content}</SubHeading>        
+            <SubHeadingFuncPlannerCard>{content}</SubHeadingFuncPlannerCard>        
         </Wrapper>
     )
 }

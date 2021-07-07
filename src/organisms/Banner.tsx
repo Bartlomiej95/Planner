@@ -36,6 +36,10 @@ const CardWrapper = styled.div<{ readonly activeId: number }>`
     overflow: hidden;
     margin: 0 auto;  
 
+    @media(min-width: 600px){
+        width: 370px;
+    }
+
 `;
 
 const SingleNav = styled.div<{ readonly isActive: boolean }>`

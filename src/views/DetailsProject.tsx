@@ -13,19 +13,34 @@ import Projects from '../interfaces/Projects/Projects';
 
 const Wrapper = styled.div`
     margin: 100px 36px 0 36px;
+
+    @media(min-width: 600px ) {
+        max-width: 600px;
+        margin: 100px auto 0 auto;
+    }
+
+    @media(min-width: 1366px ) {
+        max-width: 800px;
+        margin: 100px auto 0 auto;
+    }
+
 `;
 
 const DetailsSubHeading = styled(SubHeading)`
+    margin: 50px 0;
 
+    @media(min-width: 600px){
+        margin: 50px 0;
+    }
 `;
 
 const TimeProjectHeading = styled(SubHeading)`
     margin-bottom: 67px;
-    margin-top: 30px;
+    margin-top: 50px;
 `;
 
 const TimeProjectWrapper = styled.div`
-    margin: 0 auto 50px auto;
+    margin: 0 auto 80px auto;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

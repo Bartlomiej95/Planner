@@ -18,6 +18,10 @@ const Wrapper = styled.div<{ readonly typeTheme :string}>`
     align-items: center;
     padding: 0 33px;
     background-color: ${props => props.typeTheme === ThemeType.Light ? '#F9FAFF' : '#09131D'};
+
+    @media(min-width: 1360px){
+        justify-content: space-around;
+    }
 `;
 
 const IconsDiv = styled.div`
