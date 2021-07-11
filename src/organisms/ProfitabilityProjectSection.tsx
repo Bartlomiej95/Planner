@@ -24,25 +24,47 @@ const BriefDiv = styled.div`
     width: 70%;
 `;
 
-const BriefParagraph = styled(Paragraph)`
+const BriefParagraph = styled(Paragraph)<{ textColor: boolean}>`
     text-align: center;
+    color: ${ props => props.textColor ? 'green' : 'red'};
 `;
 
 interface IProps {
-    projectValue: number | string,
+    projectValue: number,
+    hours: number,
 }
 
-const ProfabilityProjectSection = ({ projectValue } :IProps) => {
+const ProfabilityProjectSection = ({ projectValue, hours } :IProps) => {
 
     const value = Number(projectValue).toFixed(2);
+    const costRateForOneHour = 1000; 
+    
+    const countTotalCostOfProject = (hourRate: number, allHoursOfProject: number): number => {
+        return hourRate * allHoursOfProject;
+    }
+
+    const totalCost = countTotalCostOfProject(costRateForOneHour, hours);
+
+    const countEstimatedProfit = (totalCost: number, projectValue: number): number => {
+        return projectValue - totalCost;
+    }
+
     return(
         <Wrapper>
             <ProfabilitySubHeading>Szczegóły</ProfabilitySubHeading>
             <ProfabilityRow category="value" amount={`${value} PLN`} />
-            <ProfabilityRow category="cost" amount="100 000,00 PLN" />
-            <ProfabilityRow category="profit" amount="400 000,00 PLN" />
+            <ProfabilityRow category="cost" amount={`${totalCost} PLN`} />
+            <ProfabilityRow category="profit" amount={`${countEstimatedProfit(totalCost, projectValue)} PLN`} />
             <BriefDiv>
-                <BriefParagraph>Limit czasu przeznaczonego na wykonanie projektu został osiągnięty. Lorem ipsum solor dolar it.</BriefParagraph>
+                {
+                    countEstimatedProfit(totalCost, projectValue) > 0 ? (
+                        <BriefParagraph textColor={true} >Limit czasu przeznaczonego na wykonanie projektu 
+                        został osiągnięty. Projekt jest rentowny i osiągnął planowany zysk.</BriefParagraph>
+                    ) : (
+                        <BriefParagraph textColor={false}>Limit czasu przeznaczonego na wykonanie projektu został 
+                        przekroczony. Projekt poniósł stratę.</BriefParagraph>
+                    )
+                }
             </BriefDiv>
         </Wrapper>
     )

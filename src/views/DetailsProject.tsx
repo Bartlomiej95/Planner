@@ -88,14 +88,14 @@ interface DefaultRootState {
 
 const DetailsProject = (props :any) => {
 
-    const { name } = props.location.state;
-    const detailsProject = useSelector((state :DefaultRootState) => state.projects.detailsProject);
-    const dispatch = useDispatch();
+    // const { name } = props.location.state; // nazwa projektu
+    const detailsProject = useSelector((state :DefaultRootState) => state.projects.detailsProject); 
+    // const dispatch = useDispatch();
     console.log(detailsProject);
 
-    useEffect(() => {
-        dispatch(getDetailsProject(name));
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getDetailsProject(name));
+    // }, []);
 
     if(detailsProject === null || detailsProject === undefined || Object.keys(detailsProject).length === 0 ){
         return(
@@ -129,7 +129,7 @@ const DetailsProject = (props :any) => {
             <DetailsSubHeading>Zakres pracy <br/> w ramach projektu</DetailsSubHeading>
             <DetailsParagraph>{detailsProject.scopeOfWork}</DetailsParagraph>
             <DetailsSubHeading>Rentowność projektu</DetailsSubHeading>
-            <ProfabilityProjectSection projectValue={detailsProject.projectValue}/>
+            <ProfabilityProjectSection projectValue={Number(detailsProject.projectValue)} hours={Number(detailsProject.hours)} />
         </Wrapper>
         <Footer/>
         </>

@@ -16,13 +16,20 @@ const Wrapper = styled.div`
 
 const DivImg = styled.div`
     width: 30px;
+    margin-right: 40px;
 `;
 
 const TitlePart = styled.div`
     display: flex; 
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: left;
+    justify-self: start;
+    flex-grow: 2;
+
+    @media(min-width: 600px){
+        padding-left: 30px;
+    }
 
 `;
 
@@ -35,7 +42,6 @@ const SubtitleParagraph = styled(Paragraph)`
 `;
 
 const AmountPart = styled.div`
-
 `;
 
 interface Props {
@@ -68,7 +74,7 @@ const ProfabilityRow = ({ category, amount }: Props) => {
                 category === "profit" && (
                     <>  
                         <DivImg>
-                            <img src={profitIcon} alt="symbol kosztu" />
+                            <img src={profitIcon} alt="symbol zysku" />
                         </DivImg>
                     </>
                     )
