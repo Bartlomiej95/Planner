@@ -13,6 +13,7 @@ import ThemeContextProvider from "./context/theme";
 import CreateProject from './views/CreateProject';
 import TasksToProject from './views/TasksToProject';
 import DetailsProject from './views/DetailsProject';
+import MessagesPage from './views/MessagesPage';
 
 
 Axios.defaults.withCredentials = true;
@@ -36,6 +37,7 @@ function App() {
                 <Route exact path="/homepage/project/tasks" component={TasksToProject}/>
                 <Route exact path="/homepage/project/:name" component={DetailsProject}/>
                 <Route exact path="/homepage/project/edit/:name" component={CreateProject}/>
+                <Route exact path="/homepage/message" component={MessagesPage}/>
               </Switch>
             </Router>
           </UserContextProvider>

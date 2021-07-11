@@ -70,7 +70,8 @@ const Header = (props :Props) => {
     const { typeTheme, ThemeType } = useContext(ThemeContext);
     const [showHiddenMenu, setShowHiddenMenu] = useState(false);
     const history = useHistory();
-    const hiddenBackBtn = props.match.path === "/homepage" || props.match.path === "/homepage/user"
+    const hiddenBackBtn = props.match.path === "/homepage" || props.match.path === "/homepage/user";
+
     
     return(
         <>
@@ -82,7 +83,9 @@ const Header = (props :Props) => {
                             {
                                 user && (
                                     <>
-                                        <Icon bcgIcon={mailIcon} />
+                                        <Icon bcgIcon={mailIcon} onClick={() => history.push({
+                                            pathname: `/homepage/message`
+                                        })} />
                                     </>
                                 )
                             }
