@@ -14,6 +14,8 @@ import CreateProject from './views/CreateProject';
 import TasksToProject from './views/TasksToProject';
 import DetailsProject from './views/DetailsProject';
 import MessagesPage from './views/MessagesPage';
+import CreateMessagePage from './views/CreateMessagePage';
+
 
 
 Axios.defaults.withCredentials = true;
@@ -38,6 +40,8 @@ function App() {
                 <Route exact path="/homepage/project/:name" component={DetailsProject}/>
                 <Route exact path="/homepage/project/edit/:name" component={CreateProject}/>
                 <Route exact path="/homepage/message" component={MessagesPage}/>
+                <Route exact path="/homepage/message/create" component={CreateMessagePage}/>
+
               </Switch>
             </Router>
           </UserContextProvider>

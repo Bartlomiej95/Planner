@@ -5,6 +5,7 @@ import { Input } from '../components/Input/Input';
 import Footer from '../organisms/Footer';
 import Header from '../organisms/Header';
 import MessageCard from '../molecules/MessageCard/MessageCard';
+import { useHistory } from 'react-router';
 
 
 const MessageHeading = styled(Heading)`
@@ -29,12 +30,14 @@ const WrapperNav = styled.div`
 
 const MessagesPage = () => {
 
+    const history = useHistory();
+
     return(
         <>
             <Header/>
             <MessageHeading>Wiadomości</MessageHeading>
             <Input placeholder="Znajdź wiadomość" />
-            <MessageBtn>Utwórz wiadomość</MessageBtn>
+            <MessageBtn onClick={() => history.push({ pathname: '/homepage/message/create'}) }>Utwórz wiadomość</MessageBtn>
             <WrapperBoxMessagesCards>
                 <MessageCard title="Tytuł" content="Treś wiadomości lorem ipsum"/>
                 <MessageCard title="Tytuł" content="Treś wiadomości lorem ipsum"/>
