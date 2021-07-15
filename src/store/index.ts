@@ -7,6 +7,7 @@ import errors from './Errors/reducer';
 import departments from './Departments/reducer';
 import tasks from './Tasks/reducer';
 import rates from './Rates/reducer';
+import messages from './Messages/reducer';
 
 
 export default combineReducers({
@@ -17,4 +18,5 @@ export default combineReducers({
     departments,
     tasks,
     rates,
+    messages,
 })

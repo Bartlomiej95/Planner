@@ -1,9 +1,9 @@
 import axios from 'axios';
 import Projects from '../interfaces/Projects/Projects';
-import Rates from '../interfaces/Rates/Rates';
+import domain from '../util/domain';
+import Messages from '../interfaces/Messages/Messages';
 import { InitialTaskData, Task } from '../interfaces/Tasks/Tasks';
 import {  Users, RegisterUserData } from '../interfaces/Users/Users';
-import domain from '../util/domain';
 
 const urlRegister = `${domain}/homepage/register`;
 const urlLogin = `${domain}/homepage/login`;
@@ -12,6 +12,7 @@ const urlHomepageUser = `${domain}/homepage/user`;
 const urlCreateProjects = `${domain}/homepage/project/create`;
 const urlProjectCreate = `${domain}/homepage/project/create`;
 const urlNewTask = `${domain}/homepage/project/tasks`;
+const urlMessages = `${domain}/homepage/message`;
 
 interface LoginData {
     email: Users['email'],
@@ -36,4 +37,5 @@ export const editRate = ( id :string, value :number) => axios.put(urlHomepageUse
 export const editProject = (name: string, data :Projects, id:string) => axios.put(`${domain}/homepage/project/edit/${name}`, {data, id});
 export const addTaskToProject = (idProject: string, task:InitialTaskData) => axios.put(`${domain}/homepage/project/tasks`, { idProject, task });
 export const updateTask = (id:string, isFinish:boolean, time:number, addedTime:number) => axios.put(urlHomepageUser, {id, isFinish, time, addedTime}); 
-
+export const showAllMessages = (recipient: string) => axios.get(urlMessages)  
+export const createNewMessage = (title: string, recipient: string, sender: string, content: string) => axios.post(`${urlMessages}/create`, {title, recipient, sender, content})

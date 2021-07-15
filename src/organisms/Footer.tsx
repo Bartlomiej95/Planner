@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Logo } from '../components/Heading/Heading';
 
 const Wrapper = styled.footer`
-    min-height: 75px;
+    height: 75px;
     background-color: #EFF1F5;
 `;
 
