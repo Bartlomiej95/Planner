@@ -37,5 +37,5 @@ export const editRate = ( id :string, value :number) => axios.put(urlHomepageUse
 export const editProject = (name: string, data :Projects, id:string) => axios.put(`${domain}/homepage/project/edit/${name}`, {data, id});
 export const addTaskToProject = (idProject: string, task:InitialTaskData) => axios.put(`${domain}/homepage/project/tasks`, { idProject, task });
 export const updateTask = (id:string, isFinish:boolean, time:number, addedTime:number) => axios.put(urlHomepageUser, {id, isFinish, time, addedTime}); 
-export const showAllMessages = (recipient: string) => axios.get(urlMessages)  
+export const showAllMessages = (recipient: string) => axios.get(urlMessages, { params: { email: recipient} });  
 export const createNewMessage = (title: string, recipient: string, sender: string, content: string) => axios.post(`${urlMessages}/create`, {title, recipient, sender, content})

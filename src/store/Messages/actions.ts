@@ -1,5 +1,4 @@
 import { Dispatch } from "react";
-import { useHistory } from "react-router";
 import * as api from '../../api/index';
 import ActionsMessages from "./actionCreator";
 import MessagesConst from "./constants";

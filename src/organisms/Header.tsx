@@ -84,7 +84,7 @@ const Header = (props :Props) => {
                                 user && (
                                     <>
                                         <Icon bcgIcon={mailIcon} onClick={() => history.push({
-                                            pathname: `/homepage/message`
+                                            pathname: `/homepage/message`,
                                         })} />
                                     </>
                                 )
