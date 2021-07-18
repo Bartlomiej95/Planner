@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { SubHeading } from '../../components/Heading/Heading';
 import { Paragraph } from '../../components/Paragraph/Paragraph';
@@ -11,6 +12,7 @@ const Wrapper = styled.div`
     border-radius: 10px;
     margin-bottom: 25px;
     background-color: '#F8FAFE';
+    cursor: pointer;
 `;
 
 const WrapperTitleMessage = styled.div`
@@ -31,11 +33,23 @@ interface IProps {
     title: string,
     content: string,
     sender: string,
+    recipient: string,
 }
 
-const MessageCard = ({ title, content, sender }: IProps) => {
+const MessageCard = ({ title, content, sender, recipient }: IProps) => {
+
+    const history = useHistory();
+
     return(
-        <Wrapper>
+        <Wrapper onClick={() => history.push({
+            pathname: `/homepage/message/${title}`,
+            state: {
+                title,
+                content,
+                sender,
+                recipient,
+            }
+        })}>
             <WrapperTitleMessage>
                 <MessageSubHeading>{title}</MessageSubHeading>
                 <Paragraph>{`Od: ${sender}`}</Paragraph>

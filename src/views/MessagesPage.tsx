@@ -24,6 +24,7 @@ const MainWrapper = styled.div`
     min-height: calc(100vh - 125px);
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #F9FAFF;
 `;
 
 const MessageBtn = styled(LoginButton)`
@@ -72,6 +73,7 @@ const MessagesPage = () => {
                             title={item.title} 
                             content={item.content}
                             sender={item.sender}
+                            recipient={item.recipient}
                         />
                     ))
                 }
