@@ -23,7 +23,7 @@ export const showAllMessages = (recipient: string) => async (dispatch: Dispatch<
 
 export const createNewMessage = (title: string, recipient: string, sender: string, content: string, history: History) => async (dispatch: Dispatch<ActionsMessages>) => {
     try {
-        await api.createNewMessage(title, recipient, sender, content );
+        await api.createNewMessage(title, recipient, sender, content);
         
         history.push('/homepage/message');
         dispatch({

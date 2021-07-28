@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Projects from '../interfaces/Projects/Projects';
 import domain from '../util/domain';
-import Messages from '../interfaces/Messages/Messages';
 import { InitialTaskData, Task } from '../interfaces/Tasks/Tasks';
 import {  Users, RegisterUserData } from '../interfaces/Users/Users';
 

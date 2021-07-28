@@ -114,6 +114,7 @@ const DetailsMessage = (props: any) => {
             ...messageData,
             [name]: target.value,
         })
+        
     }
 
     const handleSubmit = (e: React.SyntheticEvent) => {
@@ -129,7 +130,8 @@ const DetailsMessage = (props: any) => {
             <Header />
             <MainWrapper>
                 <TitleHeading>{title}</TitleHeading>
-                <SenderParagraph>{`DW: ${sender}`}</SenderParagraph>
+                <SenderParagraph>{`Od: ${sender}`}</SenderParagraph>
+                <SenderParagraph>{`Do: ${recipient.toString()}`}</SenderParagraph>
                 <ContentMessageParagraph>{content}</ContentMessageParagraph>
                 <LoginButton onClick={() => setOpenReplyForm(!openReplyForm)}>Odpowiedz</LoginButton>
                 {
