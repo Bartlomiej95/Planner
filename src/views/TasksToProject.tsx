@@ -70,6 +70,12 @@ const ParagraphNote = styled(Paragraph)`
     text-align: center;
 `;
 
+const ParagraphRemark = styled(Paragraph)`
+    color: red;
+    text-align: center;
+    font-weight: 700;
+`;
+
 const SpanNote = styled.span`
     font-weight: 700;
 `;
@@ -126,7 +132,8 @@ const TasksToProject = (props :Props) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { id, projectUsers, name }:Projects = props.location.state;
+    const { id, projectUsers, name, hours }:Projects = props.location.state;
+    const [ remainingProjectTime, setRemainingProjectTime ] = useState(Number(hours)*60); //pozpostały czas projektu w minutach stąd mnożenie 
 
     useEffect(() => {
         setIdUserAssign(idUserAssign);
@@ -183,6 +190,14 @@ const TasksToProject = (props :Props) => {
     const handleChange = (e :React.SyntheticEvent) => {
         e.preventDefault();
         const target = e.target as HTMLTextAreaElement ;
+
+        // obsługujemy inputa w którym użytkownik podaje informajce ile minut przeznacza na zadanie. Automatycznie o tyle skracamy 
+        // czas który pozostał do ukończenia całego projektu
+        let remainingTime = Number(hours) * 60 - Number(target.value);
+
+        if(target.name === "time"){
+            setRemainingProjectTime(Number((remainingTime).toFixed(2)));
+        }  
         setTaskData({
             ...taskData,
             [target.name]: target.value,
@@ -242,7 +257,13 @@ const TasksToProject = (props :Props) => {
                     <Input placeholder="Nazwa zadania" type="string" name="title" value={taskData.title} onChange={(e) => handleChange(e)} />
                     <Input placeholder="Skrócony opis zadania" type="string" name="brief" value={taskData.brief} onChange={(e) => handleChange(e)} />
                     <Input placeholder="Podaj czas pracy w minutach" type="number" name="time" value={taskData.time} onChange={(e) => handleChange(e)} />
-                    <ParagraphNote><SpanNote>Uwaga!</SpanNote> W ramach tego projektu <br/>zostało do zagospodarowania <SpanNote>47 godzin</SpanNote></ParagraphNote>
+                    {
+                        remainingProjectTime < 0 ? ( 
+                            <ParagraphRemark> Przekroczono limit czasu przeznaczonego na projekt!</ParagraphRemark>
+                        ) : ( 
+                            <ParagraphNote><SpanNote>Uwaga!</SpanNote> W ramach tego projektu <br/>zostało do zagospodarowania <SpanNote>{Math.floor(remainingProjectTime/60)} godzin {(remainingProjectTime % 60).toFixed(0)} minut</SpanNote></ParagraphNote>
+                        )
+                    }
                     <SubHeadingForm>Opisz zakres pracy<br /> w ramach zadania</SubHeadingForm>
                     <TextArea placeholder="Treść wiadomości" name="guidelines" value={taskData.guidelines} onChange={(e) => handleChange(e)} />
                     <ConfirmDiv>

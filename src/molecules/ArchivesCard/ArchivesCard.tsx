@@ -114,6 +114,7 @@ const ArchivesCard = ({ admin, name, description, id, projectUsers, customer, ho
                                 id,
                                 projectUsers,
                                 name,
+                                hours,
                             }
                         })}>Przydziel zadania</LinkInCard>
                         <LinkInCard onClick={() => handleDetailsProjectClick()}>Szczegóły</LinkInCard>
