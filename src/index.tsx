@@ -1,11 +1,10 @@
 import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
-import { DefaultRootState, Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import reducers from './store/index';
 import App from './App';
+import DefaultRootState from './interfaces/DefaultRootState/DefaultRootState';
 
 function saveToLocalStorage(state: DefaultRootState) {
   try {

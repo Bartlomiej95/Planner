@@ -6,7 +6,7 @@ import DepartmentsConsts from "./constants";
 export default (departments: Array<Departments> | [] = [] , action: ActionsDepartments) => {
     switch(action.type){
         case DepartmentsConsts.FETCH_ALL_DEPARTMENTS:
-            return [...action.payload.data].map(item => {
+            return [...action.payload].map(item => {
                 item.active = false;
                 return item;
             });

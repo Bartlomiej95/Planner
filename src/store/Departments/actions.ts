@@ -8,7 +8,6 @@ export const fetchAllDepartments = () => async (dispatch: Dispatch<ActionsDepart
         const { data } = await api.fetchAllDepartments();
 
         dispatch({ type: DepartmentsConsts.FETCH_ALL_DEPARTMENTS, payload: data});
-
     } catch (error) {
         console.log(error);
     }

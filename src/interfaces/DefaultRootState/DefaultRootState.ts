@@ -8,7 +8,7 @@ export default interface DefaultRootState {
     users: Array<Users> | [],
     departments: Array<Departments> | [],
     errors: {
-        message: string,
+        message?: string,
     }, 
     rates: Array<Rates>,
     tasks: {

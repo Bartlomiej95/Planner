@@ -84,8 +84,8 @@ const MainSection :React.FC = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchData());
-        dispatch(fetchAllDepartments())
+        // dispatch(fetchData());
+        dispatch(fetchAllDepartments());
         getUser();
     }, []);
 

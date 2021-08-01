@@ -3,9 +3,7 @@ import DepartmentsConsts from './constants';
 
 interface ActionFetchAllDepartments {
     type: DepartmentsConsts.FETCH_ALL_DEPARTMENTS,
-    payload: {
-        data: Array<Departments>,
-    }
+    payload: Array<Departments>,
 }
 
 interface ActionAddActive {
