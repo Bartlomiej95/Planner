@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .eslintcache
-tsconfig.json
 react-app-env.d.ts
+.env
+jest.config.ts

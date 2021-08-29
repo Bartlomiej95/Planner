@@ -21,9 +21,7 @@ function UserContextProvider(props: any) {
 
     async function getUser(){
         const userRes = await Axios.get(`${domain}/homepage/user`);
-        setUser(userRes.data.user);
-        // console.log(userRes.data.user);
-        // console.log(user);
+        setUser(userRes.data.user); 
     }
 
     useEffect(() => {

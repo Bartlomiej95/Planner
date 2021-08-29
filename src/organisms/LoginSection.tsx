@@ -104,7 +104,7 @@ const LoginSection = () => {
         e.preventDefault();
         
         try {
-            dispatch(loginUser(loginData, history))
+            dispatch(loginUser(loginData, history));
 
         } catch (error) {
             console.log(error.response);

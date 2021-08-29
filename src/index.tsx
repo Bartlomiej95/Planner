@@ -8,6 +8,8 @@ import DefaultRootState from './interfaces/DefaultRootState/DefaultRootState';
 
 function saveToLocalStorage(state: DefaultRootState) {
   try {
+
+    delete state.errors.message;
     const serializedState = JSON.stringify(state);
     localStorage.setItem('state', serializedState);
     
